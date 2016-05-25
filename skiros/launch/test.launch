@@ -1,0 +1,7 @@
+<launch>
+  <arg name="debug" default="false"/>
+  <arg unless="$(arg debug)" name="prefix" value="xterm -e" />
+  <arg if="$(arg debug)" name="prefix" value="xterm -e gdb -ex run --args" />
+  
+  <node launch-prefix="$(arg prefix)" name="skiros_wm_test" pkg="skiros_world_model" type="test_wm_interface" respawn="true" output="screen" />
+</launch>

@@ -1,0 +1,19 @@
+#Possible actions
+byte START=1
+byte STOP=2
+byte STOP_ALL=4
+byte PING=8
+byte action
+
+#the name is used as unique ID
+string id_name
+#HW type
+string type
+#Package is the name of the ROS package, or "skiros_proxy"
+string package
+#Executable can be: a ros_node, a ros_launch file or a proxie name
+string executable
+#Parameters can be provided to the executable like usual. Note that the ROS name is automatically set equal to #address_id and namespace equal to the robot_name
+string parameters
+---
+bool success

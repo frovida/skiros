@@ -1,0 +1,10 @@
+*.config
+*.creator*
+*.files
+*.includes
+*.db
+instance_log.txt
+ontology_log.txt
+learned_concepts.owl
+skill_exe_log.txt
+catalog-v001.xml

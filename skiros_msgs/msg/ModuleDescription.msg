@@ -1,0 +1,4 @@
+string type
+string name
+ParamMapSerialized parameters_in
+ParamMapSerialized parameters_out

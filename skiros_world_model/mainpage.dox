@@ -1,0 +1,8 @@
+/*! \mainpage %skiros_world_model
+ * The world model offer a database shared over the ROS network to store\retrieve data in a object centric format. It provides two databases:  
+ * 1. the **world ontology**, an abstract description of what can be found in the world and related properties  
+ * 2. the **world state**, the instance of the world
+ * The world ontology is encoded using the Web Ontology Language Description Logic (OWL-DL) standard.
+ * The world state is an ad-hoc implementation.
+ * Main world model characteristic are: graph structure, shared, ontology based, direct SPARQL queries allowed
+ */

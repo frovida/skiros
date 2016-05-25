@@ -1,0 +1,12 @@
+#Possible actions
+string ADD="add"
+string REMOVE="remove" 
+string REMOVE_CONTEXT="remove_context" #Remove all statements related to the statements' subjects
+
+#World Ontology modify message
+string action
+string author
+WoStatement[] statements
+---
+#>0 if OK, <0 if an error occurs
+int8 result

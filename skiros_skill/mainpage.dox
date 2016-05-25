@@ -1,0 +1,6 @@
+/*! \mainpage %skiros_skill
+ * This package implement the skill layer. The main executable is the skill_manager node. It can be runned in multiple istances, where each skill manager represent a single robot. The skill manager
+ * publish its description (robot devices and skill list) on the world model and wait for commands from the task layer. 
+ * The skill managers manage the skills execution using the world_model to store and get information.
+ *
+ */

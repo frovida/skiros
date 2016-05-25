@@ -1,0 +1,13 @@
+#Possible actions
+string ADD="add"
+string REMOVE="remove"
+string UPDATE="update"
+string STORE_PERMANENT="storePermanent"
+string REMOVE_PERMANENT="removePermanent"
+
+string author
+WmElement e
+WmRelation[] relations
+string action
+---
+int32 return_code

@@ -1,0 +1,13 @@
+#Possible actions
+string ADD="add"
+string REMOVE="remove"
+string UPDATE="update"
+
+string author
+string action
+int32 index
+string robot
+ModuleDescription skill
+---
+int32 return_code
+string error_message

@@ -1,0 +1,5 @@
+string author
+WmRelation relation
+bool set
+---
+int32 return_code

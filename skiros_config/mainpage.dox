@@ -1,0 +1,4 @@
+/*! \mainpage %skiros_config
+ * This package contains configurable files for skiros. Ex. nodes and topics names, uris (generated from the ontology)
+ *
+ */

@@ -1,0 +1,8 @@
+string name
+string author
+ParamMapSerialized s_param_map
+---
+bool ok
+ModuleStatus final_status
+ParamMapSerialized return_param_map
+

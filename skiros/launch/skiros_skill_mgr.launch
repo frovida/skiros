@@ -1,0 +1,17 @@
+<launch>
+  <arg name="debug" default="false"/>
+  <arg name="save_log" default="false"/>
+  <arg name="skill_list" default=""/>
+  <arg name="module_list" default=""/>
+  <arg name="delay_start_time" default="0.0"/>
+  <!-- NOTE: aau_stamina_robot for the ur10 robot in aau, stamina_robot for the fanuc robot in PSA -->
+  <arg name="robot_name" default="aau_stamina_robot"/>
+  <arg unless="$(arg debug)" name="prefix" value="" />
+  <arg if="$(arg debug)" name="prefix" value="xterm -e gdb -ex run --args" />
+	<param name="skiros/save_log" type="bool" value="$(arg save_log)" /> <!-- If true all nodes output is stored in skiros/log -->
+
+  <node launch-prefix="$(arg prefix)" name="$(arg robot_name)" pkg="skiros_skill" type="skill_manager_node" respawn="true" output="screen" args="$(arg delay_start_time)" > 
+		<param name="skill_list" type="string" value="$(arg skill_list)" />
+		<param name="module_list" type="string" value="$(arg module_list)" />
+	</node>
+</launch>

@@ -1,0 +1,7 @@
+/*! \mainpage %skiros_resource
+ * This package is still under heavy developement. The main executable is the resource_manager. This provides interfaces to run
+ * (i) ROS nodes and  (ii) proxies. Proxies are drivers developed using a precise format, that support easy change
+ * of the driver without modifing the interfaces. The interfaces class are contained in the skiros_primitive package.
+ * By now, only the gripper is supported. 
+ *
+ */

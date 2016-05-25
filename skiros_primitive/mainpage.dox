@@ -1,0 +1,5 @@
+/*! \mainpage %skiros_primitive
+ * This package is still under heavy developement. It will contain modules for low level software execution.
+ * It also contain an interface for the gripper action server, that is now in use, but will probably be removed.
+ *
+ */

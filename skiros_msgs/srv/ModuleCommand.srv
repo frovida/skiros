@@ -1,0 +1,16 @@
+#Possible actions
+string START="start"
+string PAUSE="pause"
+string PREEMPT="preempt"
+string KILL="forceKill"
+
+string author #Author of the action
+string action
+bool enque #If true, the action is added to queue if it can't be executed immediately
+int16 execution_id #required to pause and preempt an action (still not used)
+string name #required to start an action (for now also to pause, preempt, etc.)
+ParamMapSerialized s_param_map #required to start an action
+---
+bool ok
+int16 execution_id
+

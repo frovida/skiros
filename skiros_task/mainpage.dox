@@ -1,0 +1,8 @@
+/*! \mainpage %skiros_task
+ * This package implement the task layer. The main executable is the task_manager node. When the system is running, the task manager is in direct connection with the world_model node and the
+ * skill managers. It keeps track of the available skill managers in the network and provide a terminal user interface to command the 
+ * skills execution.
+ *
+ * Roadmap: the task manager will accept in input a goal state and automatically plan the skill sequence to reach the goal.
+ *
+ */

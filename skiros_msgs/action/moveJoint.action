@@ -1,0 +1,7 @@
+float64[] jointAngles
+float64 speed		#of leading axis
+float64 acceleration	#of leading axis
+---
+bool success
+---
+#no feedback so far! Feel free to add some'!

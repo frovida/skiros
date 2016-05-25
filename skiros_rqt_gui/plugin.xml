@@ -1,0 +1,17 @@
+<library path="lib/libskiros_rqt_gui">
+  <class name="skiros_gui/Skiros" type="skiros_gui::SkirosGui" base_class_type="rqt_gui_cpp::Plugin">
+    <description>
+      A GUI plugin to interact with SkiROS system
+    </description>
+    <qtgui>
+      <group>
+        <label>SkiROS</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to SkiROS.</statustip>
+      </group>
+      <label>SkiROS</label>
+      <icon type="theme">image-x-generic</icon>
+      <statustip>A GUI plugin to interact with SkiROS system.</statustip>
+    </qtgui>
+  </class>
+</library>

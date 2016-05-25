@@ -1,0 +1,10 @@
+# we could also use the geometry_msgs/Twist
+
+skiros_msgs/CartFrame frame
+float64 speed
+float64 acceleration
+bool linear
+---
+bool success
+---
+#no feedback added so far! Feel free to add some!

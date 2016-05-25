@@ -1,0 +1,6 @@
+#From conditions pddl goals are derived and mergerd with the pddl_goals in the message
+WmElement[] conditions
+string[] pddl_goals
+---
+bool ok
+

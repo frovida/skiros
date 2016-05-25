@@ -1,0 +1,18 @@
+#A generic gripper is defined as a set of fingers
+#goal definition
+
+int8 fingersNum
+
+#If the fingers vector is of length = 1 then all the fingers are controlled together. This simplify the control for applications
+#where there is no need of specific finger positioning.
+skiros_msgs/Finger[] fingersG
+
+int32 tolerance
+int8 graspMode
+---
+#result definition
+skiros_msgs/FingerFB[] fingersR
+---
+#feedback
+skiros_msgs/FingerFB[] fingersFB
+int8 graspMode

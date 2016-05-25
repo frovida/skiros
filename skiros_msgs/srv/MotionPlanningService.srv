@@ -1,0 +1,9 @@
+bool startplanning
+string[6] JointNames
+float32[6] TargetGoalJoint
+float32[6] TargetGoalPose
+float32 PlanningTime
+uint8 MotionPlanningAlgorithm
+uint8 MotionPlanningReferenceFrame
+---
+bool finishedplanning

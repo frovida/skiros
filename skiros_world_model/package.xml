@@ -1,0 +1,37 @@
+<package>
+  <name>skiros_world_model</name>
+  <version>0.0.3</version>
+  <description>
+      Semantic world model implementation
+  </description>
+
+  <maintainer email="francesco@m-tech.aau.dk">Francesco Rovida</maintainer>
+  <license>BSD</license>
+  <!-- <url type="website"></url> -->
+  <author email="francesco@m-tech.aau.dk">Francesco Rovida</author>
+  <author>Francesco Rovida</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>skiros_msgs</build_depend>
+  <build_depend>skiros_common</build_depend>
+  <build_depend>skiros_config</build_depend>
+  <build_depend>cmake_modules</build_depend>
+  <build_depend>tinyxml</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>tf</build_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>message_generation</run_depend>
+  <run_depend>skiros_msgs</run_depend>
+  <run_depend>skiros_common</run_depend>
+  <run_depend>skiros_config</run_depend>
+  <run_depend>tinyxml</run_depend>
+  <run_depend>pluginlib</run_depend>
+
+  <export>
+   <skiros_config plugin="${prefix}/plugins.xml"/>
+  </export>
+</package>

@@ -1,0 +1,7 @@
+WmElement e
+string action
+string relation_filter
+string type_filter
+---
+WmElement[] element_list
+WmRelation[] arc_list

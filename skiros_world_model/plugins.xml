@@ -1,0 +1,7 @@
+<library path="libelement_param">
+  <class type="skiros_param::InputObject" base_class_type="skiros_config::ParamBase">
+    <description>
+        Object input for skills
+    </description>
+  </class>
+</library>

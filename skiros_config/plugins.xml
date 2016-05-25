@@ -1,0 +1,32 @@
+<library path="libstandard_params">
+  <class name="SkillMgr" type="skiros_param::SkillMgr" base_class_type="skiros_config::ParamBase">
+    <description>
+	Skill manager name
+    </description>
+  </class>
+  <class name="Name" type="skiros_param::Name" base_class_type="skiros_config::ParamBase">
+    <description>
+	Element name
+    </description>
+  </class>
+  <class name="SpatialReasoner" type="skiros_param::SpatialReasoner" base_class_type="skiros_config::ParamBase">
+    <description>
+        Spatial reasoner name
+    </description>
+  </class>
+  <class name="Orientation" type="skiros_param::Orientation" base_class_type="skiros_config::ParamBase">
+    <description>
+        Orientation param
+    </description>
+  </class>
+  <class name="Size" type="skiros_param::Size" base_class_type="skiros_config::ParamBase">
+    <description>
+        Size param
+    </description>
+  </class>
+  <class name="Position" type="skiros_param::Position" base_class_type="skiros_config::ParamBase">
+    <description>
+        Position
+    </description>
+  </class>
+</library>

@@ -1,0 +1,28 @@
+<package>
+  <name>skiros_rqt_gui</name>
+  <version>0.0.1</version>
+  <description>skiros_rqt_gui is a plugin for RQT to interface with the SkiROS system.</description>
+  <maintainer email="francesco@m-tech.aau.dk">Francesco Rovida</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website"></url>
+  <url type="repository"></url>
+  <url type="bugtracker"></url>
+
+  <author>Francesco Rovida</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rqt_gui</build_depend>
+  <build_depend>rqt_gui_cpp</build_depend>
+  <build_depend>skiros_skill</build_depend>
+  <build_depend>interactive_markers</build_depend>
+  <run_depend>rqt_gui</run_depend>
+  <run_depend>rqt_gui_cpp</run_depend>
+  <run_depend>skiros_skill</run_depend>
+
+  <export>
+    <rqt_gui plugin="${prefix}/plugin.xml"/>
+  </export>
+</package>
