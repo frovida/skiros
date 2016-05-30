@@ -166,7 +166,7 @@ int main (int argc, char **argv)
     }
 
     //----------------------- Close --------------------------------
-    std::cout << "Closing";
+    //std::cout << "Closing" << std::endl;
     manager.shutdown();
 	spinner.stop();
 	ros::shutdown();

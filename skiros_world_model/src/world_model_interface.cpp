@@ -72,17 +72,17 @@ void WorldModelInterface::unlock()
     }
 }
 
-bool WorldModelInterface::isConnected()
+bool OntologyInterface::isConnected()
 {
-   if(element_get_.exists()) connected_ = true;
+   if(query_ontology_.exists()) connected_ = true;
     else  connected_ = false;
    return connected_;
 }
 
-bool WorldModelInterface::waitConnection(ros::Duration timeout)
+bool OntologyInterface::waitConnection(ros::Duration timeout)
 {
     ros::Time start_time = ros::Time::now();
-    while(!isConnected() && ros::Time::now()-start_time<=timeout)
+    while(!isConnected() && ros::Time::now()-start_time<=timeout && ros::ok())
     {
         ros::Duration(0.1).sleep();
     }
@@ -91,11 +91,14 @@ bool WorldModelInterface::waitConnection(ros::Duration timeout)
 
 void OntologyInterface::connectionFailed(std::string service_name)
 {
-    std::stringstream ss;
-    ss << "[WorldModelInterface::"<< service_name << "] ROS connection to world model failed.";
-    FWARN(ss.str());
-    connected_ = false;
-    throw std::runtime_error(ss.str()); //TODO: change to waiting routine...
+    waitConnection(ros::Duration(0.5));
+    if(ros::ok())
+    {
+        std::stringstream ss;
+        ss << "[WorldModelInterface::"<< service_name << "] ROS connection to world model failed.";
+        connected_ = false;
+        throw std::runtime_error(ss.str());
+    }
 }
 
 //--------------------------------- Ontology methods -------------------------------------

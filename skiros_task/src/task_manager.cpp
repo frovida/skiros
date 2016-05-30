@@ -365,6 +365,13 @@ void TaskManager::exeTaskThread(bool iterate)
     while(iterate);
 }
 
+
+void TaskManager::shutdown()
+{
+    stopSkill();
+    skill_layer_.shutdown();
+}
+
 //-------------- UI METHODS (Should be discriminated soon) ----------------------
 
 SkillHolder TaskManager::select(std::string what)

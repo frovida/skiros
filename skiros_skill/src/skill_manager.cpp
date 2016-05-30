@@ -849,7 +849,7 @@ void SkillManager::shutdown()
     }
     catch(std::runtime_error err)
     {
-      FWARN("[SkillManager::shutdown] Got error: " << err.what());
+      //FWARN("[SkillManager::shutdown] Got error: " << err.what());
     }
     preemptAll();
     module_monitors_.clear();

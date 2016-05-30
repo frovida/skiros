@@ -30,6 +30,18 @@ protected:
     ros::ServiceClient modify_ontology_;
 public:
     OntologyInterface(ros::NodeHandle nh);
+    //----------- Utils ------------------
+    /*!
+     * \brief Check that the connection with the World Model server is active
+     * \return True if the connection is active
+     */
+    bool isConnected();
+    /*!
+     * \brief Wait that the connection with the World Model server is active
+     * \param timeout Wait for the corresponded amount of time
+     * \return True if the connection is active, false otherwise
+     */
+    bool waitConnection(ros::Duration timeout);
     //----------- Basic query ------------------
     /*!
      * \brief Direct query to ontology
@@ -269,18 +281,6 @@ public:
     void pushBranch(WorldGraph & graph, int root_id=-1);
 
     //--------- Callbacks & utility  -------------
-    /*!
-     * \brief Check that the connection with the World Model server is active
-     * \return True if the connection is active
-     */
-    bool isConnected();
-    /*!
-     * \brief Wait that the connection with the World Model server is active
-     * \param timeout Wait for the corresponded amount of time
-     * \return True if the connection is active, false otherwise
-     */
-    bool waitConnection(ros::Duration timeout);
-
     /*!
      * \brief Check if the world model has been modified since the last call of this function.
      *

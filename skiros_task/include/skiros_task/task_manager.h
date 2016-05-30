@@ -112,6 +112,8 @@ namespace skiros_task
         bool exeModule();
 
         void exeTaskThread(bool iterate);
+
+        void shutdown();
         //------ROS services ----------
         //! \brief
         bool taskQuery(skiros_msgs::TmQueryTaskRequest &req, skiros_msgs::TmQueryTaskResponse &res);

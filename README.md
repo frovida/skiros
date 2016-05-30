@@ -44,7 +44,7 @@ All the system core functionalities are imported from the extern as plug-ins, us
 ### Dependencies
 
 * **Oracle database**  
-* [**redland, rasqal, raptor:**](http://download.librdf.org/source/)   
+* [**redland, rasqal, raptor**](http://download.librdf.org/source/)   
 
 These dependencies are necessary to manage Web Ontology Language (OWL) ontologies.
 

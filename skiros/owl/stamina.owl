@@ -2443,6 +2443,7 @@
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_alternator">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>alternator</partReference>
+        <nrParts rdf:datatype="&xsd;int">5</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2461,6 +2462,7 @@
         <NavigationGoalId rdf:datatype="&xsd;int">21</NavigationGoalId>
         <partReference>compressor</partReference>
         <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <nrParts rdf:datatype="&xsd;int">5</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2470,6 +2472,7 @@
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_demarreur">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>demarreur</partReference>
+        <nrParts rdf:datatype="&xsd;int">5</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2480,6 +2483,7 @@
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>engine_support</partReference>
         <partReference>thermal_shield</partReference>
+        <nrParts rdf:datatype="&xsd;int">5</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2490,6 +2494,7 @@
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <NavigationGoalId rdf:datatype="&xsd;int">7</NavigationGoalId>
         <partReference>small_starter</partReference>
+        <nrParts rdf:datatype="&xsd;int">5</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2499,6 +2504,7 @@
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_tube">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>tube</partReference>
+        <nrParts rdf:datatype="&xsd;int">5</nrParts>
     </owl:NamedIndividual>
     
 

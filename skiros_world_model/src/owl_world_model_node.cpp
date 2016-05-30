@@ -72,6 +72,8 @@ skiros_wm::owl::WorldModel model(ontology);
 ros::Publisher monitor;
 
 //Model/ontology access variables
+typedef std::map<std::string, boost::shared_ptr<DiscreteReasoner> > ModulesMapType;
+ModulesMapType loaded_reasoners;
 bool ontology_modification_flag = false;
 boost::mutex extern_wm_mutex;
 
@@ -166,6 +168,12 @@ void input()
         }
     }
     //std::cout << "[input] Exit" << std::endl;
+}
+
+void exeReasoner(std::string name)
+{
+    FINFO("Starting reasoner: " << name);
+    loaded_reasoners[name]->execute(&model);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -640,28 +648,25 @@ int main (int argc, char **argv)
     ///Start sub-threads
     boost::thread_group threadpool;
     //Start the keyboard input
-    threadpool.create_thread(input);
+    //threadpool.create_thread(input);
     //Start the ontology saver
-    threadpool.create_thread(saveOntology);
+    //threadpool.create_thread(saveOntology);
 
-    ///Start modules sub-threads
+    ///Start reasoners sub-threads
     pluginlib::ClassLoader<DiscreteReasoner> * interfaces_loader = new pluginlib::ClassLoader<DiscreteReasoner>("skiros_world_model", "skiros_wm::DiscreteReasoner");
 
-    std::vector<std::string> module_list = interfaces_loader->getDeclaredClasses();
-    typedef std::map<std::string, boost::shared_ptr<DiscreteReasoner> > ModulesMapType;
-    ModulesMapType loaded_modules;
+    std::vector<std::string> reasoner_list = interfaces_loader->getDeclaredClasses();
 
-    for(std::string module : module_list)
+    for(std::string reasoner : reasoner_list)
     {
-        FINFO("Starting reasoner: " << module);
         try
         {
-            loaded_modules[module] = interfaces_loader->createInstance(module);
-            loaded_modules[module]->execute(&model);
+            loaded_reasoners[reasoner] = interfaces_loader->createInstance(reasoner);
+            threadpool.create_thread(boost::bind(exeReasoner, reasoner));
         }
         catch(pluginlib::PluginlibException& ex)
         {
-            FERROR("[WorldModel]The reasoner " << module << " failed to load. Error: " << ex.what());
+            FERROR("[WorldModel]The reasoner " << reasoner << " failed to load. Error: " << ex.what());
         }
     }
 

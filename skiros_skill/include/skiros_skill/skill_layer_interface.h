@@ -57,17 +57,8 @@ namespace skiros_skill
         SkillMgrsMap & getSkillMgrsMap(){return skill_mgrs_list_;}
         SkillMgrsMap::iterator find(std::string skill_manager){return skill_mgrs_list_.find(skill_manager);}
 
-        bool hasChanged()
-        {
-            if(new_changes_)
-            {
-                new_changes_ = !new_changes_;
-                return true;
-            }
-            else
-                return false;
-        }
-
+        bool hasChanged();
+        void shutdown();
     private:
         bool new_changes_;
         std::set<std::string> agent_types_;

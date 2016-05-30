@@ -232,6 +232,7 @@ int main (int argc, char **argv){
     ros::spin();
 
     //------------------- CLOSE ------------------------
+    tm.shutdown();
     spinner.stop();
     ros::shutdown();
     return 0;

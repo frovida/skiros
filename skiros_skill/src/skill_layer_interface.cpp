@@ -103,5 +103,20 @@ void SkillLayerInterface::wmMonitorCB(const skiros_msgs::WmMonitor& msg)
   }
 }
 
+bool SkillLayerInterface::hasChanged()
+{
+    if(new_changes_)
+    {
+        new_changes_ = !new_changes_;
+        return true;
+    }
+    else
+        return false;
+}
+
+void SkillLayerInterface::shutdown()
+{
+    skill_mgrs_list_.clear();
+}
 
 } //namespace skiros_skill

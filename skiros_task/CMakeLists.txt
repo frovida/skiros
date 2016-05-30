@@ -50,8 +50,8 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${TinyX
 ## Declare a cpp library
  add_library(task_manager
     src/task_manager.cpp
-    src/type_manager.cpp
-    src/pddl.cpp
+    src/planner_interface.cpp
+    src/planner_model.cpp
  )
 target_link_libraries(task_manager ${catkin_LIBRARIES} ${TinyXML_LIBRARIES})
 
