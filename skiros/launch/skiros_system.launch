@@ -3,7 +3,6 @@
   <arg name="save_log" default="false"/>
   <arg name="workspace_folder" default="$(find skiros)"/>
 	<arg name="scene_name" default="fake_scene.xml"/>
-	<arg name="fake_wm" default="false"/>
   <arg name="only_robot" default="false"/>
   <arg name="only_scene" default="false"/>
   <!-- NOTE: aau_stamina_robot for the ur10 robot in aau, stamina_robot for the fanuc robot in PSA -->
@@ -13,9 +12,7 @@
 		<arg name="debug" value="$(arg debug)"/>
 		<arg name="save_log" value="$(arg save_log)"/>
 		<arg name="workspace_folder" value="$(arg workspace_folder)"/>
-  	<arg name="double_task_mgr" value="false"/>
  		<arg name="scene_name" default="$(arg scene_name)"/>
-  	<arg name="fake_wm" default="$(arg fake_wm)"/>
   </include>
 
 	<include unless="$(arg only_scene)" file="$(find skiros)/launch/skiros_skill_mgr.launch">

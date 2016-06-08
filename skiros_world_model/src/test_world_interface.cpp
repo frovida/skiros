@@ -182,7 +182,6 @@ void testingThread(boost::barrier & barrier)
     tests.push_back(TestResult("AddElement", average_time, iterations));
 
     barrier.wait();
-    return;
     FINFO("=======STORING ELEMENTS IN ONTOLOGY=======");
     average_time = 0; iterations = 0;
     BOOST_FOREACH(Element e, v)

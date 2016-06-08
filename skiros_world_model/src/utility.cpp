@@ -1,6 +1,8 @@
 #include "skiros_common/utility.h"
 #include "skiros_world_model/utility.h"
 #include "skiros_world_model/world_element.h"
+#include "skiros_msgs/WmElement.h"
+#include "skiros_msgs/WmRelation.h"
 #include <boost/foreach.hpp>
 
 namespace skiros_wm

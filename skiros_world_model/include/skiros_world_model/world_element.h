@@ -43,9 +43,17 @@
 #include <ros/ros.h>
 #include "skiros_common/param.h"
 #include <skiros_config/declared_uri.h>
+#include "skiros_world_model/ontology_interface.h"
+
+
+namespace skiros_msgs
+{
+    ROS_DECLARE_MESSAGE(WoStatement);
+}
 
 namespace skiros_wm
 {
+    typedef std::multimap<std::string, std::pair<std::string, std::string> > RelationsMMap;
     typedef std::map<std::string, std::pair<std::string, std::string> > RelationsMap;
     typedef std::pair<std::string, std::pair<std::string, std::string> > RelationsPair;
     /*! \brief The primitive world model element, characterized by an ID, a class type, an individual label and a set of properties
@@ -88,7 +96,18 @@ namespace skiros_wm
 
 		//-------- Methods --------------
         std::string printState(std::string indend = "", bool verbose = true) const;
+        /*!
+         * \brief get the element URI
+         * \return the URI in format type-id
+         */
         std::string toUrl() const;
+        /*!
+         * \brief convert the element into a set of statements
+         * \param wo interface to ontology
+         * \return a vector of statements msgs
+         */
+        std::vector<skiros_msgs::WoStatement> toMsgStatements(BaseOntologyInterface * wo, bool scene_element);
+        RelationsMMap toMapStatements(BaseOntologyInterface * wo);
 
 		bool addProperty(skiros_common::Param p);
         bool addProperty(skiros_common::Param p, skiros_common::any default_value);
@@ -112,7 +131,7 @@ namespace skiros_wm
 
         friend std::ostream &operator<<(std::ostream& o, const Element & e)
         {
-            o << e.printState("", false);
+            o << e.toUrl();
             return o;
         }
 
@@ -169,10 +188,15 @@ namespace skiros_wm
         ReasonerDataMap extractOwlData(std::string reasoner_name="");
         /*!
          * \brief Add default reasoner properties to the element
-         * \param reasoner_name the reasoner to use
+         * \param reasoner_name the name of the reasoner to associate
          * \return True on success, false if reasoner can't be loaded
          */
         bool associateReasoner(std::string reasoner_name);
+        /*!
+         * \brief Clear the object from all properties related to a reasoner
+         * \param reasoner_name the name of the reasoner to be cleared
+         */
+        void removeReasoner(std::string reasoner_name);
         //! \brief Return the reasoners associated to the element
         std::set<std::string> getAssociatedReasoners();
 	private:

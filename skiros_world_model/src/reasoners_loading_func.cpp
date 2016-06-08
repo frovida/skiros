@@ -21,4 +21,9 @@ ReasonerPtrType getDiscreteReasoner(std::string name)
     }
     return to_ret;
 }
+
+std::vector<std::string> getAvailableReasoners()
+{
+    return skiros::getAvailablePlugins<skiros_wm::DiscreteReasoner>("skiros_world_model", "skiros_wm::DiscreteReasoner");
+}
 }

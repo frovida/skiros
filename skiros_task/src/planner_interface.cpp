@@ -467,7 +467,6 @@ std::vector<Element> PlannerInterface::callPlanner()
         }
 
         //Return plan if found
-        std::vector<Element> return_vec;
         if(plan.size() > 0){
             std::cout << "Plan Found!" << std::endl;
             for(GroundSkill gs : plan)
@@ -503,9 +502,6 @@ std::vector<Element> PlannerInterface::callPlanner()
         }
         else
             std::cout << "No Plan Found!" << std::endl;
-
-        //Cleanup planner output if needed
-        //...
     }
 
     return return_vec;

@@ -2,7 +2,6 @@
   <arg name="debug" default="false"/>
   <arg name="save_log" default="false"/>
   <arg name="workspace_folder" default="$(find skiros)"/>
-  <arg name="double_task_mgr" default="true"/>
   <arg name="fake_wm" default="false"/>
   <arg name="scene_name" default=""/>
   
@@ -13,15 +12,9 @@
 
   <param name="skiros/owl_workspace" type="string" value="$(arg workspace_folder)/owl/" />
   <param name="skiros/scene_workspace" type="string" value="$(arg workspace_folder)/scenes/" />
+  <param name="skiros/scene_name" type="string" value="$(arg scene_name)" />
   
-  <node launch-prefix="$(arg prefix)" name="skiros_wm" pkg="skiros_world_model" type="world_model_node" args="$(arg scene_name)" respawn="true" output="screen" />
+  <node launch-prefix="$(arg prefix)" name="skiros_wm" pkg="skiros_world_model" type="world_model_node" respawn="true" output="screen" />
   <node launch-prefix="$(arg prefix)" name="skiros_task_manager" pkg="skiros_task" type="task_manager_node" respawn="true" output="screen" />
   <node name="skiros_gui" pkg="rqt_gui" type="rqt_gui" respawn="true" args="-s skiros" output="screen" />
-
-  <group if="$(arg fake_wm)">
-  <node name="populate_wm_lbox" pkg="skiros_world_model" type="populate_wm" respawn="false" output="screen" args="large_box_test_compressor" />
-  <node name="populate_wm_lbox1" pkg="skiros_world_model" type="populate_wm" respawn="false" output="screen" args="large_box_test_starter" />
-  <node name="populate_wm_lbox3" pkg="skiros_world_model" type="populate_wm" respawn="false" output="screen" args="large_box_test_alternator" />
-  <node name="populate_wm_lbox4" pkg="skiros_world_model" type="populate_wm" respawn="false" output="screen" args="large_box_test_tube" />
-  </group>
 </launch>

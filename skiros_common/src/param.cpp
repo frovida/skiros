@@ -218,6 +218,14 @@ bool Param::getValuesStr(std::vector<std::string> &v) const
     }
 	return true;
 }
+//-------------------------------------------------------------
+
+std::vector<std::string> Param::getValuesStr() const
+{
+    std::vector<std::string> v;
+    getValuesStr(v);
+    return v;
+}
 
 //-------------------------------------------------------------
 

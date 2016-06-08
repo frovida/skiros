@@ -5,6 +5,7 @@ namespace skiros_config
 {
     const char skiros_namespace[] = "skiros";
     //Params
+    const char scene_name[] = "scene_name";
     const char scene_workspace[] = "scene_workspace";
     const char owl_workspace[] = "owl_workspace";
     const char save_log[] = "save_log";

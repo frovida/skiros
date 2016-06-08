@@ -211,18 +211,7 @@ bool queryOntology(skiros_msgs::WoQueryRequest  &req,
     return true;
 }
 
-Node makeLibrdfNode(skiros_msgs::WoNode node)
-{
-    switch(node.type)
-    {
-    case 0:
-        return Node(LIBRDF_NODE_TYPE_RESOURCE, ontology.getUri(node.uri));
-    case 1:
-        return Node(LIBRDF_NODE_TYPE_LITERAL, ontology.getUri(node.uri), ontology.getUri(node.literal_type));
-    case 2:
-        return Node(LIBRDF_NODE_TYPE_BLANK, ontology.getUri(node.uri));
-    }
-}
+
 
 bool modifyOntology(skiros_msgs::WoModifyRequest  &req,
          skiros_msgs::WoModifyResponse &res)
@@ -241,18 +230,18 @@ bool modifyOntology(skiros_msgs::WoModifyRequest  &req,
     {
         for(skiros_msgs::WoStatement statement : req.statements)
         {
-            learned_ont.addStatement(makeLibrdfNode(statement.subject),
-                                     makeLibrdfNode(statement.predicate),
-                                     makeLibrdfNode(statement.object));
+            learned_ont.addStatement(msgToOwlNode(statement.subject),
+                                     msgToOwlNode(statement.predicate),
+                                     msgToOwlNode(statement.object));
         }
     }
     else if(req.action == req.REMOVE)
     {
         for(skiros_msgs::WoStatement statement : req.statements)
         {
-            learned_ont.removeStatement(makeLibrdfNode(statement.subject),
-                                        makeLibrdfNode(statement.predicate),
-                                        makeLibrdfNode(statement.object));
+            learned_ont.removeStatement(msgToOwlNode(statement.subject),
+                                        msgToOwlNode(statement.predicate),
+                                        msgToOwlNode(statement.object));
         }
     }
     else if(req.action == req.REMOVE_CONTEXT)
@@ -260,8 +249,8 @@ bool modifyOntology(skiros_msgs::WoModifyRequest  &req,
         for(skiros_msgs::WoStatement statement : req.statements)
         {
             //Remove any hold definition
-            if(!learned_ont.removeContextStatements(makeLibrdfNode(statement.subject)) ||
-                    !ontology.removeContextStatements(makeLibrdfNode(statement.subject)))
+            if(!learned_ont.removeContextStatements(msgToOwlNode(statement.subject)) ||
+                    !ontology.removeContextStatements(msgToOwlNode(statement.subject)))
             {
                 FWARN("Error while removing element " << statement.subject.uri);
                 res.result = -1;
@@ -303,7 +292,7 @@ bool setRelation(skiros_msgs::WmSetRelationRequest  &req,
 {
   if(req.relation.subject_id<0 || req.relation.object_id<0)
   {
-      //ERROR: a relation must relate two registered elements
+      FERROR("[Set Relation] - Invalid statement: " << req.relation.subject_id <<  req.relation.predicate << req.relation.object_id << req.set ? " True" : " False");
       res.return_code = -1;
       return true;
   }
@@ -318,7 +307,7 @@ bool setRelation(skiros_msgs::WmSetRelationRequest  &req,
       res.return_code = model.addStatement(req.relation.subject_id, req.relation.predicate, req.relation.object_id);
   }
   //TODO: publish in the monitor also the change of relations
-  FDEBUG("[Set Relation] - " << req.relation.subject_id <<  req.relation.predicate << req.relation.object_id );
+  FDEBUG("[Set Relation] - " << req.relation.subject_id <<  req.relation.predicate << req.relation.object_id << req.set ? " True" : " False"  );
   return true;
 }
 
@@ -467,6 +456,7 @@ bool sceneLoadSave(skiros_msgs::WmSceneLoadAndSaveRequest  &req,
         res.ok = false;
         if(model.loadScene(path+req.filename))
         {
+            skiros_nh.setParam(skiros_config::scene_name, req.filename);
             skiros_msgs::WmMonitor msg;
             msg.action = "loadScene";
             msg.author = ros::this_node::getName();
@@ -593,13 +583,13 @@ int main (int argc, char **argv)
         std::string main_ontology;bool first_try = true;
         std::vector<std::string> all_files = skiros_common::utility::getFilesInFolder(owl_ws, ".owl");
         //Get the name of the main ontology
-        if(argc > 2 && first_try) {main_ontology = argv[2];first_try = false;}
+        if(argc > 1 && first_try) {main_ontology = argv[1];first_try = false;}
         else main_ontology = ontology.getWorkspacePath()+"stamina.owl";
         //Loads the main ontology
         try
         {
             model.loadMainOntology(main_ontology, scene_name);
-            learned_ont.init(ontology.getDefaultUri(), "learned_concepts");
+            learned_ont.init(ontology.getDefaultUri(), "learned_concepts", ontology.getPrefixMap());
             FINFO("Main ontology: " << main_ontology << ", loaded successfully.");
         }
         catch(std::runtime_error e)
@@ -624,13 +614,12 @@ int main (int argc, char **argv)
     if(!ontology.isInitialized()) return -1;
 
     ///If has input, load a scene
-    if(argc > 1)
-    {
-        std::string scene_file_name = argv[1];
-        if(scene_file_name!="")
-            if(!model.loadScene(db_path+scene_file_name))
-                FERROR("Failed to load scene: " << scene_file_name);
-    }
+    std::string scene_file_name;
+    skiros_nh.param<std::string>(skiros_config::scene_name, scene_file_name, "");
+    if(scene_file_name!="")
+        if(!model.loadScene(db_path+scene_file_name))
+            FERROR("Failed to load scene: " << scene_file_name);
+
 
     ///Create services
     monitor = nh.advertise<skiros_msgs::WmMonitor>(ros::this_node::getName()+"/monitor", 5);
@@ -648,9 +637,9 @@ int main (int argc, char **argv)
     ///Start sub-threads
     boost::thread_group threadpool;
     //Start the keyboard input
-    //threadpool.create_thread(input);
+    threadpool.create_thread(input);
     //Start the ontology saver
-    //threadpool.create_thread(saveOntology);
+    threadpool.create_thread(saveOntology);
 
     ///Start reasoners sub-threads
     pluginlib::ClassLoader<DiscreteReasoner> * interfaces_loader = new pluginlib::ClassLoader<DiscreteReasoner>("skiros_world_model", "skiros_wm::DiscreteReasoner");

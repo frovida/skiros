@@ -46,6 +46,9 @@
 #include <tinyxml.h>
 #include <algorithm>
 #include "skiros_world_model/owl_world_ontology.h"
+#include "skiros_world_model/world_model_interface.h"
+#include "skiros_world_model/utility.h"
+#include "skiros_msgs/WoNode.h"
 
 using namespace skiros_config::owl;
 
@@ -53,6 +56,26 @@ namespace skiros_wm
 {
 namespace owl
 {
+
+Node msgToOwlNode(skiros_msgs::WoNode node)
+{
+    switch(node.type)
+    {
+    case 0:
+        return owl::Node(LIBRDF_NODE_TYPE_RESOURCE, node.uri);
+    case 1:
+        return owl::Node(LIBRDF_NODE_TYPE_LITERAL, node.uri, node.literal_type);
+    case 2:
+        return owl::Node(LIBRDF_NODE_TYPE_BLANK, node.uri);
+    }
+}
+
+std::string LocalOntologyInterface::queryOntology(std::string query_string, bool cut_prefix)
+{
+    return ontology_->queryAsString(query_string.c_str(), cut_prefix);
+}
+
+std::string LocalOntologyInterface::getType(std::string uri){ return queryOntology("SELECT ?x where {"+addPrefix(uri)+" rdf:type ?x}"); }
 
 //-----------------------------------------------------------------------------
 //-------------------------------- ElementFactory -----------------------------
@@ -396,9 +419,8 @@ WorldModel::WorldModel(Ontology & ont) : ontology_(ont)
 
 void WorldModel::removeElements(std::vector<int> ids)
 {
-    BOOST_FOREACH(int id, ids) {
+    for(int id : ids)
         removeElement(id);
-    }
 }
 
 bool WorldModel::removeElement(int id)
@@ -410,13 +432,12 @@ bool WorldModel::removeElement(int id)
 
 bool WorldModel::removeElement(skiros_wm::Element e)
 {
-    std::string elem_uri = element2uri(e);
     //FINFO("Remove " << e.printState("", false));
     RelationsVector relations = this->findStatements(e.id(), "", -1);
     if(this->parseElementModify("remove", e, relations))
     {
         //FINFO("Remove: " << e.printState("",false));
-        if(ontology_.removeContextStatements(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri)))
+        if(removeElementInOntology(e))
         {
             db_.remove(e.id());
             return true;
@@ -427,7 +448,7 @@ bool WorldModel::removeElement(skiros_wm::Element e)
 
 void WorldModel::checkReasoners(Element & e)
 {
-    auto it = e.properties().find(concept::Str[concept::SpatialReasoner]);
+    auto it = e.properties().find(data::Str[data::DiscreteReasoner]);
     if(it != e.properties().end())
     {
         auto reasoner_names = it->second.getValues<std::string>();
@@ -446,63 +467,51 @@ skiros_wm::Element WorldModel::getElement(int id)
     else return skiros_wm::Element();
 }
 
-void WorldModel::addElemenToOntology(Element e, std::string class_type_uri )
+void WorldModel::addElementInOntology(Element e)
 {
-    std::string elem_uri = element2uri(e);
+    static LocalOntologyInterface * WO = new LocalOntologyInterface(&ontology_);
+    auto statements = e.toMsgStatements(WO, true);
     //Register the individual type
-    ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri),
-                 owl::Node(LIBRDF_NODE_TYPE_RESOURCE, std_uri::TYPE),
-                 owl::Node(LIBRDF_NODE_TYPE_RESOURCE, ontology_.getUri(class_type_uri)));
-    //Register a new individual
-    ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri),
-                 owl::Node(LIBRDF_NODE_TYPE_RESOURCE, std_uri::TYPE),
-                 owl::Node(LIBRDF_NODE_TYPE_RESOURCE, std_uri::OWL_INDIVIDUAL));
+    for(auto statement : statements)
+    {
+        //FINFO(statement.subject.uri << "(" << std::to_string(statement.subject.type) << ") " << statement.predicate.uri << "(" << std::to_string(statement.predicate.type) << ") "  << statement.object.uri << "(" << std::to_string(statement.object.type) << ") " );
+        ontology_.addStatement(msgToOwlNode(statement.subject),
+                                msgToOwlNode(statement.predicate),
+                                msgToOwlNode(statement.object));
+    }
     //Relate to the scene
-    ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri),
+    ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, e.toUrl()),
                  owl::Node(LIBRDF_NODE_TYPE_RESOURCE, ontology_.getUri(relation::Str[relation::relatedTo])),
                  owl::Node(LIBRDF_NODE_TYPE_RESOURCE, ontology_.getUri(element2uri(db_.map()[0]))));
-    //Add the properties stored by SpatialReasoners
-    /*if(e.hasProperty("SpatialReasoner"))
+
+}
+
+void WorldModel::updateElementInOntology(Element e, Element old)
+{
+    static LocalOntologyInterface * WO = new LocalOntologyInterface(&ontology_);
+    auto new_statements = e.toMapStatements(WO);
+    auto old_statements = old.toMapStatements(WO);
+    //Remove all old data statements
+    for(auto old_statement : old_statements)
     {
-        std::vector<std::string> v = e.properties("SpatialReasoner").getValues<std::string>();
-        BOOST_FOREACH(std::string r, v)
-        {
-            skiros_wm::ReasonerPtrType reasoner = skiros_wm::getDiscreteReasoner(r);
-            ReasonerDataMap data = reasoner->extractOwlData(e);
-            BOOST_FOREACH(ReasonerDataMap::value_type pair, data)
-            {
-                ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri),
-                             owl::Node(LIBRDF_NODE_TYPE_RESOURCE, pair.first),
-                             owl::Node(LIBRDF_NODE_TYPE_LITERAL, pair.second.first, pair.second.second));
-            }
-        }
+        if(ontology_.isDeclaredDataProp(ontology_.getUri(old_statement.first)))
+            ontology_.removeStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, e.toUrl()),
+                                      owl::Node(LIBRDF_NODE_TYPE_RESOURCE, ontology_.getUri(old_statement.first)),
+                                      owl::Node(LIBRDF_NODE_TYPE_LITERAL, old_statement.second.first, old_statement.second.second));
     }
-    //Add all the remaining properties
-    skiros_config::ParamTypes param_types = skiros_config::ParamTypes::getInstance();
-    BOOST_FOREACH(skiros_common::ParamMap::value_type pair, e.properties())
+    //Add new data statements
+    for(auto new_statement : new_statements)
     {
-        if(ontology_.isType(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, pair.first),
-                                 owl::Node(LIBRDF_NODE_TYPE_RESOURCE, owl::std_uri::OWL_OBJPROP)))
-        {
-          for(int i=0; i<pair.second.size();i++)
-          {
-                std::string value = pair.second.getValueStr(i);
-                ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri),
-                             owl::Node(LIBRDF_NODE_TYPE_RESOURCE, pair.first),
-                         owl::Node(LIBRDF_NODE_TYPE_RESOURCE, value));
-          }
-        }
-        else
-        {
-            for(int i=0; i<pair.second.size();i++)
-            {
-                  std::string value = pair.second.getValueStr(i);
-                  ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, elem_uri),
-                               owl::Node(LIBRDF_NODE_TYPE_RESOURCE, pair.first),
-                           owl::Node(LIBRDF_NODE_TYPE_LITERAL, value, param_types.getDataTypeStr(pair.second)));
-            }
-        }
-    }*/
+        if(ontology_.isDeclaredDataProp(ontology_.getUri(new_statement.first)))
+            ontology_.addStatement(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, e.toUrl()),
+                                   owl::Node(LIBRDF_NODE_TYPE_RESOURCE, ontology_.getUri(new_statement.first)),
+                                   owl::Node(LIBRDF_NODE_TYPE_LITERAL, new_statement.second.first, new_statement.second.second));
+    }
+}
+
+bool WorldModel::removeElementInOntology(Element e)
+{
+    return ontology_.removeContextStatements(owl::Node(LIBRDF_NODE_TYPE_RESOURCE, e.toUrl()));
 }
 
 bool uninitializedSubObj(RelationType r)
@@ -531,7 +540,7 @@ int WorldModel::addElement(Element & e, RelationsVector relations)
         //Save the c++ element in a memory database. This assign an ID to the element
         db_.add(e);
         //Register the element in the ontology
-        addElemenToOntology(e, class_type_uri);
+        addElementInOntology(e);
         //Add object relations
         for(RelationType relation : relations)
         {
@@ -557,6 +566,7 @@ bool WorldModel::updateElement(skiros_wm::Element e, RelationsVector v)
     if(it==db_.map().end()) return false;
     else
     {
+        //Add relations
         for(RelationType r : v)
         {
             //-1 is the special number for auto-referencing
@@ -572,27 +582,10 @@ bool WorldModel::updateElement(skiros_wm::Element e, RelationsVector v)
                 return false;
             }
         }
-        //it->second is db element, e is input element
-        //If e doesn't have a label, I keep it->second one
-        if(e.label()=="") e.label() = it->second.label();
-        typedef std::pair<std::string,skiros_common::Param> MyPair;
-        BOOST_FOREACH(MyPair pair, it->second.properties())
-        {
-            try
-            {
-                //If the property in e (the new) is not specified, but was specified in it->second the old), I keep the old one
-                if(!e.properties(pair.first).isSpecified() && pair.second.isSpecified())
-                    e.properties(pair.first) = pair.second;
-            }
-            catch(std::invalid_argument err)
-            {
-                //If the property is missing I keep the old one
-                //e.addProperty(pair.second);
-                //No, I remove it..
-            }
-        }
-        //Add reasoners properties
+        //Add reasoners default properties
         checkReasoners(e);
+        //Update ontology
+        updateElementInOntology(e, it->second);
         //Update DB
         it->second = e;
     }
@@ -876,7 +869,7 @@ bool WorldModel::loadScene(std::string filename)
       if(e.id()!=0)
       {
           db_.add(e, true);
-          addElemenToOntology(e, e.type());
+          addElementInOntology(e);
       }
   }
   //----- Get the world relations --------------
@@ -952,7 +945,7 @@ bool WorldModel::saveScene(std::string filename)
       auto v = ontology_.getContextStatements(Node(LIBRDF_NODE_TYPE_RESOURCE, element2uri(it->second)), 1); //Get active statements
       for(Statement & s : v)
       {
-          if(uri2lightString(s.predicate.data)!=uri2lightString(owl::std_uri::TYPE))
+          if(ontology_.isDeclaredObjProp(s.predicate.data))
           {
               TiXmlElement * relation = new TiXmlElement("relation");
               relation->SetAttribute("subject", uri2lightString(s.subject.data));
@@ -964,10 +957,9 @@ bool WorldModel::saveScene(std::string filename)
   }
 
   //------- SAVE ----------------
-  //Check if the name is valid, if not put the standard name
-  std::size_t t = filename.find(".xml");
-  if(t == std::string::npos || t<=1)
-      return false;
+  //Check if the name is valid, or append extention
+  if(filename.find(".xml") == std::string::npos)
+      filename.append(".xml");
   std::string path = filename;
   ROS_INFO("Saving file: %s", path.c_str());
   doc.SaveFile( path.c_str() );
@@ -1099,7 +1091,7 @@ skiros_wm::Element WorldModel::createDefaultIndividual(std::string owl_individua
             e.addProperty(param_factory.getFromString(key, datatype), value);
         }
     }
-    LiteralsMap::iterator it = prop_map.find(concept::Str[concept::SpatialReasoner]);
+    LiteralsMap::iterator it = prop_map.find("DiscreteReasoner");
     if(it != prop_map.end())
     {
         skiros_wm::ReasonerPtrType reasoner = skiros_wm::getDiscreteReasoner(it->second.first);

@@ -43,13 +43,31 @@
 #include "skiros_msgs/WmObjLikelihood.h"
 #include "boost/thread.hpp"
 
+namespace skiros_msgs
+{
+ROS_DECLARE_MESSAGE(WoNode);
+}
+
 namespace skiros_wm
 {
 namespace owl
 {
-
 //Forward declarations
 class Ontology;
+class Node;
+Node msgToOwlNode(skiros_msgs::WoNode node);
+
+/*!
+ * \brief Provide methods to query and edit the ontology locally
+ */
+class LocalOntologyInterface : public BaseOntologyInterface
+{
+    owl::Ontology * ontology_;
+public:
+    LocalOntologyInterface(owl::Ontology * ontology) : ontology_(ontology){ setDefaultPrefix("stmn:"); }
+    std::string queryOntology(std::string query_string, bool cut_prefix=true);
+    std::string getType(std::string uri);
+};
 
 typedef std::map<int, skiros_wm::Element> DatabaseMap;
 typedef std::pair<int, skiros_wm::Element> DatabasePair;
@@ -301,7 +319,9 @@ typedef std::pair<std::string, std::pair<std::string, std::string> > LiteralsPai
     private:
         //------------- Private methods ---------------
         IdentifyList identifyRecursive(Element e, Element root);
-        void addElemenToOntology(Element e, std::string class_type_uri);
+        void addElementInOntology(Element e);
+        void updateElementInOntology(Element e, Element old);
+        bool removeElementInOntology(Element e);
         LiteralsMap getLiteralsMapLight(LiteralsMap in);
         std::string printTree(int rood_id, std::string relations, std::string indend = "", bool verbose = false);
         void setWorld(std::string scene_name);

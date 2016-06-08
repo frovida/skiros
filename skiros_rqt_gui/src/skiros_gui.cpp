@@ -180,8 +180,13 @@ void SkirosGui::saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::
 
 void SkirosGui::restoreSettings(const qt_gui_cpp::Settings& plugin_settings, const qt_gui_cpp::Settings& instance_settings)
 {
+    std::string sceneNameParam;
+    ros::NodeHandle skiros_nh(skiros_config::skiros_namespace);
+    skiros_nh.param<std::string>(skiros_config::scene_name, sceneNameParam, "");
     QString sceneName = instance_settings.value("sceneName", "").toString();
-    if(!sceneName.isEmpty())
+    if(sceneNameParam!="")
+        ui_.sceneFile_lineEdit->setText(sceneNameParam.c_str());
+    else if(!sceneName.isEmpty())
         ui_.sceneFile_lineEdit->setText(sceneName);
     /*bool zoom1_checked = instance_settings.value("zoom1", false).toBool();
   ui_.zoom_1_push_button->setChecked(zoom1_checked);

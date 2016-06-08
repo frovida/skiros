@@ -1,14 +1,12 @@
 #ifndef OWL_WORLD_MODEL_INTERFACE_H
 #define OWL_WORLD_MODEL_INTERFACE_H
 
-#include <string>
-#include <vector>
 #include <ros/ros.h>
 #include "skiros_world_model/world_element.h"
 #include <tf/transform_listener.h>
 #include "skiros_msgs/WmMonitor.h"
 #include <skiros_config/declared_uri.h>
-#include "skiros_world_model/std_uris.h"
+#include "skiros_world_model/ontology_interface.h"
 
 namespace skiros_wm
 {
@@ -17,9 +15,9 @@ typedef std::vector<std::pair<int, double> > IdLkhoodListType;
 typedef std::vector<std::pair<std::string, double> > ClassLkhoodListType;
 
 /*!
- * \brief Provide methods to query and edit the ontology
+ * \brief Provide methods to query and edit the ontology via ROS
  */
-class OntologyInterface
+class OntologyInterface : public BaseOntologyInterface
 {
 protected:
     void connectionFailed(std::string service_name);
@@ -88,7 +86,7 @@ public:
      * \param uri an URI of a resource
      * \return the resource type
      */
-    std::string getType(std::string uri){ return queryOntology("SELECT ?x where {"+uri+" rdf:type ?x}"); }
+    std::string getType(std::string uri){ return queryOntology("SELECT ?x where {"+addPrefix(uri)+" rdf:type ?x}"); }
     /*!
      * \brief convert the result of a query into a std::set. Valid only with single value per line
      * \param query_result result of a query
@@ -199,9 +197,14 @@ public:
      * \return True if the string is a valid URI, false otherwise
      */
     bool isElementUri(std::string uri);
-
-    //! \brief utility function, ignore it
-    int addBranch(skiros_wm::Element object, int parent_id, std::string relation);
+    /*!
+     * \brief Add the object and recursively all the individual related to the object with hasA relation
+     * \param object
+     * \param parent_id
+     * \param relation
+     * \return the object without the hasA property
+     */
+    int addBranch(Element &object, int parent_id, std::string relation);
     //--------- Identification methods  -------------
     /*!
      * \brief

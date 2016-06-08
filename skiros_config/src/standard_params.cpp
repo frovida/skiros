@@ -42,18 +42,18 @@
 
 namespace skiros_param
 {
-    class SpatialReasoner : public skiros_config::ParamBase
+    class DiscreteReasoner : public skiros_config::ParamBase
     {
     public:
-        SpatialReasoner()
+        DiscreteReasoner()
         {
             registerAny<std::string>();
         }
-        ~SpatialReasoner(){}
+        ~DiscreteReasoner(){}
         skiros_common::Param getParam()
         {
             skiros_common::Param p;
-            p.reset("SpatialReasoner", "Spatial reasoner name", typeid(std::string), skiros_common::symbolic, 1);
+            p.reset("DiscreteReasoner", "Associated discreate reasoners", typeid(std::string), skiros_common::symbolic, 1);
             return p;
         }
     };
@@ -138,7 +138,7 @@ namespace skiros_param
 
 PLUGINLIB_EXPORT_CLASS(skiros_param::SkillMgr, skiros_config::ParamBase)
 PLUGINLIB_EXPORT_CLASS(skiros_param::Name, skiros_config::ParamBase)
-PLUGINLIB_EXPORT_CLASS(skiros_param::SpatialReasoner, skiros_config::ParamBase)
+PLUGINLIB_EXPORT_CLASS(skiros_param::DiscreteReasoner, skiros_config::ParamBase)
 PLUGINLIB_EXPORT_CLASS(skiros_param::Size, skiros_config::ParamBase)
 PLUGINLIB_EXPORT_CLASS(skiros_param::Orientation, skiros_config::ParamBase)
 PLUGINLIB_EXPORT_CLASS(skiros_param::Position, skiros_config::ParamBase)

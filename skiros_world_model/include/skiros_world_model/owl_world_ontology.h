@@ -101,7 +101,7 @@ namespace owl
         /*!
          * \brief Initialize the database
          */
-        void init(std::string default_uri, std::string storage_name);
+        void init(std::string default_uri, std::string storage_name, PrefixMap prefixes);
         //---------- Convertion -----------
         inline Statement getCppStatement(librdf_statement * stmnt)
         {return Statement(Node(librdf_statement_get_subject(stmnt)), Node(librdf_statement_get_predicate(stmnt)), Node(librdf_statement_get_object(stmnt)));}
@@ -279,7 +279,7 @@ namespace owl
 
         //---------- Members access and info -----------
         librdf_world* getWorldPtr() {return world_;}
-        inline PrefixMap & getPrefixMap() { return prefix_map_inverse_;}
+        PrefixMap & getPrefixMap() { return prefix_map_;}
         inline std::string getDefaultUri(){ return default_uri_;}
         inline bool isInitialized(){return initialized_;}
         inline librdf_model* getModel(){return model_;}

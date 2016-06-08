@@ -22,6 +22,9 @@ boost::shared_ptr<T> getDiscreteReasonerSpecialized(std::string name = "")
 {
     return boost::dynamic_pointer_cast<T>(getDiscreteReasoner(name));
 }
+
+//! \brief Get the list of available reasoners
+std::vector<std::string> getAvailableReasoners();
 }
 
 

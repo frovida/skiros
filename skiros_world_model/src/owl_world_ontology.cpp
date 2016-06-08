@@ -43,6 +43,7 @@ namespace skiros_wm
 {
 namespace owl
 {
+
 Node::Node(librdf_node *node)
 {
     if(librdf_node_is_resource(node))
@@ -108,6 +109,7 @@ bool Ontology::addStatement(owl::Node subject, owl::Node predicate, owl::Node ob
     librdf_node * rdf_subject = getRdfNode(subject);
     librdf_node * rdf_predicate = getRdfNode(predicate);
     librdf_node * rdf_object = getRdfNode(object);
+    //std::cout << librdf_node_to_string(rdf_subject) << librdf_node_to_string(rdf_predicate) << librdf_node_to_string(rdf_object) << std::endl;
     if(rdf_subject && rdf_predicate && rdf_object)
     {
         setStatement(rdf_subject, rdf_predicate, rdf_object, true);
@@ -652,7 +654,7 @@ bool Ontology::containStatement(owl::Node sub, owl::Node pred, owl::Node obj)
 
 //-------------------- Load and visualization ----------------------
 
-void Ontology::init(std::string default_uri, std::string storage_name)
+void Ontology::init(std::string default_uri, std::string storage_name, PrefixMap prefixes)
 {
     //------- Init redland with raptor -------
     //Note: because redland is MODULAR it has to load all wanted modules in this step
@@ -667,12 +669,14 @@ void Ontology::init(std::string default_uri, std::string storage_name)
     if(!model_) throw std::runtime_error("[OwlOntology]: Failed to create model");
     default_uri_ = default_uri;
     initialized_ = true;
+    for(auto pair : prefixes)
+        addPrefix(pair);
 }
 
 void Ontology::loadMainOntology(std::string filename, std::string storage_name)
 {
     if(!initialized_)
-        init("", storage_name);
+        init("", storage_name, PrefixMap());
     //Open document --------------
     std::string path = "file:"+filename;
     //------- Load an ontology -------
@@ -692,7 +696,7 @@ void Ontology::loadMainOntology(std::string filename, std::string storage_name)
       std::string temp((const char*)librdf_uri_as_string(librdf_parser_get_namespaces_seen_uri(parser, i)));
       temp.erase(--temp.end(), temp.end());
       addPrefix(std::pair<std::string, std::string>(temp,librdf_parser_get_namespaces_seen_prefix(parser, i)));
-      //FINFO("[loadMainOntology]: I add: " << librdf_parser_get_namespaces_seen_prefix(parser, i) << " - " << temp );
+      FINFO("[loadMainOntology]: I add: " << librdf_parser_get_namespaces_seen_prefix(parser, i) << " - " << temp );
     }
     librdf_node * ontology = librdf_model_get_source(model_, LIBRDF_MS_type(world_), librdf_new_node_from_uri_string(world_, (const unsigned char*)std_uri::OWL_ONTOLOGY.c_str()));
     if(ontology)
@@ -735,7 +739,7 @@ void Ontology::loadSubOntology(std::string filename)
       std::string temp((const char*)librdf_uri_as_string(librdf_parser_get_namespaces_seen_uri(parser, i)));
       temp.erase(--temp.end(), temp.end());
       addPrefix(std::pair<std::string, std::string>(temp,librdf_parser_get_namespaces_seen_prefix(parser, i)));
-      //FINFO("[loadSubOntology]: I add: " << librdf_parser_get_namespaces_seen_prefix(parser, i) << " - " << temp );
+      FINFO("[loadSubOntology]: I add: " << librdf_parser_get_namespaces_seen_prefix(parser, i) << " - " << temp );
     }
     librdf_model_add_statements(model_, stream);
     librdf_free_stream(stream);
@@ -818,9 +822,14 @@ std::string Ontology::getUri(std::string resource_name)
             if(resource_name.find(it->second)!=std::string::npos)
             {
                 resource_name.replace(resource_name.find(it->second), it->second.length()+1, it->first+"#");
-                break;
+                return resource_name;
             }
         }
+        std::stringstream ss;
+        ss << "[Ontology::getUri] Cannot replace prefix for: " << resource_name << ". Available prefixes are: ";
+        for(auto pair : prefix_map_)
+            ss << pair.second << ", ";
+        FWARN(ss.str());
     }
     return resource_name;
 }

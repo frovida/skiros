@@ -25,6 +25,15 @@ namespace skiros
         }
         return plugin_ptr;
   }
+
+  template<class T>
+  std::vector<std::string> getAvailablePlugins(std::string package, std::string base_class)
+  {
+      static pluginlib::ClassLoader<T> * loader = NULL;
+      if(!loader)
+          loader = new pluginlib::ClassLoader<T>(package, base_class);
+      return loader->getDeclaredClasses();
+  }
 }
 
 

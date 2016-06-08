@@ -2085,7 +2085,7 @@
         <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
         <PositionX rdf:datatype="&xsd;double">0.0</PositionX>
         <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
         <FrameId rdf:datatype="&xsd;string">map</FrameId>
     </owl:NamedIndividual>
     
@@ -2126,7 +2126,7 @@
         <SizeY rdf:datatype="&xsd;double">0.15</SizeY>
         <SizeZ rdf:datatype="&xsd;double">0.18</SizeZ>
         <Weight rdf:datatype="&xsd;double">5.0</Weight>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2163,7 +2163,7 @@
         <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
         <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
         <ContainerState>Empty</ContainerState>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2180,7 +2180,7 @@
         <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
         <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
         <ContainerState>Empty</ContainerState>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2196,7 +2196,7 @@
         <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
         <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
         <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <ContainerState>Empty</ContainerState>
     </owl:NamedIndividual>
     
@@ -2213,7 +2213,7 @@
         <PositionX rdf:datatype="&xsd;double">0.12</PositionX>
         <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
         <OrientationY rdf:datatype="&xsd;double">0.5</OrientationY>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <ContainerState>Empty</ContainerState>
     </owl:NamedIndividual>
     
@@ -2230,7 +2230,7 @@
         <PositionX rdf:datatype="&xsd;double">0.12</PositionX>
         <PositionY rdf:datatype="&xsd;double">0.2</PositionY>
         <OrientationW rdf:datatype="&xsd;double">0.707</OrientationW>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <ContainerState>Empty</ContainerState>
         <partReference>engine_support</partReference>
     </owl:NamedIndividual>
@@ -2248,7 +2248,7 @@
         <PositionY rdf:datatype="&xsd;double">0.17</PositionY>
         <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
         <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <ContainerState>Empty</ContainerState>
     </owl:NamedIndividual>
     
@@ -2266,7 +2266,7 @@
         <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
         <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
         <ContainerState>Empty</ContainerState>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2279,7 +2279,7 @@
         <SizeY rdf:datatype="&xsd;decimal">0.15</SizeY>
         <SizeZ rdf:datatype="&xsd;decimal">0.24</SizeZ>
         <Weight rdf:datatype="&xsd;double">5.0</Weight>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2291,7 +2291,7 @@
         <SizeY rdf:datatype="&xsd;double">0.14</SizeY>
         <SizeZ rdf:datatype="&xsd;double">0.14</SizeZ>
         <SizeX rdf:datatype="&xsd;double">0.17</SizeX>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2304,7 +2304,7 @@
         <SizeY rdf:datatype="&xsd;decimal">0.16</SizeY>
         <SizeZ rdf:datatype="&xsd;decimal">0.27</SizeZ>
         <Weight rdf:datatype="&xsd;double">1.0</Weight>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2317,7 +2317,7 @@
         <SizeY rdf:datatype="&xsd;decimal">0.17</SizeY>
         <SizeZ rdf:datatype="&xsd;decimal">0.40</SizeZ>
         <Weight rdf:datatype="&xsd;double">0.5</Weight>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2349,7 +2349,7 @@
         <SizeY rdf:datatype="&xsd;double">0.7</SizeY>
         <PositionY rdf:datatype="&xsd;double">0.754</PositionY>
         <OrientationW rdf:datatype="&xsd;double">0.999924</OrientationW>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <hasA rdf:resource="&stmn;cell_a"/>
         <hasA rdf:resource="&stmn;cell_b"/>
         <hasA rdf:resource="&stmn;cell_c"/>
@@ -2375,7 +2375,7 @@
         <SizeY rdf:datatype="&xsd;double">0.7</SizeY>
         <OrientationW rdf:datatype="&xsd;double">0.707</OrientationW>
         <PositionX rdf:datatype="&xsd;double">0.765</PositionX>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <hasA rdf:resource="&stmn;cell_a"/>
         <hasA rdf:resource="&stmn;cell_b"/>
         <hasA rdf:resource="&stmn;cell_c"/>
@@ -2401,7 +2401,7 @@
         <SizeY rdf:datatype="&xsd;double">0.7</SizeY>
         <OrientationW rdf:datatype="&xsd;double">0.707</OrientationW>
         <PositionX rdf:datatype="&xsd;double">0.765</PositionX>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
         <hasA rdf:resource="&stmn;cell_a"/>
         <hasA rdf:resource="&stmn;cell_b"/>
         <hasA rdf:resource="&stmn;cell_c"/>
@@ -2433,7 +2433,7 @@
         <SizeY rdf:datatype="&xsd;decimal">0.32</SizeY>
         <SizeX rdf:datatype="&xsd;decimal">0.39</SizeX>
         <SizeZ rdf:datatype="&xsd;decimal">0.59</SizeZ>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2443,7 +2443,7 @@
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_alternator">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>alternator</partReference>
-        <nrParts rdf:datatype="&xsd;int">5</nrParts>
+        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2452,27 +2452,8 @@
 
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_compressor">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <PositionX rdf:datatype="&xsd;double">0.0</PositionX>
-        <OrientationX rdf:datatype="&xsd;double">0.0</OrientationX>
-        <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
-        <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
-        <PositionY rdf:datatype="&xsd;double">1.0</PositionY>
-        <PositionZ rdf:datatype="&xsd;double">1.1</PositionZ>
-        <NavigationGoalId rdf:datatype="&xsd;int">21</NavigationGoalId>
         <partReference>compressor</partReference>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
-        <nrParts rdf:datatype="&xsd;int">5</nrParts>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_demarreur -->
-
-    <owl:NamedIndividual rdf:about="&stmn;large_box_test_demarreur">
-        <rdf:type rdf:resource="&stmn;LargeBox"/>
-        <partReference>demarreur</partReference>
-        <nrParts rdf:datatype="&xsd;int">5</nrParts>
+        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2483,7 +2464,7 @@
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>engine_support</partReference>
         <partReference>thermal_shield</partReference>
-        <nrParts rdf:datatype="&xsd;int">5</nrParts>
+        <nrParts rdf:datatype="&xsd;int">4</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2492,9 +2473,8 @@
 
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_starter">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
-        <NavigationGoalId rdf:datatype="&xsd;int">7</NavigationGoalId>
         <partReference>small_starter</partReference>
-        <nrParts rdf:datatype="&xsd;int">5</nrParts>
+        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2504,7 +2484,7 @@
     <owl:NamedIndividual rdf:about="&stmn;large_box_test_tube">
         <rdf:type rdf:resource="&stmn;LargeBox"/>
         <partReference>tube</partReference>
-        <nrParts rdf:datatype="&xsd;int">5</nrParts>
+        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
@@ -2545,7 +2525,7 @@
         <PositionZ rdf:datatype="&xsd;double">0.07</PositionZ>
         <PositionX rdf:datatype="&xsd;double">0.15</PositionX>
         <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2557,7 +2537,7 @@
         <SizeX rdf:datatype="&xsd;decimal">0.15</SizeX>
         <SizeY rdf:datatype="&xsd;decimal">0.25</SizeY>
         <SizeZ rdf:datatype="&xsd;decimal">0.35</SizeZ>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2570,7 +2550,7 @@
         <SizeY rdf:datatype="&xsd;double">0.13</SizeY>
         <SizeZ rdf:datatype="&xsd;double">0.2</SizeZ>
         <Weight rdf:datatype="&xsd;double">2.0</Weight>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2595,7 +2575,7 @@
         <PositionX rdf:datatype="&xsd;double">0.0</PositionX>
         <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
         <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
         <FrameId rdf:datatype="&xsd;string">map</FrameId>
     </owl:NamedIndividual>
     
@@ -2640,7 +2620,7 @@
         <SizeX rdf:datatype="&xsd;decimal">0.1</SizeX>
         <SizeZ rdf:datatype="&xsd;decimal">0.1</SizeZ>
         <SizeY rdf:datatype="&xsd;decimal">0.1</SizeY>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2662,7 +2642,7 @@
         <SizeX rdf:datatype="&xsd;double">0.13</SizeX>
         <SizeZ rdf:datatype="&xsd;double">0.2</SizeZ>
         <Weight rdf:datatype="&xsd;double">2.0</Weight>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2703,7 +2683,7 @@
         <SizeX rdf:datatype="&xsd;double">0.15</SizeX>
         <SizeY rdf:datatype="&xsd;double">0.22</SizeY>
         <Weight rdf:datatype="&xsd;double">3.0</Weight>
-        <SpatialReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2716,7 +2696,7 @@
         <SizeY rdf:datatype="&xsd;decimal">0.28</SizeY>
         <SizeZ rdf:datatype="&xsd;decimal">0.40</SizeZ>
         <Weight rdf:datatype="&xsd;double">1.0</Weight>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 
@@ -2761,7 +2741,7 @@
         <SizeY rdf:datatype="&xsd;decimal">0.27</SizeY>
         <SizeZ rdf:datatype="&xsd;decimal">0.58</SizeZ>
         <Weight rdf:datatype="&xsd;double">1.0</Weight>
-        <SpatialReasoner>AauSpatialReasoner</SpatialReasoner>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
     </owl:NamedIndividual>
     
 

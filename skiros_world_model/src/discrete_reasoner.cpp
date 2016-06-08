@@ -8,22 +8,20 @@ namespace skiros_wm
 
 void DiscreteReasoner::addProperties(skiros_wm::Element& e)
 {
-    //Mark the presence of the type of reasoner
+    //Mark the object with the name of the reasoner
     if(!e.hasProperty(data::DiscreteReasoner))
-        e.addProperty(data::DiscreteReasoner, getType());
+        e.addProperty(data::DiscreteReasoner, getName());
     else
     {
-        if(e.properties(data::DiscreteReasoner).find(getType())<0)
-            e.properties(data::DiscreteReasoner).push_back(getType());
-    }
-    //Mark the name of the reasoner
-    if(!e.hasProperty(getType()))
-        e.addProperty(getType(), getName());
-    else
-    {
-        if(e.properties(getType()).find(getName())<0)
-            e.properties(getType()).push_back(getName());
+        if(e.properties(data::DiscreteReasoner).find(getName())<0)
+            e.properties(data::DiscreteReasoner).push_back(getName());
     }
     onAddProperties(e);
+}
+
+void DiscreteReasoner::removeProperties(skiros_wm::Element& e)
+{
+    e.removeProperty(data::DiscreteReasoner);
+    onRemoveProperties(e);
 }
 }

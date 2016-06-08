@@ -148,7 +148,7 @@ enum chkbehav { CB_NONE, CB_DISABLE, CB_ENABLE, CB_HIDE, CB_SHOW };
 
 enum btnset   { BS_CANCEL_OKAY, BS_OKAY_ONLY, BS_NO_YES, BS_CUSTOM };
 
-enum btnbehav { BB_ACCEPT, BB_REJECT, BB_DISABLED, BB_POPUP, BB_OPENURL, BB_SKIROS_ADD };
+enum btnbehav { BB_ACCEPT, BB_REJECT, BB_DISABLED, BB_POPUP, BB_OPENURL, BB_SKIROS_ADD, BB_SKIROS_REASONER, BB_SKIROS_REASONER_ADD, BB_SKIROS_REASONER_REMOVE };
 
 //############################################################
 
@@ -225,6 +225,7 @@ Q_DECLARE_METATYPE(visualization_msgs::InteractiveMarkerFeedbackConstPtr);
 class CustomDialog : public QDialog
 {
   Q_OBJECT
+    void reset();
 public:     //## METHODS:
 
   CustomDialog(QString title, QWidget *parent = 0, btnset=BS_CANCEL_OKAY);
@@ -243,6 +244,7 @@ public:     //## METHODS:
       interactive_m_server_=interactive_m_server;
   }
   int addSkirosElementCreation(skiros_wm::Element &e);
+  int addElementProperties();
   int addSkirosElementEdit(skiros_wm::Element &e, string base_frame);
   int addSkirosPropertyComboBox(skiros_common::Param &property, QString tooltip="");
   int addSkirosIndividualComboBox(QString tooltip="");
@@ -287,7 +289,7 @@ public:       //## DATA:
   int customBtnClicked;               // Set to the index of the button
                                       //   "customBtn" clicked.
 
-private:
+protected:
   QWidget * parent_;
   vector<QPushButton*> customBtn;      // Vector of buttons down the button of the GUI.
   QVBoxLayout *vboxLayout;
@@ -307,7 +309,8 @@ private:
   skiros_common::Param * property_ = NULL;
   skiros_wm::Element * linked_e_ = NULL;
   std::map<std::string, std::string> linked_properties_map_;
-
+  std::string base_frame_;
+  std::string reasoner_name_;
 signals:
   void interactiveMarkerFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback );
 public slots:   //## SLOTS:
@@ -322,11 +325,34 @@ public slots:   //## SLOTS:
   void customBtnMessage();
   void customBtnOpenUrl();
   void skirosAddProperty();
+  void skirosEditReasoner();
+  void skirosAddReasoner();
+  void skirosRemoveReasoner();
   void updateBtnClicked(QObject *btnClicked);
   void resizeMe();
   int exec();
 };
 
+
+//############################################################
+
+class SkirosReasonerDialog : public CustomDialog
+{
+    Q_OBJECT
+    QComboBox * reasoner_combo_box_;
+public:
+    SkirosReasonerDialog(QString title, QWidget *parent = 0) : CustomDialog(title, parent, BS_CANCEL_OKAY)
+    { }
+    ~SkirosReasonerDialog() {}
+
+    void init(boost::shared_ptr<skiros_wm::WorldModelInterface> wm_ptr,
+              boost::shared_ptr<interactive_markers::InteractiveMarkerServer> interactive_m_server,
+              skiros_wm::Element &e);
+
+    int addReasonerComboBox(skiros_wm::Element &el, QString tooltip="");
+public slots:   //## SLOTS:
+    void skirosReasonerCbIndexChanged(int index);
+};
 
 //############################################################
 

@@ -9,7 +9,7 @@
 	Element name
     </description>
   </class>
-  <class name="SpatialReasoner" type="skiros_param::SpatialReasoner" base_class_type="skiros_config::ParamBase">
+  <class name="DiscreteReasoner" type="skiros_param::DiscreteReasoner" base_class_type="skiros_config::ParamBase">
     <description>
         Spatial reasoner name
     </description>

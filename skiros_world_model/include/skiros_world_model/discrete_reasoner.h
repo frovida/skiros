@@ -134,12 +134,16 @@ public:
     virtual ReasonerDataMap extractOwlData(skiros_wm::Element & e) = 0;
     //! \brief Add default reasoner properties to the element
     void addProperties(skiros_wm::Element& e);
+    //! \brief Remove default reasoner properties from the element
+    void removeProperties(skiros_wm::Element& e);
 
     std::string getName() { return name_; }
     std::string getType() { return type_; }
 protected:
     //! \brief Add default reasoner properties to the element
     virtual void onAddProperties(skiros_wm::Element& e) = 0;
+    //! \brief Remove default reasoner properties from the element
+    virtual void onRemoveProperties(skiros_wm::Element& e) = 0;
 
     DiscreteReasoner(){}
     void setName(std::string name) { name_ = name; }

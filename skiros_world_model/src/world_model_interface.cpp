@@ -18,7 +18,6 @@
 #include "skiros_config/declared_uri.h"
 #include "skiros_config/node_names.h"
 #include "skiros_config/param_types.h"
-#include "skiros_world_model/reasoners_loading_func.h"
 
 using namespace skiros_config::owl;
 using namespace skiros_config;
@@ -107,6 +106,7 @@ OntologyInterface::OntologyInterface(ros::NodeHandle nh) : nh_(nh)
 {
     query_ontology_  = nh_.serviceClient<skiros_msgs::WoQuery>(std::string(world_model_node_name)+wm_query_ont_srv_name);
     modify_ontology_ = nh_.serviceClient<skiros_msgs::WoModify>(std::string(world_model_node_name)+wm_modify_ont_srv_name);
+    setDefaultPrefix("stmn:");
 }
 
 void OntologyInterface::addStdPrefix(std::string & uri)
@@ -139,66 +139,10 @@ int OntologyInterface::addIndividual(Element e)
     removeIndividual(e);
     //Create the statements
     WoModify msg;
-    WoStatement temp;
     msg.request.action = msg.request.ADD;
     msg.request.author = ros::this_node::getName();
     //Register the individual type
-    temp.subject.uri = e.label();
-    temp.subject.type = temp.subject.RESOURCE;
-    temp.predicate.uri = std_uri::TYPE;
-    temp.predicate.type = temp.subject.RESOURCE;
-    temp.object.uri = e.type();
-    temp.object.type = temp.subject.RESOURCE;
-    msg.request.statements.push_back(temp);
-    //Register a new individual
-    temp.object.uri = std_uri::OWL_INDIVIDUAL;
-    msg.request.statements.push_back(temp);
-    //Save the properties stored by SpatialReasoners
-    if(e.hasProperty(data::DiscreteReasoner))
-    {
-        std::vector<std::string> v = e.properties(data::DiscreteReasoner).getValues<std::string>();
-        for(std::string r : v)
-        {
-            skiros_wm::ReasonerPtrType reasoner = skiros_wm::getDiscreteReasoner(e.properties(r).getValue<std::string>());
-            ReasonerDataMap data = reasoner->extractOwlData(e);
-            for(ReasonerDataMap::value_type pair : data)
-            {
-                temp.predicate.uri = pair.first;
-                temp.object.uri = e.type();
-                temp.object.type = temp.subject.LITERAL;
-                temp.object.literal_type = pair.second.second;
-                msg.request.statements.push_back(temp);
-            }
-        }
-    }
-    //Save all the remaining properties
-    skiros_config::ParamTypes param_types = skiros_config::ParamTypes::getInstance();
-    for(skiros_common::ParamMap::value_type pair : e.properties())
-    {
-        if(getType(pair.first).find("ObjectProperty")!=std::string::npos)
-        {
-            for(int i=0; i<pair.second.size();i++)
-            {
-                std::string value = pair.second.getValueStr(i);
-                temp.predicate.uri = pair.first;
-                temp.object.uri = value;
-                temp.object.type = temp.subject.RESOURCE;
-                msg.request.statements.push_back(temp);
-            }
-        }
-        else
-        {
-            for(int i=0; i<pair.second.size();i++)
-            {
-                std::string value = pair.second.getValueStr(i);
-                temp.predicate.uri = pair.first;
-                temp.object.uri = value;
-                temp.object.type = temp.subject.LITERAL;
-                temp.object.literal_type = param_types.getDataTypeStr(pair.second);
-                msg.request.statements.push_back(temp);
-            }
-        }
-    }
+    msg.request.statements = e.toMsgStatements(this, false);
     //Call the service
     if(modify_ontology_.call(msg))
     {
@@ -206,7 +150,7 @@ int OntologyInterface::addIndividual(Element e)
     }
     else
     {
-        this->connectionFailed("modify");
+        this->connectionFailed("addIndividual");
         return -100;
     }
 }
@@ -217,12 +161,10 @@ int OntologyInterface::removeIndividual(Element e)
     WoStatement temp;
     msg.request.action = msg.request.REMOVE_CONTEXT;
     msg.request.author = ros::this_node::getName();
-    //Register the individual type
+    //Only the subject is relevant with REMOVE_CONTEXT
     temp.subject.uri = e.label();
     temp.subject.type = temp.subject.RESOURCE;
-    temp.predicate.uri = std_uri::TYPE;
     temp.predicate.type = temp.subject.RESOURCE;
-    temp.object.uri = e.type();
     temp.object.type = temp.subject.RESOURCE;
     msg.request.statements.push_back(temp);
     //Call the service
@@ -232,7 +174,7 @@ int OntologyInterface::removeIndividual(Element e)
     }
     else
     {
-        this->connectionFailed("modify");
+        this->connectionFailed("removeIndividual");
         return -100;
     }
 }
@@ -704,16 +646,19 @@ std::vector<std::pair<int, double> > WorldModelInterface::identify(skiros_wm::El
 
 //------------------------------------------------------------------------------------------------------------
 
-int WorldModelInterface::addBranch(skiros_wm::Element object, int parent_id, std::string relation)
+int WorldModelInterface::addBranch(skiros_wm::Element & object, int parent_id, std::string relation)
 {
-    addElement(object, parent_id, relation);
-    if(object.hasProperty("hasA"))
+    std::vector<std::string> childs;
+    if(object.hasProperty(relation::Str[relation::hasA]))
     {
-        for(int i=0;i<object.properties("hasA").size();i++)
-        {
-            skiros_wm::Element e = getDefaultElement(object.properties("hasA").getValue<std::string>(i));
-            addBranch(e, object.id(), "hasA");
-        }
+        childs = object.properties(relation::Str[relation::hasA]).getValues<std::string>();
+        object.removeProperty(relation::Str[relation::hasA]);
+    }
+    addElement(object, parent_id, relation);
+    for(auto child : childs)
+    {
+        skiros_wm::Element e = getDefaultElement(child);
+        addBranch(e, object.id(), relation::Str[relation::hasA]);
     }
     return object.id();
 }

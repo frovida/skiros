@@ -142,6 +142,15 @@ bool CustomDialog::addCustomButton(QString buttonStr, btnbehav buttonBehav,
   case (BB_SKIROS_ADD):
       QObject::connect(newButton, SIGNAL(clicked()), this, SLOT(skirosAddProperty()));
       break;
+  case (BB_SKIROS_REASONER):
+      QObject::connect(newButton, SIGNAL(clicked()), this, SLOT(skirosEditReasoner()));
+      break;
+  case (BB_SKIROS_REASONER_ADD):
+      QObject::connect(newButton, SIGNAL(clicked()), this, SLOT(skirosAddReasoner()));
+      break;
+  case (BB_SKIROS_REASONER_REMOVE):
+      QObject::connect(newButton, SIGNAL(clicked()), this, SLOT(skirosRemoveReasoner()));
+      break;
   }
 
   if(!tooltip.isEmpty())
@@ -212,7 +221,7 @@ int CustomDialog::addSkirosPropertyComboBox(skiros_common::Param & property, QSt
         ss >> temp;
         while(!ss.eof())
         {
-            if(temp!="")
+            if(temp!="" && temp!="DiscreteReasoner")
             {
                 e.cmbBox->addItem(temp.c_str());
                 query_list.push_back(temp);
@@ -220,14 +229,14 @@ int CustomDialog::addSkirosPropertyComboBox(skiros_common::Param & property, QSt
             ss >> temp;
         }
     }
-
     if(!tooltip.isEmpty())
         e.cmbBox->setToolTip(tooltip);
-
     e.layout->addWidget(e.label);
     e.layout->addWidget(e.cmbBox);
     layoutNextElement->addLayout(e.layout);
     connect(prop_combo_box_, SIGNAL(currentIndexChanged(int)), this, SLOT(skirosPropertyCbIndexChanged(int)));
+    //Initialize
+    skirosPropertyCbIndexChanged(0);
     return elements.size();
 }
 
@@ -343,24 +352,23 @@ int CustomDialog::addSkirosElementCreation(skiros_wm::Element &e)
     addSkirosTypeComboBox();
 }
 
-int CustomDialog::addSkirosElementEdit(skiros_wm::Element & e, std::string base_frame)
-{
-    linked_e_ = &e;
 
+int CustomDialog::addElementProperties()
+{
     ///create an interactive marker object
     //If object has position, initialize the marker
     tf::Vector3 position(0, 0, 0);
-    if(e.hasProperty(data::Position))
+    if(linked_e_->hasProperty(data::Position))
     {
-        if(e.properties(data::Position).isSpecified())
+        if(linked_e_->properties(data::Position).isSpecified())
         {
             skiros_wm::ReasonerPtrType reasoner = skiros_wm::getDiscreteReasoner("AauSpatialReasoner");
-            position = reasoner->getData<tf::Vector3>(e, "Position");
+            position = reasoner->getData<tf::Vector3>(*linked_e_, "Position");
         }
     }
     InteractiveMarker int_marker;
-    int_marker.header.frame_id = base_frame;
-    int_marker.name = e.label();
+    int_marker.header.frame_id = base_frame_;
+    int_marker.name = linked_e_->label();
     int_marker.description = "";
     tf::pointTFToMsg(position, int_marker.pose.position);
     int_marker.scale = 0.5;
@@ -412,6 +420,7 @@ int CustomDialog::addSkirosElementEdit(skiros_wm::Element & e, std::string base_
     control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
     int_marker.controls.push_back(control);
 
+    interactive_m_server_->clear();
     interactive_m_server_->insert(int_marker);
     interactive_m_server_->setCallback(int_marker.name, boost::bind(&CustomDialog::interactiveMarkerFeedback, this, _1));
     connect(this, SIGNAL(interactiveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &)),
@@ -419,12 +428,12 @@ int CustomDialog::addSkirosElementEdit(skiros_wm::Element & e, std::string base_
 
     //Create the layout
     std::stringstream ss;
-    ss << "Element ID: " << e.id();
+    ss << "Element ID: " << linked_e_->id();
     addLabel(ss.str().c_str());
-    addLineEdit ("Type:  ", &e.type(), "");
-    addLineEdit ("Label:  ", &e.label(), "");
+    addLineEdit ("Type:  ", &linked_e_->type(), "");
+    addLineEdit ("Label:  ", &linked_e_->label(), "");
     addVSpacer(1);
-    for(auto pair : e.properties())
+    for(auto pair : linked_e_->properties())
     {
         skiros_common::Param p = pair.second;
         ss.str("");
@@ -432,9 +441,20 @@ int CustomDialog::addSkirosElementEdit(skiros_wm::Element & e, std::string base_
         linked_properties_map_.insert(std::pair<string,string>(p.key(), p.getValuesSingleStr()));
         addLineEdit (ss.str().c_str(),  &linked_properties_map_[p.key()], "");
     }
+    interactive_m_server_->applyChanges();
+    return elements.size();
+}
+
+int CustomDialog::addSkirosElementEdit(skiros_wm::Element & e, std::string base_frame)
+{
+    linked_e_ = &e;
+    base_frame_ = base_frame;
+    addElementProperties();
     //Add button to insert new properties
     addCustomButton("+", BB_SKIROS_ADD);
-    interactive_m_server_->applyChanges();
+    //Add button to edit reasoners
+    addCustomButton("Reasoners", BB_SKIROS_REASONER);
+    return elements.size();
 }
 
 void CustomDialog::skirosAddProperty()
@@ -454,6 +474,48 @@ void CustomDialog::skirosAddProperty()
         linked_properties_map_.insert(std::pair<string,string>(property.key(), property.getValuesSingleStr()));
         addLineEdit (ss.str().c_str(),  &linked_properties_map_[property.key()], "");
     }
+}
+
+void clear(QLayout* layout)
+{
+    QLayoutItem* child;
+    while(layout->count()!=0)
+    {
+        child = layout->takeAt(0);
+        if(child->layout() != 0)
+        {
+            clear(child->layout());
+        }
+        else if(child->widget() != 0)
+        {
+            delete child->widget();
+        }
+
+        delete child;
+    }
+}
+
+void CustomDialog::skirosEditReasoner()
+{
+    SkirosReasonerDialog d("Edit reasoners", parent_);
+    d.init(wm_ptr_, interactive_m_server_, *linked_e_);
+    d.exec();
+    if(d.wasCancelled())
+        return;
+    linked_properties_map_.clear();
+    elements.clear();
+    clear(vboxLayout);
+    addElementProperties();
+}
+
+void CustomDialog::skirosAddReasoner()
+{
+    linked_e_->associateReasoner(reasoner_name_);
+}
+
+void CustomDialog::skirosRemoveReasoner()
+{
+    linked_e_->removeReasoner(reasoner_name_);
 }
 
 void CustomDialog::interactiveMarkerFeedbackProcess(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback)
@@ -1445,7 +1507,7 @@ void CustomDialog::customBtnAccept()
   {
       for(auto pair : linked_properties_map_)
       {
-          if(pair.second=="")
+          if(pair.second=="" || pair.second=="[]")
               linked_e_->removeProperty(pair.first);
           else
               linked_e_->properties(pair.first).setAllValuesFromSingleStr(pair.second);
@@ -1570,3 +1632,43 @@ string InputBoxString(QWidget *parent, string title, string label, string defaul
 
 
 //############################################################
+
+
+void SkirosReasonerDialog::init(boost::shared_ptr<skiros_wm::WorldModelInterface> wm_ptr,
+                                boost::shared_ptr<interactive_markers::InteractiveMarkerServer> interactive_m_server,
+                                skiros_wm::Element & e)
+{
+    initSkirosInterfaces(wm_ptr, interactive_m_server);
+    addReasonerComboBox(e);
+    //Add button to remove
+    addCustomButton("Remove", BB_SKIROS_REASONER_REMOVE);
+    //Add button to add
+    addCustomButton("Associate", BB_SKIROS_REASONER_ADD);
+}
+
+int SkirosReasonerDialog::addReasonerComboBox(skiros_wm::Element & el, QString tooltip)
+{
+    linked_e_ = &el;
+    //Discrete resoners
+    auto reasoners = skiros_wm::getAvailableReasoners();
+    DialogElement &e = addNewElement(DLG_COMBOBOX, "Reasoner", tooltip, true);
+    e.returnInt = NULL;
+    e.cmbBox = new QComboBox(this);
+    reasoner_combo_box_ = e.cmbBox;
+    for(auto r : reasoners)
+        e.cmbBox->addItem(r.c_str());
+    if(!tooltip.isEmpty())
+        e.cmbBox->setToolTip(tooltip);
+    e.layout->addWidget(e.label);
+    e.layout->addWidget(e.cmbBox);
+    layoutNextElement->addLayout(e.layout);
+    connect(reasoner_combo_box_, SIGNAL(currentIndexChanged(int)), this, SLOT(skirosReasonerCbIndexChanged(int)));
+    //Initialize
+    reasoner_name_ = reasoners.front();
+    return elements.size();
+}
+
+void SkirosReasonerDialog::skirosReasonerCbIndexChanged(int index)
+{
+    reasoner_name_ = prop_combo_box_->itemText(index).toStdString();
+}

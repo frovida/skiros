@@ -5,8 +5,13 @@
 #include <exception>      // std::exception
 #include <boost/foreach.hpp>
 #include <skiros_world_model/reasoners_loading_func.h>
+#include <skiros_msgs/WoStatement.h>
+#include "skiros_world_model/std_uris.h"
+#include "skiros_config/param_types.h"
 
 using namespace skiros_config::owl;
+using namespace skiros_msgs;
+using namespace skiros_wm::owl;
 
 namespace skiros_wm
 {
@@ -87,6 +92,110 @@ bool Element::addProperty(std::string key, skiros_common::any default_value)
 
 std::string Element::toUrl() const {return type()+"-"+std::to_string(id());}
 
+std::vector<skiros_msgs::WoStatement> Element::toMsgStatements(BaseOntologyInterface * wo, bool scene_element)
+{
+    std::vector<skiros_msgs::WoStatement> to_ret;
+    WoStatement temp;
+    std::string uri;
+    if(scene_element)
+        uri = toUrl();
+    else
+        uri = label();
+    temp.subject.uri = uri;
+    temp.subject.type = temp.subject.RESOURCE;
+    temp.predicate.uri = std_uri::TYPE;
+    temp.predicate.type = temp.subject.RESOURCE;
+    temp.object.uri = this->type();
+    temp.object.type = temp.subject.RESOURCE;
+    to_ret.push_back(temp);
+    //Register a new individual
+    temp.object.uri = std_uri::OWL_INDIVIDUAL;
+    to_ret.push_back(temp);
+    //Save the properties stored by SpatialReasoners
+    if(this->hasProperty(data::DiscreteReasoner))
+    {
+        std::vector<std::string> v = this->properties(data::DiscreteReasoner).getValues<std::string>();
+        for(std::string r : v)
+        {
+            skiros_wm::ReasonerPtrType reasoner = skiros_wm::getDiscreteReasoner(r);
+            ReasonerDataMap data = reasoner->extractOwlData(*this);
+            for(ReasonerDataMap::value_type pair : data)
+            {
+                temp.predicate.uri = pair.first;
+                temp.object.uri = pair.second.first;
+                temp.object.type = temp.subject.LITERAL;
+                temp.object.literal_type = pair.second.second;
+                to_ret.push_back(temp);
+            }
+        }
+    }
+    //Save all the remaining properties
+    skiros_config::ParamTypes param_types = skiros_config::ParamTypes::getInstance();
+    for(skiros_common::ParamMap::value_type pair : this->properties())
+    {
+        if(wo->getType(pair.first).find("ObjectProperty")!=std::string::npos)
+        {
+            if(!scene_element)
+                for(int i=0; i<pair.second.size();i++)
+                {
+                    std::string value = pair.second.getValueStr(i);
+                    temp.predicate.uri = pair.first;
+                    temp.object.uri = value;
+                    temp.object.type = temp.subject.RESOURCE;
+                    to_ret.push_back(temp);
+                }
+        }
+        else
+        {
+            //FWARN("[Element::toMapStatements] Element '" << *this << "' has data property '" << pair.first << "' with size " << pair.second.size() << ". Only one will appear in the ontology.");
+            auto values = pair.second.getValuesStr();
+            temp.predicate.uri = pair.first;
+            temp.object.type = temp.subject.LITERAL;
+            temp.object.literal_type = param_types.getDataTypeStr(pair.second);
+            for(auto value : values)
+            {
+                temp.object.uri = value;
+                to_ret.push_back(temp);
+            }
+        }
+    }
+    return to_ret;
+}
+
+using SPair = std::pair<std::string, std::string>;
+RelationsMMap Element::toMapStatements(BaseOntologyInterface * wo)
+{
+    RelationsMMap to_ret;
+    Element copy = *this;
+    to_ret.insert(RelationsPair(std_uri::TYPE, SPair(this->type(), "")));
+    to_ret.insert(RelationsPair(std_uri::TYPE, SPair(std_uri::OWL_INDIVIDUAL, "")));
+    //Save the properties stored by SpatialReasoners
+    if(copy.hasProperty(data::DiscreteReasoner))
+    {
+        std::vector<std::string> v = copy.properties(data::DiscreteReasoner).getValues<std::string>();
+        for(std::string r : v)
+        {
+            skiros_wm::ReasonerPtrType reasoner = skiros_wm::getDiscreteReasoner(r);
+            ReasonerDataMap data = reasoner->extractOwlData(copy);
+            for(ReasonerDataMap::value_type pair : data)
+                to_ret.insert(pair);
+        }
+    }
+    //Save all the remaining properties (no relations)
+    skiros_config::ParamTypes param_types = skiros_config::ParamTypes::getInstance();
+    for(skiros_common::ParamMap::value_type pair : copy.properties())
+    {
+        if(wo->getType(pair.first).find("ObjectProperty")==std::string::npos)
+        {
+            //FWARN("[Element::toMapStatements] Element '" << copy << "' has data property '" << pair.first << "' with size " << pair.second.size() << ". Only one will appear in the ontology.");
+            auto values = pair.second.getValuesStr();
+            for(auto value : values)
+                to_ret.insert(RelationsPair(pair.first, SPair(value, param_types.getDataTypeStr(pair.second))));
+        }
+    }
+    return to_ret;
+}
+
 void Element::removeProperty(std::string key)
 {
     skiros_common::ParamMap::iterator it = this->properties_.find(key);
@@ -102,7 +211,7 @@ void Element::clear()
 
 void Element::importProperties(const Element& rhs)
 {
-    BOOST_FOREACH(skiros_common::ParamMap::value_type property, rhs.properties())
+    for(skiros_common::ParamMap::value_type property : rhs.properties())
     {
         if(this->hasProperty(property.first)) this->properties(property.first) = property.second;
         else this->properties().insert(property);
@@ -196,6 +305,15 @@ bool Element::associateReasoner(std::string reasoner_name)
     return true;
 }
 
+void Element::removeReasoner(std::string reasoner_name)
+{
+    if(current_reasoner_==reasoner_name)
+        current_reasoner_="";
+    ReasonerPtrType reasoner = getDiscreteReasoner(reasoner_name);
+    if(reasoner)
+        reasoner->removeProperties(*this);
+}
+
 std::set<std::string> Element::getAssociatedReasoners()
 {
     std::set<std::string> to_ret;
@@ -204,7 +322,7 @@ std::set<std::string> Element::getAssociatedReasoners()
         if(this->hasProperty(data::DiscreteReasoner))
         {
             for(auto d : this->properties(data::DiscreteReasoner).getValues<std::string>())
-                to_ret.insert(this->properties(d).getValue<std::string>());
+                to_ret.insert(d);
         }
     }
     catch(...)

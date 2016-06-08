@@ -266,8 +266,9 @@ namespace skiros_common
 
 		std::vector<skiros_common::any>		getValues() const;
 
-		bool					getValues(std::vector<skiros_common::any>  &v);
-        bool					getValuesStr(std::vector<std::string> & v) const;
+        bool					 getValues(std::vector<skiros_common::any>  &v);
+        bool					 getValuesStr(std::vector<std::string> & v) const;
+        std::vector<std::string> getValuesStr() const;
         /*!
          * \brief Print the the parameter values in a single output string
          * \return A string in the format [value_0, ..., value_n]
@@ -276,15 +277,15 @@ namespace skiros_common
         std::string             getValueStr() const;
         std::string             getValueStr(int index) const;
 
-        inline std::string                  key(void) const	      { return key_; }
-        inline std::string                  name(void) const      { return name_; }
-        inline const std::type_info&		type(void) const      { return *value_type_.target; }
-        std::string                         typeName(void) const;
-        inline ParameterState 				state(void) const     { return state_; }
-        inline std::string                  stateStr(void) const  { return std::string(ParameterStateStr[state_]); }
-        inline ParamSpecType 				specType(void) const  { return spec_type_; }
-        inline int                          size() const   { return values_.size();}
-        inline bool                         isSpecified() const   { return this->state_ == skiros_common::specified; }
+        std::string             key() const	      { return key_; }
+        std::string             name() const      { return name_; }
+        const std::type_info&	type() const      { return *value_type_.target; }
+        std::string             typeName() const;
+        ParameterState 			state() const     { return state_; }
+        std::string             stateStr() const  { return std::string(ParameterStateStr[state_]); }
+        ParamSpecType 			specType() const  { return spec_type_; }
+        int                     size() const   { return values_.size();}
+        bool                    isSpecified() const   { return this->state_ == skiros_common::specified; }
 
         //! \brief Print param data textually
         std::string printState() const;

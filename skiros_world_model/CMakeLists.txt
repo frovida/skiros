@@ -82,7 +82,9 @@ add_library(owl_world_model
    src/discrete_reasoner.cpp
    src/std_uris.cpp
    src/owl_world_model.cpp
-   src/owl_world_ontology.cpp)
+   src/owl_world_ontology.cpp
+   src/world_element.cpp
+   src/utility.cpp)
 target_link_libraries(owl_world_model ${catkin_LIBRARIES} ${EXTRA_LIBS})
 
 ## Declare a cpp executable
@@ -97,9 +99,6 @@ target_link_libraries(test_wm_interface world_model_interface ${catkin_LIBRARIES
 
 add_executable(uri_header_generator src/uri_header_generator.cpp src/owl_world_model.cpp src/world_element.cpp src/reasoners_loading_func.cpp)
 target_link_libraries(uri_header_generator owl_world_model ${catkin_LIBRARIES})
-
-add_executable(populate_wm src/populate_node.cpp)
-target_link_libraries(populate_wm world_model_interface  ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
