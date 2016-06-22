@@ -22,7 +22,7 @@ void PlannerInterface::resetAll(){
     plan.clear();
 }
 
-//Resets the domain and then parses all existing skills that belong to atleast one robot
+//Resets the domain and then parses all existing skills that belong to at least one robot
 void PlannerInterface::initDomain()
 {
     if(getWorldHandle()==NULL) return;
@@ -31,6 +31,7 @@ void PlannerInterface::initDomain()
     ROS_INFO("Getting Skills");
     //GetSkills (from robots)
     std::vector<Element> robots = getRobots();
+    int nrRobots = robots.size();
     for(Element e : robots)
     {
         //FINFO(e.printState("", false));
@@ -53,7 +54,6 @@ void PlannerInterface::initDomain()
     planner_model.setTypeHeirarchy();
 
     //add can_x so only robot with skill can use it and also add missing preconditions/effects
-    
     for(unsigned i = 0; i < skills.size(); ++i){
         PM_Skill s = skills.at(i);
 
@@ -105,7 +105,7 @@ void PlannerInterface::initDomain()
                     //Specific for drive skill with for multiple connected robots
                     if(STAMINA){
                         std::size_t found = s.skill_name.find("drive");
-                        if(found != std::string::npos){
+                        if(found != std::string::npos && nrRobots >  1 ){
                             std::string newr = "r";
                             UngroundPredicate nup_neg_pre;
                             UngroundPredicate nup_del;

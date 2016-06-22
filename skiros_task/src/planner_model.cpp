@@ -121,28 +121,28 @@ Element PlannerModel::getRack(Element e, int depth){
     return getRack(p, d);
 }
 
-bool PlannerModel::containsNoUsefulParts(Element e){
-    if(!(e.type() == "LargeBox" || e.type() == "SmallBox"))
-        return false;
+// bool PlannerModel::containsNoUsefulParts(Element e){
+//     if(!(e.type() == "LargeBox" || e.type() == "SmallBox"))
+//         return false;
     
-    std::stringstream goalss;
-    for(GroundPredicate g : goal){
-        goalss <<  g.to_pddl();
-    }
-    ROS_INFO_STREAM(goalss.str());
+//     std::stringstream goalss;
+//     for(GroundPredicate g : goal){
+//         goalss <<  g.to_pddl();
+//     }
+//     ROS_INFO_STREAM(goalss.str());
 
-    bool inGoal = false;
-    std::vector<std::string> objects = e.properties(data::Str[data::partReference]).getValues<std::string>();
-    for(std::string s : objects){
-        ROS_INFO_STREAM("\t" << s);
-        std::size_t found = goalss.str().find(s);
-        if(found != std::string::npos){
-            return false;
-        }
-    }
-    ROS_INFO_STREAM("Ignoring "  << e.toUrl());
-    return true;
-}
+//     bool inGoal = false;
+//     std::vector<std::string> objects = e.properties(data::Str[data::partReference]).getValues<std::string>();
+//     for(std::string s : objects){
+//         ROS_INFO_STREAM("\t" << s);
+//         std::size_t found = goalss.str().find(s);
+//         if(found != std::string::npos){
+//             return false;
+//         }
+//     }
+//     ROS_INFO_STREAM("Ignoring "  << e.toUrl());
+//     return true;
+// }
 
 void PlannerModel::findWorldObjects(){
 
@@ -158,10 +158,10 @@ void PlannerModel::findWorldObjects(){
         {
             ROS_INFO_STREAM("\t" << e.toUrl() << " " << e.type());
             if(types.at(i).type_name == "Location"){
-                if(containsNoUsefulParts(e)){//i.e. is a largebox or smallbox with part that is not in goal in it
-                    ROS_INFO_STREAM("Ignored Part!");
-                }
-                else if(e.type() == "Location" || e.type() == "LargeBox" || e.type() == "SmallBox" || e.type() == "ParkingStation"){
+                //if(containsNoUsefulParts(e)){//i.e. is a largebox or smallbox with part that is not in goal in it
+                //    ROS_INFO_STREAM("Ignored Part!");
+               // }
+                if(e.type() == "Location" || e.type() == "LargeBox" || e.type() == "SmallBox" || e.type() == "ParkingStation"){
                     types.at(i).objects_of_type.push_back(e.toUrl());
                     //try to get sequencenr if exists
                     if(e.hasProperty(data::Str[data::sequenceNr])){
@@ -473,7 +473,7 @@ void PlannerModel::addHiddenObjects(HiddenPropertyElement hpe){
     //addType(hpe.type_name);
     for(unsigned j = 0; j < locs.size(); ++j){
         Element e = locs.at(j);
-        if(!containsNoUsefulParts(e)){
+        // if(!containsNoUsefulParts(e)){
             std::vector<std::string> objects = e.properties(hpe.data_property).getValues<std::string>();
             for(std::string s : objects){
                 if(s != ""){
@@ -486,7 +486,7 @@ void PlannerModel::addHiddenObjects(HiddenPropertyElement hpe){
                     initial_state.push_back(gp);
                 }
             }
-            std::vector<std::string> partNo = e.properties(data::Str[data::nrParts]).getValuesStr();
+            std::vector<std::string> partNo = e.properties(data::Str[data::nrParts]).getValues<std::string>();
             for(std::string s : partNo){
                 PDDL_function_value f;
                 f.name = "parts";
@@ -496,7 +496,7 @@ void PlannerModel::addHiddenObjects(HiddenPropertyElement hpe){
                 f.value = std::stoi(s);
                 function_values.push_back(f);
             }
-        }
+        // }
     }
 }
 

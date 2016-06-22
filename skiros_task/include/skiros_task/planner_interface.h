@@ -163,7 +163,7 @@ class PlannerInterface
     //In STAMINA need to specify that Manipulatable have abstract types
     //that drive uses sequnce numbers
     //and  that pick uses part numbers
-    const bool STAMINA = true;    
+    const bool STAMINA = false;    
     const std::string hasAbstractTypes = "Manipulatable";
     const std::string requireSequenceNumbers = "drive";
     const std::string requirePartNumbers = "pick";
