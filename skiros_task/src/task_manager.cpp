@@ -130,6 +130,19 @@ ExecutionResult TaskManager::exeSkill(SkillHolder skill)
   SkillMgrsMap::iterator it = skill_layer_.getSkillMgrsMap().find(skill.manager);
   if(it != skill_layer_.getSkillMgrsMap().end())
   {
+      for(auto & pair : skill.params)
+      {
+          skiros_common::Param & p = pair.second;
+          if(p.type()==typeid(Element))
+          {
+              Element e = p.getValue<Element>();
+              if(e.id()>=0)
+              {
+                  e = getWorldHandle()->getElement(e.id());
+                  p.setValue(e);
+              }
+          }
+      }
       if(it->second->exeSkill(skill.name, skill.params, controller_id_)<0)
           return ExecutionResult();
       lock.unlock();

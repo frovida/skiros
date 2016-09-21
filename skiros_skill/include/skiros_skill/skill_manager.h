@@ -67,7 +67,7 @@ namespace skiros_skill
 	class SkillManager
 	{
 	public:
-        SkillManager(boost::shared_ptr<ros::NodeHandle> nh, boost::shared_ptr<skiros_wm::WorldModelInterfaceS> world_model, std::string robot_uri);
+        SkillManager(boost::shared_ptr<ros::NodeHandle> nh, boost::shared_ptr<skiros_wm::WorldModelInterfaceS> world_model, std::string prefix, std::string robot_uri);
         ~SkillManager();
         //---------- Initialization functions ------------------
         //! \brief Register the robot on the world model and triggers a reload()
@@ -165,6 +165,7 @@ namespace skiros_skill
         //Configuration variables
         //!< The robot name
         std::string robot_uri_;
+        std::string robot_name_;
 
         std::vector<skiros_wm::Element> wm_devices_;
         typedef std::pair<std::string, int> DriverDevicePair;

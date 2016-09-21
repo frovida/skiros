@@ -978,7 +978,7 @@ std::string WorldModel::uri2lightString(std::string uri)
     {
         uri.replace(uri.find(prefix), prefix.length()+1, "");
     }
-    else if(ontology_.hasPrefix(prefix))
+    else
     {
         std::string short_prefix = ontology_.getShortPrefix(prefix);
         uri.replace(uri.find(prefix), prefix.length()+1, short_prefix+":");

@@ -51,6 +51,7 @@ WorldModelInterface::WorldModelInterface(ros::NodeHandle nh, bool monitor_change
 
 void WorldModelInterface::lock()
 {
+    if(wm_locked_)return;
     skiros_msgs::SetBool msg;
     msg.request.set = true;
     msg.request.author = ros::this_node::getName();
@@ -58,6 +59,7 @@ void WorldModelInterface::lock()
     {
         this->connectionFailed("lock");
     }
+    wm_locked_ = true;
 }
 
 void WorldModelInterface::unlock()
@@ -69,6 +71,7 @@ void WorldModelInterface::unlock()
     {
         this->connectionFailed("unlock");
     }
+    wm_locked_ = false;
 }
 
 bool OntologyInterface::isConnected()

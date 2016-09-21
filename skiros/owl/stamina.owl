@@ -1,24 +1,13 @@
 <?xml version="1.0"?>
-
-
-<!DOCTYPE rdf:RDF [
-    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
-    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY voag "http://voag.linkedmodel.org/schema/voag#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY stmn "http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#" >
-]>
-
-
 <rdf:RDF xmlns="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#"
      xml:base="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina"
-     xmlns:voag="http://voag.linkedmodel.org/schema/voag#"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:stmn="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:voag="http://voag.linkedmodel.org/schema/voag#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina">
         <rdfs:comment>The ontology for the EU project STAMINA.</rdfs:comment>
     </owl:Ontology>
@@ -38,143 +27,143 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#conditionProperty -->
 
-    <owl:ObjectProperty rdf:about="&stmn;conditionProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#conditionProperty"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain -->
 
-    <owl:ObjectProperty rdf:about="&stmn;contain">
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
         <rdfs:comment>A physical object is contained into another one (but not attached)</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;spatiallyRelated"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#dependsOn -->
 
-    <owl:ObjectProperty rdf:about="&stmn;dependsOn">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#dependsOn">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
         <rdfs:comment>Define a dependecy between software modules.</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasA -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasA">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasA">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated"/>
         <rdfs:comment>A physical object is part of another object</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;spatiallyRelated"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasModule -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasModule">
-        <rdfs:domain rdf:resource="&stmn;Robot"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;robotProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasModule">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#robotProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasObject -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasObject">
-        <rdfs:domain rdf:resource="&stmn;Condition"/>
-        <rdfs:range rdf:resource="&stmn;Spatial"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;conditionProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasObject">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#conditionProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasParameter -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasParameter">
-        <rdfs:subPropertyOf rdf:resource="&stmn;skillProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasParameter">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#skillProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasPostCondition -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasPostCondition">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasPostCondition">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#skillProperty"/>
         <rdfs:comment>Link a skill with a post condition</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;skillProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasPreCondition -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasPreCondition">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasPreCondition">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#skillProperty"/>
         <rdfs:comment>Link a skill with a pre condition</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;skillProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasReferenceFrame -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasReferenceFrame"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasReferenceFrame"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasRegisteredShot -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasRegisteredShot"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasRegisteredShot"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSkill -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasSkill">
-        <rdfs:domain rdf:resource="&stmn;Robot"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;robotProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSkill">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#robotProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasStartLocation -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasStartLocation"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasStartLocation"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSubject -->
 
-    <owl:ObjectProperty rdf:about="&stmn;hasSubject">
-        <rdfs:subPropertyOf rdf:resource="&stmn;conditionProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSubject">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#conditionProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#isInKit -->
 
-    <owl:ObjectProperty rdf:about="&stmn;isInKit">
-        <rdfs:subPropertyOf rdf:resource="&stmn;conditionProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#isInKit">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#conditionProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#learnParam -->
 
-    <owl:ObjectProperty rdf:about="&stmn;learnParam"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#learnParam"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#left -->
 
-    <owl:ObjectProperty rdf:about="&stmn;left">
-        <rdfs:subPropertyOf rdf:resource="&stmn;spatiallyRelated"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#left">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo -->
 
-    <owl:ObjectProperty rdf:about="&stmn;relatedTo">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo">
         <rdfs:comment>Link a physical object to a scene istance.</rdfs:comment>
     </owl:ObjectProperty>
     
@@ -182,50 +171,50 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#right -->
 
-    <owl:ObjectProperty rdf:about="&stmn;right">
-        <rdfs:subPropertyOf rdf:resource="&stmn;spatiallyRelated"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#right">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#robotAt -->
 
-    <owl:ObjectProperty rdf:about="&stmn;robotAt">
-        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;conditionProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#robotAt">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#conditionProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#robotProperty -->
 
-    <owl:ObjectProperty rdf:about="&stmn;robotProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#robotProperty"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#sceneProperty -->
 
-    <owl:ObjectProperty rdf:about="&stmn;sceneProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#sceneProperty"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#skillProperty -->
 
-    <owl:ObjectProperty rdf:about="&stmn;skillProperty">
-        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#skillProperty">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated -->
 
-    <owl:ObjectProperty rdf:about="&stmn;spatiallyRelated">
-        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#sceneProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
         <rdfs:comment>Defines a qualitative spatial relation between two physical objects</rdfs:comment>
-        <rdfs:range rdf:resource="&stmn;PhysicalObject"/>
-        <rdfs:domain rdf:resource="&stmn;PhysicalObject"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;sceneProperty"/>
     </owl:ObjectProperty>
     
 
@@ -243,63 +232,63 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#AssociatedClass -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;AssociatedClass"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#AssociatedClass"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#BaseFrameId -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;BaseFrameId">
-        <rdfs:subPropertyOf rdf:resource="&stmn;TransformationProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#BaseFrameId">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CADModel -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;CADModel">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CADModel">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RecognitionProperty"/>
         <rdfs:comment>Directory of the file containing the CAD model.Still not used</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;RecognitionProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CameraTopics -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;CameraTopics">
-        <rdfs:domain rdf:resource="&stmn;Camera"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CameraTopics">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ConditionProperty -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;ConditionProperty">
-        <rdfs:domain rdf:resource="&stmn;Condition"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ConditionProperty">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerState -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;ContainerState">
-        <rdfs:domain rdf:resource="&stmn;Container"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;StateProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerState">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#StateProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
         <rdfs:range>
             <rdfs:Datatype>
                 <owl:oneOf>
                     <rdf:Description>
-                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
                         <rdf:first>Empty</rdf:first>
                         <rdf:rest>
                             <rdf:Description>
-                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
                                 <rdf:first>Full</rdf:first>
                                 <rdf:rest>
                                     <rdf:Description>
-                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
                                         <rdf:first>Unknown</rdf:first>
-                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                     </rdf:Description>
                                 </rdf:rest>
                             </rdf:Description>
@@ -314,431 +303,430 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DepthImageRaw -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DepthImageRaw">
-        <rdfs:subPropertyOf rdf:resource="&stmn;DepthTopic"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DepthImageRaw">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DepthTopic"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DepthTopic -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DepthTopic">
-        <rdfs:domain rdf:resource="&stmn;Camera"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;CameraTopics"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DepthTopic">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CameraTopics"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DiscreteReasoner -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DiscreteReasoner">
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DiscreteReasoner">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverAddress -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DriverAddress">
-        <rdfs:domain rdf:resource="&stmn;Device"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverAddress">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverName -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DriverName">
-        <rdfs:domain rdf:resource="&stmn;Device"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverName">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverPackage -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DriverPackage">
-        <rdfs:domain rdf:resource="&stmn;Device"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverPackage">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverParam -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DriverParam">
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverParam">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;DriverSpec">
-        <rdfs:domain rdf:resource="&stmn;Device"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#FrameId -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;FrameId">
-        <rdfs:subPropertyOf rdf:resource="&stmn;TransformationProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#FrameId">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#FrontAxis -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;FrontAxis"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#FrontAxis"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GripperModality -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;GripperModality">
-        <rdfs:subPropertyOf rdf:resource="&stmn;GripperSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GripperModality">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GripperSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GripperSpec -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;GripperSpec">
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GripperSpec">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LinkedToFrameId -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;LinkedToFrameId">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LinkedToFrameId">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty"/>
         <rdfs:comment>The transformation should be dependend from this FrameId, but republished</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;TransformationProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LogisticPlannerProperty -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;LogisticPlannerProperty">
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LogisticPlannerProperty">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionExe -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;MotionExe">
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionExe">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionPlanner -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;MotionPlanner">
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionPlanner">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MoveItGroup -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;MoveItGroup">
-        <rdfs:subPropertyOf rdf:resource="&stmn;DriverSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MoveItGroup">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DriverSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MrsMap -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;MrsMap">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MrsMap">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RecognitionProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
         <rdfs:comment>Directory of the file containing a segmented point cloud describing an object. The file is expected in .map format. Used in BONN recognition pipeline</rdfs:comment>
-        <rdfs:domain rdf:resource="&stmn;PhysicalObject"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;RecognitionProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#NavigationGoalId -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;NavigationGoalId">
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
-        <rdfs:range rdf:resource="&xsd;int"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#NavigationGoalId">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Orientation -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;Orientation">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Orientation">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
         <rdfs:comment>Orientation.Expected format: tf::Quaternion</rdfs:comment>
-        <rdfs:domain rdf:resource="&stmn;Spatial"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;TransformationProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationW -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;OrientationW">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Orientation"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationW">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Orientation"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationX -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;OrientationX">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Orientation"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationX">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Orientation"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationY -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;OrientationY">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Orientation"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationY">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Orientation"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationZ -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;OrientationZ">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Orientation"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#OrientationZ">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Orientation"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PddlDescription -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;PddlDescription">
-        <rdfs:subPropertyOf rdf:resource="&stmn;SkillSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PddlDescription">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkillSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;PhysicalObjectProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Position -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;Position">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Position">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
         <rdfs:comment>Position. Expected format: tf::Vector3</rdfs:comment>
-        <rdfs:domain rdf:resource="&stmn;Spatial"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;TransformationProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PositionX -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;PositionX">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Position"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PositionX">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Position"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PositionY -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;PositionY">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Position"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PositionY">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Position"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PositionZ -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;PositionZ">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Position"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PositionZ">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Position"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PublishTf -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;PublishTf">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PublishTf">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
         <rdfs:comment>If true, the orientation and position info will be used to publish the object transformation on tf.</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;TransformationProperty"/>
-        <rdfs:range rdf:resource="&xsd;boolean"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RecognitionProperty -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;RecognitionProperty">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RecognitionProperty">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
         <rdfs:comment>Data associate to a physical object for identification.</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ResourceMgr -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;ResourceMgr">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ResourceMgr">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotSpec"/>
         <rdfs:comment>Defines the name of the SkiROS resource manager associated to the robot.</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;RobotSpec"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RgbTopic -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;RgbTopic">
-        <rdfs:domain rdf:resource="&stmn;Camera"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;CameraTopics"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RgbTopic">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CameraTopics"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotSpec -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;RobotSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotSpec"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Size -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;Size">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Size">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
         <rdfs:comment>Size of an object, simplified to a parallelepiped. Used in aau_stamina_reasoner</rdfs:comment>
-        <rdfs:domain rdf:resource="&stmn;PhysicalObject"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SizeX -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;SizeX">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Size"/>
-        <rdfs:range rdf:resource="&xsd;double"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SizeX">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Size"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SizeY -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;SizeY">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Size"/>
-        <rdfs:range rdf:resource="&xsd;double"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SizeY">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Size"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SizeZ -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;SizeZ">
-        <rdfs:subPropertyOf rdf:resource="&stmn;Size"/>
-        <rdfs:range rdf:resource="&xsd;double"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SizeZ">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Size"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkillMgr -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;SkillMgr">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkillMgr">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotSpec"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
         <rdfs:comment>Defines the name of the SkiROS skill manager associated to the robot.</rdfs:comment>
-        <rdfs:domain rdf:resource="&stmn;Robot"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;RobotSpec"/>
-        <rdfs:range rdf:resource="&xsd;string"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkillSpec -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;SkillSpec"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkillSpec"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SpatialReasoner -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;SpatialReasoner">
-        <rdfs:comment>Name of the plugin used to reason about recognition (and spatial) properties. In the skill&apos;s code, the reasoner take care of 1) converting any sensor data to a proper data format and store it into object&apos;s properties 2) compare the stored properties. This functionalities are offered to the developer with abstract API, so that it is possible to switch reasoning type quickly, without major changes in the code.</rdfs:comment>
-        <rdfs:domain rdf:resource="&stmn;PhysicalObject"/>
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
-        <rdfs:range rdf:resource="&xsd;string"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SpatialReasoner">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#StateProperty -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;StateProperty">
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#StateProperty">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;TransformationProperty">
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformationProperty">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Weight -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;Weight">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Weight">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObjectProperty"/>
         <rdfs:comment>Weight in kilograms.</rdfs:comment>
-        <rdfs:subPropertyOf rdf:resource="&stmn;PhysicalObjectProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasDesiredValue -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;hasDesiredValue">
-        <rdfs:subPropertyOf rdf:resource="&stmn;ConditionProperty"/>
-        <rdfs:range rdf:resource="&xsd;boolean"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasDesiredValue">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ConditionProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasObjectType -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;hasObjectType">
-        <rdfs:subPropertyOf rdf:resource="&stmn;ConditionProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasObjectType">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ConditionProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSubjectType -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;hasSubjectType">
-        <rdfs:subPropertyOf rdf:resource="&stmn;ConditionProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSubjectType">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ConditionProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#nrParts -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;nrParts">
-        <rdfs:subPropertyOf rdf:resource="&stmn;LogisticPlannerProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#nrParts">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LogisticPlannerProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#partReference -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;partReference">
-        <rdfs:subPropertyOf rdf:resource="&stmn;LogisticPlannerProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#partReference">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LogisticPlannerProperty"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#sequenceNr -->
 
-    <owl:DatatypeProperty rdf:about="&stmn;sequenceNr">
-        <rdfs:subPropertyOf rdf:resource="&stmn;LogisticPlannerProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#sequenceNr">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LogisticPlannerProperty"/>
     </owl:DatatypeProperty>
     
 
@@ -756,72 +744,72 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Actuator -->
 
-    <owl:Class rdf:about="&stmn;Actuator">
-        <rdfs:subClassOf rdf:resource="&stmn;Device"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Actuator">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Agent -->
 
-    <owl:Class rdf:about="&stmn;Agent">
-        <rdfs:subClassOf rdf:resource="&stmn;PhysicalObject"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Agent">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Alternator -->
 
-    <owl:Class rdf:about="&stmn;Alternator">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Alternator">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Arm -->
 
-    <owl:Class rdf:about="&stmn;Arm">
-        <rdfs:subClassOf rdf:resource="&stmn;Actuator"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Arm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Actuator"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ArmController -->
 
-    <owl:Class rdf:about="&stmn;ArmController">
-        <rdfs:subClassOf rdf:resource="&stmn;Controller"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ArmController">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Controller"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#AtPoseState -->
 
-    <owl:Class rdf:about="&stmn;AtPoseState">
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectState"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#AtPoseState">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectState"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#AttachState -->
 
-    <owl:Class rdf:about="&stmn;AttachState">
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectState"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#AttachState">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectState"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#BonnPlanner -->
 
-    <owl:Class rdf:about="&stmn;BonnPlanner">
-        <rdfs:subClassOf rdf:resource="&stmn;MotionPlanner"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#BonnPlanner">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionPlanner"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#BoundingBox -->
 
-    <owl:Class rdf:about="&stmn;BoundingBox">
-        <rdfs:subClassOf rdf:resource="&stmn;LearnedParam"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#BoundingBox">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam"/>
         <rdfs:comment>A boundingbox of an object, expressed with x,y and z size (in meters)</rdfs:comment>
     </owl:Class>
     
@@ -829,59 +817,59 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box -->
 
-    <owl:Class rdf:about="&stmn;Box">
-        <rdfs:subClassOf rdf:resource="&stmn;Container"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Calibrate -->
 
-    <owl:Class rdf:about="&stmn;Calibrate">
-        <rdfs:subClassOf rdf:resource="&stmn;Skill"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Calibrate">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Skill"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera -->
 
-    <owl:Class rdf:about="&stmn;Camera">
-        <rdfs:subClassOf rdf:resource="&stmn;Sensor"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Sensor"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Carrying -->
 
-    <owl:Class rdf:about="&stmn;Carrying">
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectAtLocation"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Carrying">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectAtLocation"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell -->
 
-    <owl:Class rdf:about="&stmn;Cell">
-        <rdfs:subClassOf rdf:resource="&stmn;Container"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellA -->
 
-    <owl:Class rdf:about="&stmn;CellA">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellA">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Alternator"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Alternator"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;Alternator"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Alternator"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -890,19 +878,19 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellB -->
 
-    <owl:Class rdf:about="&stmn;CellB">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellB">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;Demarreur"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Demarreur"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Demarreur"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Demarreur"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -911,19 +899,19 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellC -->
 
-    <owl:Class rdf:about="&stmn;CellC">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellC">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;ThermalShield"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ThermalShield"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;ThermalShield"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ThermalShield"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -932,19 +920,19 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellD -->
 
-    <owl:Class rdf:about="&stmn;CellD">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellD">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Starter"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;Starter"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -953,19 +941,19 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellE -->
 
-    <owl:Class rdf:about="&stmn;CellE">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellE">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;EngineSupport"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EngineSupport"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;EngineSupport"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EngineSupport"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -974,19 +962,19 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellF -->
 
-    <owl:Class rdf:about="&stmn;CellF">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellF">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Compressor"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Compressor"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;Compressor"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Compressor"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -995,19 +983,19 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellG -->
 
-    <owl:Class rdf:about="&stmn;CellG">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellG">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Tube"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tube"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:onClass rdf:resource="&stmn;Tube"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tube"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1016,50 +1004,50 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellInKit -->
 
-    <owl:Class rdf:about="&stmn;CellInKit">
-        <rdfs:subClassOf rdf:resource="&stmn;RelationCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellInKit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RelationCondition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Compressor -->
 
-    <owl:Class rdf:about="&stmn;Compressor">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Compressor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Computer -->
 
-    <owl:Class rdf:about="&stmn;Computer">
-        <rdfs:subClassOf rdf:resource="&stmn;Device"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Computer">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept -->
 
-    <owl:Class rdf:about="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition -->
 
-    <owl:Class rdf:about="&stmn;Condition">
-        <rdfs:subClassOf rdf:resource="&stmn;Requirement"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Requirement"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasSubjectType"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSubject"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasSubject"/>
-                <owl:onClass rdf:resource="&stmn;PhysicalObject"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasSubjectType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1068,12 +1056,12 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container -->
 
-    <owl:Class rdf:about="&stmn;Container">
-        <rdfs:subClassOf rdf:resource="&stmn;PhysicalObject"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:someValuesFrom rdf:resource="&stmn;PhysicalObject"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1082,48 +1070,48 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerRegion -->
 
-    <owl:Class rdf:about="&stmn;ContainerRegion">
-        <rdfs:subClassOf rdf:resource="&stmn;Region"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerRegion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Region"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerState -->
 
-    <owl:Class rdf:about="&stmn;ContainerState">
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerState">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:oneOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&stmn;ContainerStateFull"/>
-                    <rdf:Description rdf:about="&stmn;ContainerStateEmpty"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerStateEmpty"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerStateFull"/>
                 </owl:oneOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectState"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectState"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Controller -->
 
-    <owl:Class rdf:about="&stmn;Controller">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Controller">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Conveyor -->
 
-    <owl:Class rdf:about="&stmn;Conveyor">
-        <rdfs:subClassOf rdf:resource="&stmn;Container"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Conveyor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cross -->
 
-    <owl:Class rdf:about="&stmn;Cross">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cross">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
         <rdfs:comment>Bonn test object. Not an official STAMINA object.</rdfs:comment>
     </owl:Class>
     
@@ -1131,158 +1119,158 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Demarreur -->
 
-    <owl:Class rdf:about="&stmn;Demarreur">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Demarreur">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device -->
 
-    <owl:Class rdf:about="&stmn;Device">
-        <rdfs:subClassOf rdf:resource="&stmn;PhysicalObject"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DeviceState -->
 
-    <owl:Class rdf:about="&stmn;DeviceState">
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectState"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DeviceState">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectState"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DockingStation -->
 
-    <owl:Class rdf:about="&stmn;DockingStation">
-        <rdfs:subClassOf rdf:resource="&stmn;Location"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DockingStation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Drive -->
 
-    <owl:Class rdf:about="&stmn;Drive">
-        <rdfs:subClassOf rdf:resource="&stmn;Skill"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Drive">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Skill"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Driver -->
 
-    <owl:Class rdf:about="&stmn;Driver">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Driver">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Effect -->
 
-    <owl:Class rdf:about="&stmn;Effect">
-        <owl:equivalentClass rdf:resource="&stmn;PostCondition"/>
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Effect">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PostCondition"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EmptyHanded -->
 
-    <owl:Class rdf:about="&stmn;EmptyHanded">
-        <rdfs:subClassOf rdf:resource="&stmn;LocationEmpty"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EmptyHanded">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocationEmpty"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffector -->
 
-    <owl:Class rdf:about="&stmn;EndEffector">
-        <rdfs:subClassOf rdf:resource="&stmn;Actuator"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffector">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Actuator"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffectorController -->
 
-    <owl:Class rdf:about="&stmn;EndEffectorController">
-        <rdfs:subClassOf rdf:resource="&stmn;Controller"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffectorController">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Controller"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EngineSupport -->
 
-    <owl:Class rdf:about="&stmn;EngineSupport">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EngineSupport">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ExecutionTime -->
 
-    <owl:Class rdf:about="&stmn;ExecutionTime">
-        <rdfs:subClassOf rdf:resource="&stmn;Param"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ExecutionTime">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Param"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#FitsIn -->
 
-    <owl:Class rdf:about="&stmn;FitsIn">
-        <rdfs:subClassOf rdf:resource="&stmn;PropertyCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#FitsIn">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PropertyCondition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GraspingPose -->
 
-    <owl:Class rdf:about="&stmn;GraspingPose">
-        <rdfs:subClassOf rdf:resource="&stmn;LearnedParam"/>
-        <rdfs:subClassOf rdf:resource="&stmn;TransformNode"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#GraspingPose">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformNode"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Gripper -->
 
-    <owl:Class rdf:about="&stmn;Gripper">
-        <rdfs:subClassOf rdf:resource="&stmn;EndEffector"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Gripper">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffector"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Holding -->
 
-    <owl:Class rdf:about="&stmn;Holding">
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectAtLocation"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Holding">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectAtLocation"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Human -->
 
-    <owl:Class rdf:about="&stmn;Human">
-        <rdfs:subClassOf rdf:resource="&stmn;Agent"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Human">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Agent"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#InKit -->
 
-    <owl:Class rdf:about="&stmn;InKit">
-        <rdfs:subClassOf rdf:resource="&stmn;RelationCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#InKit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RelationCondition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Kit -->
 
-    <owl:Class rdf:about="&stmn;Kit">
-        <rdfs:subClassOf rdf:resource="&stmn;Box"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Kit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Cell"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1291,30 +1279,30 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#KittingRegion -->
 
-    <owl:Class rdf:about="&stmn;KittingRegion">
-        <rdfs:subClassOf rdf:resource="&stmn;Location"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#KittingRegion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:someValuesFrom rdf:resource="&stmn;Rack"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Conveyor"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:someValuesFrom rdf:resource="&stmn;Conveyor"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#KittingRegion"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:someValuesFrom rdf:resource="&stmn;LargeBox"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:someValuesFrom rdf:resource="&stmn;KittingRegion"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Rack"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1323,13 +1311,13 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox -->
 
-    <owl:Class rdf:about="&stmn;LargeBox">
-        <rdfs:subClassOf rdf:resource="&stmn;Box"/>
-        <rdfs:subClassOf rdf:resource="&stmn;Location"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Level"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Level"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1338,36 +1326,36 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBoxCell -->
 
-    <owl:Class rdf:about="&stmn;LargeBoxCell">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBoxCell">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBoxLevel -->
 
-    <owl:Class rdf:about="&stmn;LargeBoxLevel">
-        <rdfs:subClassOf rdf:resource="&stmn;Level"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBoxLevel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Level"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam -->
 
-    <owl:Class rdf:about="&stmn;LearnedParam">
-        <rdfs:subClassOf rdf:resource="&stmn;Param"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Param"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearningModule -->
 
-    <owl:Class rdf:about="&stmn;LearningModule">
-        <rdfs:subClassOf rdf:resource="&stmn;Module"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearningModule">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;learnParam"/>
-                <owl:someValuesFrom rdf:resource="&stmn;LearnedParam"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#learnParam"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1376,20 +1364,20 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LedLocator3d -->
 
-    <owl:Class rdf:about="&stmn;LedLocator3d">
-        <rdfs:subClassOf rdf:resource="&stmn;VisionPrimitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LedLocator3d">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionPrimitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Level -->
 
-    <owl:Class rdf:about="&stmn;Level">
-        <rdfs:subClassOf rdf:resource="&stmn;Surface"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Level">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Surface"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Cell"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1398,29 +1386,29 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocateModule -->
 
-    <owl:Class rdf:about="&stmn;LocateModule">
-        <rdfs:subClassOf rdf:resource="&stmn;Module"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocateModule">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location -->
 
-    <owl:Class rdf:about="&stmn;Location">
-        <rdfs:subClassOf rdf:resource="&stmn;PhysicalObject"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocationEmpty -->
 
-    <owl:Class rdf:about="&stmn;LocationEmpty">
-        <rdfs:subClassOf rdf:resource="&stmn;PropertyCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocationEmpty">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PropertyCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;relatedTo"/>
-                <owl:onClass rdf:resource="&stmn;Container"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1429,154 +1417,162 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocationFull -->
 
-    <owl:Class rdf:about="&stmn;LocationFull">
-        <rdfs:subClassOf rdf:resource="&stmn;PropertyCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LocationFull">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PropertyCondition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Manipulatable -->
 
-    <owl:Class rdf:about="&stmn;Manipulatable">
-        <rdfs:subClassOf rdf:resource="&stmn;PhysicalObject"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Manipulatable">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MathPrimitive -->
 
-    <owl:Class rdf:about="&stmn;MathPrimitive">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MathPrimitive">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MobileBase -->
 
-    <owl:Class rdf:about="&stmn;MobileBase">
-        <rdfs:subClassOf rdf:resource="&stmn;Actuator"/>
-        <rdfs:subClassOf rdf:resource="&stmn;Agent"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MobileBase">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Actuator"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Agent"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module -->
 
-    <owl:Class rdf:about="&stmn;Module">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MonitorModule -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MonitorModule">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionModule -->
 
-    <owl:Class rdf:about="&stmn;MotionModule">
-        <rdfs:subClassOf rdf:resource="&stmn;Module"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionModule">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionPlanner -->
 
-    <owl:Class rdf:about="&stmn;MotionPlanner">
-        <rdfs:subClassOf rdf:resource="&stmn;Planner"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionPlanner">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Planner"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MoveitPlanner -->
 
-    <owl:Class rdf:about="&stmn;MoveitPlanner">
-        <rdfs:subClassOf rdf:resource="&stmn;MotionPlanner"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MoveitPlanner">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MotionPlanner"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MoveitWM -->
 
-    <owl:Class rdf:about="&stmn;MoveitWM">
-        <rdfs:subClassOf rdf:resource="&stmn;WorldModel"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MoveitWM">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#WorldModel"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#NavigationRegion -->
 
-    <owl:Class rdf:about="&stmn;NavigationRegion">
-        <rdfs:subClassOf rdf:resource="&stmn;Region"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#NavigationRegion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Region"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectAtLocation -->
 
-    <owl:Class rdf:about="&stmn;ObjectAtLocation">
-        <rdfs:subClassOf rdf:resource="&stmn;RelationCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectAtLocation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RelationCondition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectInCell -->
 
-    <owl:Class rdf:about="&stmn;ObjectInCell">
-        <rdfs:subClassOf rdf:resource="&stmn;RelationCondition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectInCell">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RelationCondition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectState -->
 
-    <owl:Class rdf:about="&stmn;ObjectState">
-        <rdfs:subClassOf rdf:resource="&stmn;State"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectState">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#State"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObservationPose -->
 
-    <owl:Class rdf:about="&stmn;ObservationPose">
-        <rdfs:subClassOf rdf:resource="&stmn;TransformNode"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObservationPose">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformNode"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Param -->
 
-    <owl:Class rdf:about="&stmn;Param">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Param">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ParkingStation -->
 
-    <owl:Class rdf:about="&stmn;ParkingStation">
-        <rdfs:subClassOf rdf:resource="&stmn;DockingStation"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ParkingStation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#DockingStation"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject -->
 
-    <owl:Class rdf:about="&stmn;PhysicalObject">
-        <rdfs:subClassOf rdf:resource="&stmn;Spatial"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;SpatialReasoner"/>
-                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Scene"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;relatedTo"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Scene"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#spatiallyRelated"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;spatiallyRelated"/>
-                <owl:onClass rdf:resource="&stmn;PhysicalObject"/>
-                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SpatialReasoner"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1585,44 +1581,44 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Pick -->
 
-    <owl:Class rdf:about="&stmn;Pick">
-        <rdfs:subClassOf rdf:resource="&stmn;Skill"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Pick">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Skill"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Place -->
 
-    <owl:Class rdf:about="&stmn;Place">
-        <rdfs:subClassOf rdf:resource="&stmn;Skill"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Place">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Skill"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PlacingPose -->
 
-    <owl:Class rdf:about="&stmn;PlacingPose">
-        <rdfs:subClassOf rdf:resource="&stmn;LearnedParam"/>
-        <rdfs:subClassOf rdf:resource="&stmn;TransformNode"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PlacingPose">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformNode"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;relatedTo"/>
-                <owl:onClass rdf:resource="&stmn;Product"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;relatedTo"/>
-                <owl:onClass rdf:resource="&stmn;EndEffector"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffector"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;relatedTo"/>
-                <owl:onClass rdf:resource="&stmn;Cell"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#relatedTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1631,76 +1627,76 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Planner -->
 
-    <owl:Class rdf:about="&stmn;Planner">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Planner">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PointLocator3d -->
 
-    <owl:Class rdf:about="&stmn;PointLocator3d">
-        <rdfs:subClassOf rdf:resource="&stmn;MathPrimitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PointLocator3d">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MathPrimitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PostCondition -->
 
-    <owl:Class rdf:about="&stmn;PostCondition">
-        <rdfs:subClassOf rdf:resource="&stmn;Condition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PostCondition">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PreCondition -->
 
-    <owl:Class rdf:about="&stmn;PreCondition">
-        <rdfs:subClassOf rdf:resource="&stmn;Condition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PreCondition">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive -->
 
-    <owl:Class rdf:about="&stmn;Primitive">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product -->
 
-    <owl:Class rdf:about="&stmn;Product">
-        <rdfs:subClassOf rdf:resource="&stmn;Manipulatable"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Manipulatable"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PropertyCondition -->
 
-    <owl:Class rdf:about="&stmn;PropertyCondition">
-        <rdfs:subClassOf rdf:resource="&stmn;Condition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PropertyCondition">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PsaPartReference -->
 
-    <owl:Class rdf:about="&stmn;PsaPartReference">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PsaPartReference">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Rack -->
 
-    <owl:Class rdf:about="&stmn;Rack">
-        <rdfs:subClassOf rdf:resource="&stmn;Container"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Rack">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Level"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Level"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1709,12 +1705,12 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RackCell -->
 
-    <owl:Class rdf:about="&stmn;RackCell">
-        <rdfs:subClassOf rdf:resource="&stmn;Cell"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RackCell">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cell"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;SmallBox"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SmallBox"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1723,60 +1719,60 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RackLevel -->
 
-    <owl:Class rdf:about="&stmn;RackLevel">
-        <rdfs:subClassOf rdf:resource="&stmn;Level"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RackLevel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Level"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Reasoner -->
 
-    <owl:Class rdf:about="&stmn;Reasoner">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Reasoner">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Region -->
 
-    <owl:Class rdf:about="&stmn;Region">
-        <rdfs:subClassOf rdf:resource="&stmn;Spatial"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Region">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Registration -->
 
-    <owl:Class rdf:about="&stmn;Registration">
-        <rdfs:subClassOf rdf:resource="&stmn;VisionPrimitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Registration">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionPrimitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Reification -->
 
-    <owl:Class rdf:about="&stmn;Reification">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Reification">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RelationCondition -->
 
-    <owl:Class rdf:about="&stmn;RelationCondition">
-        <rdfs:subClassOf rdf:resource="&stmn;Condition"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RelationCondition">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasObject"/>
-                <owl:onClass rdf:resource="&stmn;PhysicalObject"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasObject"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasObjectType"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasObjectType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1785,27 +1781,27 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Requirement -->
 
-    <owl:Class rdf:about="&stmn;Requirement">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Requirement">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot -->
 
-    <owl:Class rdf:about="&stmn;Robot">
-        <rdfs:subClassOf rdf:resource="&stmn;Agent"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Agent"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasA"/>
-                <owl:someValuesFrom rdf:resource="&stmn;Device"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasA"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;SkillMgr"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkillMgr"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1814,90 +1810,90 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotAtLocation -->
 
-    <owl:Class rdf:about="&stmn;RobotAtLocation">
-        <rdfs:subClassOf rdf:resource="&stmn;ObjectAtLocation"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotAtLocation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ObjectAtLocation"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotDescription -->
 
-    <owl:Class rdf:about="&stmn;RobotDescription">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotDescription">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotStatePublisher -->
 
-    <owl:Class rdf:about="&stmn;RobotStatePublisher">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotStatePublisher">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RootRegion -->
 
-    <owl:Class rdf:about="&stmn;RootRegion">
-        <rdfs:subClassOf rdf:resource="&stmn;Region"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RootRegion">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Region"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Scene -->
 
-    <owl:Class rdf:about="&stmn;Scene">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Scene">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Segmentation -->
 
-    <owl:Class rdf:about="&stmn;Segmentation">
-        <rdfs:subClassOf rdf:resource="&stmn;VisionPrimitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Segmentation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionPrimitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Sensor -->
 
-    <owl:Class rdf:about="&stmn;Sensor">
-        <rdfs:subClassOf rdf:resource="&stmn;Device"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Sensor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Device"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SimpleArmController -->
 
-    <owl:Class rdf:about="&stmn;SimpleArmController">
-        <rdfs:subClassOf rdf:resource="&stmn;ArmController"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SimpleArmController">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ArmController"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SimpleEndEffectorController -->
 
-    <owl:Class rdf:about="&stmn;SimpleEndEffectorController">
-        <rdfs:subClassOf rdf:resource="&stmn;EndEffectorController"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SimpleEndEffectorController">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EndEffectorController"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Skill -->
 
-    <owl:Class rdf:about="&stmn;Skill">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Skill">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasParameter"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Param"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasParameter"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Param"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;hasPostCondition"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Condition"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#hasPostCondition"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Condition"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1906,21 +1902,21 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkirosWM -->
 
-    <owl:Class rdf:about="&stmn;SkirosWM">
-        <rdfs:subClassOf rdf:resource="&stmn;WorldModel"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SkirosWM">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#WorldModel"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SmallBox -->
 
-    <owl:Class rdf:about="&stmn;SmallBox">
-        <rdfs:subClassOf rdf:resource="&stmn;Box"/>
-        <rdfs:subClassOf rdf:resource="&stmn;Location"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SmallBox">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&stmn;contain"/>
-                <owl:allValuesFrom rdf:resource="&stmn;Product"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#contain"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1929,8 +1925,8 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Snapshot -->
 
-    <owl:Class rdf:about="&stmn;Snapshot">
-        <rdfs:subClassOf rdf:resource="&stmn;LearnedParam"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Snapshot">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LearnedParam"/>
         <rdfs:comment>A pointcloud associated to an object</rdfs:comment>
     </owl:Class>
     
@@ -1938,111 +1934,110 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial -->
 
-    <owl:Class rdf:about="&stmn;Spatial"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SpatialReasoner -->
 
-    <owl:Class rdf:about="&stmn;SpatialReasoner">
-        <rdfs:subClassOf rdf:resource="&stmn;Reasoner"/>
-        <rdfs:comment>Name of the plugin used to reason about recognition (and spatial) properties. In the skill&apos;s code, the reasoner take care of 1) converting any sensor data to a proper data format and store it into object&apos;s properties 2) compare the stored properties. This functionalities are offered to the developer with abstract API, so that it is possible to switch reasoning type quickly, without major changes in the code.</rdfs:comment>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SpatialReasoner">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Reasoner"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter -->
 
-    <owl:Class rdf:about="&stmn;Starter">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#State -->
 
-    <owl:Class rdf:about="&stmn;State">
-        <rdfs:subClassOf rdf:resource="&stmn;Concept"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#State">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Concept"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Surface -->
 
-    <owl:Class rdf:about="&stmn;Surface">
-        <rdfs:subClassOf rdf:resource="&stmn;Container"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Surface">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Container"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tf -->
 
-    <owl:Class rdf:about="&stmn;Tf">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tf">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ThermalShield -->
 
-    <owl:Class rdf:about="&stmn;ThermalShield">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ThermalShield">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformEstimator -->
 
-    <owl:Class rdf:about="&stmn;TransformEstimator">
-        <rdfs:subClassOf rdf:resource="&stmn;MathPrimitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformEstimator">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MathPrimitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformNode -->
 
-    <owl:Class rdf:about="&stmn;TransformNode">
-        <rdfs:subClassOf rdf:resource="&stmn;Spatial"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#TransformNode">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Spatial"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tube -->
 
-    <owl:Class rdf:about="&stmn;Tube">
-        <rdfs:subClassOf rdf:resource="&stmn;Product"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tube">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Product"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Unknown -->
 
-    <owl:Class rdf:about="&stmn;Unknown">
-        <rdfs:subClassOf rdf:resource="&stmn;PhysicalObject"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Unknown">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#PhysicalObject"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionModule -->
 
-    <owl:Class rdf:about="&stmn;VisionModule">
-        <rdfs:subClassOf rdf:resource="&stmn;Module"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionModule">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Module"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionPrimitive -->
 
-    <owl:Class rdf:about="&stmn;VisionPrimitive">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#VisionPrimitive">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#WorldModel -->
 
-    <owl:Class rdf:about="&stmn;WorldModel">
-        <rdfs:subClassOf rdf:resource="&stmn;Primitive"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#WorldModel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Primitive"/>
     </owl:Class>
     
 
@@ -2060,92 +2055,92 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerStateEmpty -->
 
-    <owl:NamedIndividual rdf:about="&stmn;ContainerStateEmpty">
-        <rdf:type rdf:resource="&stmn;ContainerState"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerStateEmpty">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerState"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerStateFull -->
 
-    <owl:NamedIndividual rdf:about="&stmn;ContainerStateFull">
-        <rdf:type rdf:resource="&stmn;ContainerState"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerStateFull">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ContainerState"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_lab -->
 
-    <owl:NamedIndividual rdf:about="&stmn;aau_lab">
-        <rdf:type rdf:resource="&stmn;Scene"/>
-        <PositionY rdf:datatype="&xsd;double">0.0</PositionY>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <PositionZ rdf:datatype="&xsd;double">0.0</PositionZ>
-        <OrientationX rdf:datatype="&xsd;double">0.0</OrientationX>
-        <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
-        <PositionX rdf:datatype="&xsd;double">0.0</PositionX>
-        <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
-        <FrameId rdf:datatype="&xsd;string">map</FrameId>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_lab">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Scene"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <FrameId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">map</FrameId>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_stamina_robot -->
 
-    <owl:NamedIndividual rdf:about="&stmn;aau_stamina_robot">
-        <rdf:type rdf:resource="&stmn;Robot"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_stamina_robot">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_front_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_left_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_right_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ur10"/>
+        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#unknown_location"/>
         <LinkedToFrameId>base_link</LinkedToFrameId>
         <SkillMgr>/aau_stamina_robot</SkillMgr>
-        <hasA rdf:resource="&stmn;kitting_box_fixed"/>
-        <hasA rdf:resource="&stmn;top_front_camera"/>
-        <hasA rdf:resource="&stmn;top_left_camera"/>
-        <hasA rdf:resource="&stmn;top_right_camera"/>
-        <hasStartLocation rdf:resource="&stmn;unknown_location"/>
-        <hasA rdf:resource="&stmn;ur10"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_stamina_robot_description -->
 
-    <owl:NamedIndividual rdf:about="&stmn;aau_stamina_robot_description">
-        <rdf:type rdf:resource="&stmn;RobotDescription"/>
-        <DriverPackage>stamina_launch_aau</DriverPackage>
-        <DriverName>planning_context.launch</DriverName>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_stamina_robot_description">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#RobotDescription"/>
         <DriverAddress>/planning_context</DriverAddress>
+        <DriverName>planning_context.launch</DriverName>
+        <DriverPackage>stamina_launch_aau</DriverPackage>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#alternator -->
 
-    <owl:NamedIndividual rdf:about="&stmn;alternator">
-        <rdf:type rdf:resource="&stmn;Alternator"/>
-        <SizeX rdf:datatype="&xsd;double">0.14</SizeX>
-        <SizeY rdf:datatype="&xsd;double">0.15</SizeY>
-        <SizeZ rdf:datatype="&xsd;double">0.18</SizeZ>
-        <Weight rdf:datatype="&xsd;double">5.0</Weight>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#alternator">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Alternator"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.14</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.15</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.18</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">5.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera -->
 
-    <owl:NamedIndividual rdf:about="&stmn;arm_camera">
-        <rdf:type rdf:resource="&stmn;Camera"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
+        <dependsOn rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#xtion_camera_driver"/>
         <DepthImageRaw>/wrist_camera/depth_registered/image_raw</DepthImageRaw>
         <DriverAddress>/wrist_camera/depth_registered/points</DriverAddress>
-        <dependsOn rdf:resource="&stmn;xtion_camera_driver"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera_lh -->
 
-    <owl:NamedIndividual rdf:about="&stmn;arm_camera_lh">
-        <rdf:type rdf:resource="&stmn;Camera"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera_lh">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
         <DriverAddress>/primesense/depth_registered/points</DriverAddress>
     </owl:NamedIndividual>
     
@@ -2153,85 +2148,85 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_a -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_a">
-        <rdf:type rdf:resource="&stmn;CellA"/>
-        <PositionY rdf:datatype="&xsd;double">-0.23</PositionY>
-        <OrientationX rdf:datatype="&xsd;double">-0.5</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">-0.5</OrientationY>
-        <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
-        <PositionX rdf:datatype="&xsd;double">0.16</PositionX>
-        <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
-        <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_a">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellA"/>
         <ContainerState>Empty</ContainerState>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.16</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.23</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_b -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_b">
-        <rdf:type rdf:resource="&stmn;CellB"/>
-        <PositionX rdf:datatype="&xsd;double">-0.08</PositionX>
-        <PositionY rdf:datatype="&xsd;double">-0.23</PositionY>
-        <OrientationX rdf:datatype="&xsd;double">-0.5</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">-0.5</OrientationY>
-        <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
-        <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
-        <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_b">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellB"/>
         <ContainerState>Empty</ContainerState>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.08</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.23</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_c -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_c">
-        <rdf:type rdf:resource="&stmn;CellC"/>
-        <PositionX rdf:datatype="&xsd;double">-0.12</PositionX>
-        <OrientationX rdf:datatype="&xsd;double">-0.5</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">-0.5</OrientationY>
-        <PositionY rdf:datatype="&xsd;double">0.0</PositionY>
-        <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
-        <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
-        <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
-        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_c">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellC"/>
         <ContainerState>Empty</ContainerState>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.12</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_d -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_d">
-        <rdf:type rdf:resource="&stmn;CellD"/>
-        <PositionY rdf:datatype="&xsd;double">-0.027</PositionY>
-        <OrientationX rdf:datatype="&xsd;double">-0.5</OrientationX>
-        <OrientationZ rdf:datatype="&xsd;double">-0.5</OrientationZ>
-        <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
-        <PositionX rdf:datatype="&xsd;double">0.12</PositionX>
-        <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
-        <OrientationY rdf:datatype="&xsd;double">0.5</OrientationY>
-        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_d">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellD"/>
         <ContainerState>Empty</ContainerState>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.12</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.027</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_e -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_e">
-        <rdf:type rdf:resource="&stmn;CellE"/>
-        <OrientationX rdf:datatype="&xsd;double">-0.707</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
-        <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
-        <PositionX rdf:datatype="&xsd;double">0.12</PositionX>
-        <PositionY rdf:datatype="&xsd;double">0.2</PositionY>
-        <OrientationW rdf:datatype="&xsd;double">0.707</OrientationW>
-        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_e">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellE"/>
         <ContainerState>Empty</ContainerState>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.707</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.707</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.12</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</PositionZ>
         <partReference>engine_support</partReference>
     </owl:NamedIndividual>
     
@@ -2239,326 +2234,326 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_f -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_f">
-        <rdf:type rdf:resource="&stmn;CellF"/>
-        <PositionX rdf:datatype="&xsd;double">-0.12</PositionX>
-        <OrientationX rdf:datatype="&xsd;double">-0.5</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">-0.5</OrientationY>
-        <PositionZ rdf:datatype="&xsd;double">0.1</PositionZ>
-        <PositionY rdf:datatype="&xsd;double">0.17</PositionY>
-        <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
-        <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
-        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_f">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellF"/>
         <ContainerState>Empty</ContainerState>
+        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.12</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.17</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_g -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cell_g">
-        <rdf:type rdf:resource="&stmn;CellG"/>
-        <OrientationX rdf:datatype="&xsd;double">-0.5</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">-0.5</OrientationY>
-        <PositionX rdf:datatype="&xsd;double">0.0</PositionX>
-        <PositionY rdf:datatype="&xsd;double">0.22</PositionY>
-        <PositionZ rdf:datatype="&xsd;double">0.25</PositionZ>
-        <OrientationZ rdf:datatype="&xsd;double">0.5</OrientationZ>
-        <OrientationW rdf:datatype="&xsd;double">0.5</OrientationW>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_g">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#CellG"/>
         <ContainerState>Empty</ContainerState>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.5</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.22</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.25</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#compressor -->
 
-    <owl:NamedIndividual rdf:about="&stmn;compressor">
-        <rdf:type rdf:resource="&stmn;Compressor"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.12</SizeX>
-        <SizeY rdf:datatype="&xsd;decimal">0.15</SizeY>
-        <SizeZ rdf:datatype="&xsd;decimal">0.24</SizeZ>
-        <Weight rdf:datatype="&xsd;double">5.0</Weight>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#compressor">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Compressor"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.12</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.24</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">5.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cross -->
 
-    <owl:NamedIndividual rdf:about="&stmn;cross">
-        <rdf:type rdf:resource="&stmn;Cross"/>
-        <SizeY rdf:datatype="&xsd;double">0.14</SizeY>
-        <SizeZ rdf:datatype="&xsd;double">0.14</SizeZ>
-        <SizeX rdf:datatype="&xsd;double">0.17</SizeX>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cross">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Cross"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.17</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.14</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.14</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#demarreur -->
 
-    <owl:NamedIndividual rdf:about="&stmn;demarreur">
-        <rdf:type rdf:resource="&stmn;Demarreur"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.08</SizeX>
-        <SizeY rdf:datatype="&xsd;decimal">0.16</SizeY>
-        <SizeZ rdf:datatype="&xsd;decimal">0.27</SizeZ>
-        <Weight rdf:datatype="&xsd;double">1.0</Weight>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#demarreur">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Demarreur"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.08</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.16</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.27</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#engine_support -->
 
-    <owl:NamedIndividual rdf:about="&stmn;engine_support">
-        <rdf:type rdf:resource="&stmn;EngineSupport"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.12</SizeX>
-        <SizeY rdf:datatype="&xsd;decimal">0.17</SizeY>
-        <SizeZ rdf:datatype="&xsd;decimal">0.40</SizeZ>
-        <Weight rdf:datatype="&xsd;double">0.5</Weight>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#engine_support">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#EngineSupport"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.12</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.17</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.40</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#fanuc_m20ia20m -->
 
-    <owl:NamedIndividual rdf:about="&stmn;fanuc_m20ia20m">
-        <rdf:type rdf:resource="&stmn;Arm"/>
-        <MoveItGroup>arm</MoveItGroup>
-        <MotionPlanner>planner/plan_action</MotionPlanner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#fanuc_m20ia20m">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Arm"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3"/>
         <MotionExe>/arm_controller/follow_joint_trajectory</MotionExe>
-        <hasA rdf:resource="&stmn;arm_camera"/>
-        <hasA rdf:resource="&stmn;rq3"/>
+        <MotionPlanner>planner/plan_action</MotionPlanner>
+        <MoveItGroup>arm</MoveItGroup>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed -->
 
-    <owl:NamedIndividual rdf:about="&stmn;kitting_box_fixed">
-        <rdf:type rdf:resource="&stmn;Kit"/>
-        <OrientationZ rdf:datatype="&xsd;double">-0.00433291</OrientationZ>
-        <PositionZ rdf:datatype="&xsd;double">-0.525</PositionZ>
-        <OrientationX rdf:datatype="&xsd;double">0.00493746</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">0.0100855</OrientationY>
-        <PositionX rdf:datatype="&xsd;double">0.14</PositionX>
-        <SizeZ rdf:datatype="&xsd;double">0.225</SizeZ>
-        <SizeX rdf:datatype="&xsd;double">0.5</SizeX>
-        <SizeY rdf:datatype="&xsd;double">0.7</SizeY>
-        <PositionY rdf:datatype="&xsd;double">0.754</PositionY>
-        <OrientationW rdf:datatype="&xsd;double">0.999924</OrientationW>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Kit"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_a"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_b"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_c"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_d"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_e"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_f"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_g"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
-        <hasA rdf:resource="&stmn;cell_a"/>
-        <hasA rdf:resource="&stmn;cell_b"/>
-        <hasA rdf:resource="&stmn;cell_c"/>
-        <hasA rdf:resource="&stmn;cell_d"/>
-        <hasA rdf:resource="&stmn;cell_e"/>
-        <hasA rdf:resource="&stmn;cell_f"/>
-        <hasA rdf:resource="&stmn;cell_g"/>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.999924</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.00493746</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0100855</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.00433291</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.14</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.754</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.525</PositionZ>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.225</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed_2 -->
 
-    <owl:NamedIndividual rdf:about="&stmn;kitting_box_fixed_2">
-        <rdf:type rdf:resource="&stmn;Kit"/>
-        <PositionZ rdf:datatype="&xsd;double">-0.08</PositionZ>
-        <PositionY rdf:datatype="&xsd;double">-0.27</PositionY>
-        <OrientationZ rdf:datatype="&xsd;double">-0.707</OrientationZ>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <OrientationX rdf:datatype="&xsd;double">0.0</OrientationX>
-        <SizeZ rdf:datatype="&xsd;double">0.225</SizeZ>
-        <SizeX rdf:datatype="&xsd;double">0.5</SizeX>
-        <SizeY rdf:datatype="&xsd;double">0.7</SizeY>
-        <OrientationW rdf:datatype="&xsd;double">0.707</OrientationW>
-        <PositionX rdf:datatype="&xsd;double">0.765</PositionX>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed_2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Kit"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_a"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_b"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_c"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_d"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_e"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_f"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_g"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
-        <hasA rdf:resource="&stmn;cell_a"/>
-        <hasA rdf:resource="&stmn;cell_b"/>
-        <hasA rdf:resource="&stmn;cell_c"/>
-        <hasA rdf:resource="&stmn;cell_d"/>
-        <hasA rdf:resource="&stmn;cell_e"/>
-        <hasA rdf:resource="&stmn;cell_f"/>
-        <hasA rdf:resource="&stmn;cell_g"/>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.707</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.707</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.765</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.27</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.08</PositionZ>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.225</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed_3 -->
 
-    <owl:NamedIndividual rdf:about="&stmn;kitting_box_fixed_3">
-        <rdf:type rdf:resource="&stmn;Kit"/>
-        <PositionZ rdf:datatype="&xsd;double">-0.08</PositionZ>
-        <OrientationZ rdf:datatype="&xsd;double">-0.707</OrientationZ>
-        <OrientationX rdf:datatype="&xsd;double">0.0</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <SizeZ rdf:datatype="&xsd;double">0.225</SizeZ>
-        <PositionY rdf:datatype="&xsd;double">0.23</PositionY>
-        <SizeX rdf:datatype="&xsd;double">0.5</SizeX>
-        <SizeY rdf:datatype="&xsd;double">0.7</SizeY>
-        <OrientationW rdf:datatype="&xsd;double">0.707</OrientationW>
-        <PositionX rdf:datatype="&xsd;double">0.765</PositionX>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed_3">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Kit"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_a"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_b"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_c"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_d"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_e"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_f"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_g"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
-        <hasA rdf:resource="&stmn;cell_a"/>
-        <hasA rdf:resource="&stmn;cell_b"/>
-        <hasA rdf:resource="&stmn;cell_c"/>
-        <hasA rdf:resource="&stmn;cell_d"/>
-        <hasA rdf:resource="&stmn;cell_e"/>
-        <hasA rdf:resource="&stmn;cell_f"/>
-        <hasA rdf:resource="&stmn;cell_g"/>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.707</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.707</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.765</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.23</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.08</PositionZ>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.225</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kuka -->
 
-    <owl:NamedIndividual rdf:about="&stmn;kuka">
-        <rdf:type rdf:resource="&stmn;Arm"/>
-        <MotionPlanner>planner/plan_action</MotionPlanner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kuka">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Arm"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera_lh"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#wsg_gripper"/>
         <MotionExe>/joint_trajectory_action</MotionExe>
+        <MotionPlanner>planner/plan_action</MotionPlanner>
         <MoveItGroup>lwr_arm</MoveItGroup>
-        <hasA rdf:resource="&stmn;arm_camera_lh"/>
-        <hasA rdf:resource="&stmn;wsg_gripper"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box -->
 
-    <owl:NamedIndividual rdf:about="&stmn;large_box">
-        <rdf:type rdf:resource="&stmn;Box"/>
-        <SizeY rdf:datatype="&xsd;decimal">0.32</SizeY>
-        <SizeX rdf:datatype="&xsd;decimal">0.39</SizeX>
-        <SizeZ rdf:datatype="&xsd;decimal">0.59</SizeZ>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.39</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.32</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.59</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_alternator -->
 
-    <owl:NamedIndividual rdf:about="&stmn;large_box_test_alternator">
-        <rdf:type rdf:resource="&stmn;LargeBox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_alternator">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox"/>
+        <nrParts rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</nrParts>
         <partReference>alternator</partReference>
-        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_compressor -->
 
-    <owl:NamedIndividual rdf:about="&stmn;large_box_test_compressor">
-        <rdf:type rdf:resource="&stmn;LargeBox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_compressor">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox"/>
+        <nrParts rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</nrParts>
         <partReference>compressor</partReference>
-        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_engine_support_and_thermal_shield -->
 
-    <owl:NamedIndividual rdf:about="&stmn;large_box_test_engine_support_and_thermal_shield">
-        <rdf:type rdf:resource="&stmn;LargeBox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_engine_support_and_thermal_shield">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox"/>
+        <nrParts rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</nrParts>
         <partReference>engine_support</partReference>
         <partReference>thermal_shield</partReference>
-        <nrParts rdf:datatype="&xsd;int">4</nrParts>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_starter -->
 
-    <owl:NamedIndividual rdf:about="&stmn;large_box_test_starter">
-        <rdf:type rdf:resource="&stmn;LargeBox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_starter">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox"/>
+        <nrParts rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</nrParts>
         <partReference>small_starter</partReference>
-        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_tube -->
 
-    <owl:NamedIndividual rdf:about="&stmn;large_box_test_tube">
-        <rdf:type rdf:resource="&stmn;LargeBox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box_test_tube">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#LargeBox"/>
+        <nrParts rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</nrParts>
         <partReference>tube</partReference>
-        <nrParts rdf:datatype="&xsd;int">2</nrParts>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_mobile_base -->
 
-    <owl:NamedIndividual rdf:about="&stmn;lh_mobile_base">
-        <rdf:type rdf:resource="&stmn;MobileBase"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_mobile_base">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MobileBase"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_robot"/>
+        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#unknown_location"/>
         <LinkedToFrameId>base_link</LinkedToFrameId>
         <SkillMgr>/lh_mobile_base</SkillMgr>
-        <hasA rdf:resource="&stmn;lh_robot"/>
-        <hasStartLocation rdf:resource="&stmn;unknown_location"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_robot -->
 
-    <owl:NamedIndividual rdf:about="&stmn;lh_robot">
-        <rdf:type rdf:resource="&stmn;Robot"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_robot">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kuka"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_surface"/>
+        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_mobile_base"/>
         <LinkedToFrameId>calib_lwr_arm_base_link</LinkedToFrameId>
         <SkillMgr>/lh_robot</SkillMgr>
-        <hasA rdf:resource="&stmn;kuka"/>
-        <hasStartLocation rdf:resource="&stmn;lh_mobile_base"/>
-        <hasA rdf:resource="&stmn;lh_surface"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_surface -->
 
-    <owl:NamedIndividual rdf:about="&stmn;lh_surface">
-        <rdf:type rdf:resource="&stmn;Surface"/>
-        <PositionY rdf:datatype="&xsd;double">-0.35</PositionY>
-        <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
-        <OrientationX rdf:datatype="&xsd;double">0.0</OrientationX>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <PositionZ rdf:datatype="&xsd;double">0.07</PositionZ>
-        <PositionX rdf:datatype="&xsd;double">0.15</PositionX>
-        <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_surface">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Surface"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.15</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.35</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.07</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#medium_box -->
 
-    <owl:NamedIndividual rdf:about="&stmn;medium_box">
-        <rdf:type rdf:resource="&stmn;Box"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.15</SizeX>
-        <SizeY rdf:datatype="&xsd;decimal">0.25</SizeY>
-        <SizeZ rdf:datatype="&xsd;decimal">0.35</SizeZ>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#medium_box">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.25</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.35</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#medium_starter -->
 
-    <owl:NamedIndividual rdf:about="&stmn;medium_starter">
-        <rdf:type rdf:resource="&stmn;Starter"/>
-        <SizeX rdf:datatype="&xsd;double">0.13</SizeX>
-        <SizeY rdf:datatype="&xsd;double">0.13</SizeY>
-        <SizeZ rdf:datatype="&xsd;double">0.2</SizeZ>
-        <Weight rdf:datatype="&xsd;double">2.0</Weight>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#medium_starter">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.13</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.13</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#mobile_base -->
 
-    <owl:NamedIndividual rdf:about="&stmn;mobile_base">
-        <rdf:type rdf:resource="&stmn;MobileBase"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#mobile_base">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MobileBase"/>
         <LinkedToFrameId>base_link</LinkedToFrameId>
     </owl:NamedIndividual>
     
@@ -2566,69 +2561,69 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#no_name -->
 
-    <owl:NamedIndividual rdf:about="&stmn;no_name">
-        <rdf:type rdf:resource="&stmn;Scene"/>
-        <OrientationY rdf:datatype="&xsd;double">0.0</OrientationY>
-        <OrientationX rdf:datatype="&xsd;double">0.0</OrientationX>
-        <PositionZ rdf:datatype="&xsd;double">0.0</PositionZ>
-        <PositionY rdf:datatype="&xsd;double">0.0</PositionY>
-        <PositionX rdf:datatype="&xsd;double">0.0</PositionX>
-        <OrientationZ rdf:datatype="&xsd;double">0.0</OrientationZ>
-        <OrientationW rdf:datatype="&xsd;double">1.0</OrientationW>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
-        <FrameId rdf:datatype="&xsd;string">map</FrameId>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#no_name">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Scene"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <FrameId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">map</FrameId>
+        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</OrientationW>
+        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationX>
+        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
+        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationZ>
+        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionX>
+        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionY>
+        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</PositionZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#parking_station_test -->
 
-    <owl:NamedIndividual rdf:about="&stmn;parking_station_test">
-        <rdf:type rdf:resource="&stmn;ParkingStation"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#parking_station_test">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ParkingStation"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3 -->
 
-    <owl:NamedIndividual rdf:about="&stmn;rq3">
-        <rdf:type rdf:resource="&stmn;Gripper"/>
-        <LinkedToFrameId>palm</LinkedToFrameId>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Gripper"/>
+        <dependsOn rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3_gripper_driver"/>
         <ContainerState>Empty</ContainerState>
         <DriverAddress>/gripper_as</DriverAddress>
         <FrontAxis>y</FrontAxis>
-        <dependsOn rdf:resource="&stmn;rq3_gripper_driver"/>
+        <LinkedToFrameId>palm</LinkedToFrameId>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3_gripper_driver -->
 
-    <owl:NamedIndividual rdf:about="&stmn;rq3_gripper_driver">
-        <rdf:type rdf:resource="&stmn;Driver"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3_gripper_driver">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Driver"/>
+        <DriverName>GripperRq3</DriverName>
         <DriverPackage>skiros_proxy</DriverPackage>
         <DriverParam>192.168.1.11</DriverParam>
-        <DriverName>GripperRq3</DriverName>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#small_box -->
 
-    <owl:NamedIndividual rdf:about="&stmn;small_box">
-        <rdf:type rdf:resource="&stmn;Box"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.1</SizeX>
-        <SizeZ rdf:datatype="&xsd;decimal">0.1</SizeZ>
-        <SizeY rdf:datatype="&xsd;decimal">0.1</SizeY>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#small_box">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Box"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.1</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.1</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.1</SizeZ>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#small_box_tube -->
 
-    <owl:NamedIndividual rdf:about="&stmn;small_box_tube">
-        <rdf:type rdf:resource="&stmn;SmallBox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#small_box_tube">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SmallBox"/>
         <partReference>tube</partReference>
     </owl:NamedIndividual>
     
@@ -2636,175 +2631,189 @@
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#small_starter -->
 
-    <owl:NamedIndividual rdf:about="&stmn;small_starter">
-        <rdf:type rdf:resource="&stmn;Starter"/>
-        <SizeY rdf:datatype="&xsd;double">0.13</SizeY>
-        <SizeX rdf:datatype="&xsd;double">0.13</SizeX>
-        <SizeZ rdf:datatype="&xsd;double">0.2</SizeZ>
-        <Weight rdf:datatype="&xsd;double">2.0</Weight>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#small_starter">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.13</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.13</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#stamina_mobile_base -->
 
-    <owl:NamedIndividual rdf:about="&stmn;stamina_mobile_base">
-        <rdf:type rdf:resource="&stmn;MobileBase"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#stamina_mobile_base">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MobileBase"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#stamina_robot"/>
+        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#unknown_location"/>
         <LinkedToFrameId>base_link</LinkedToFrameId>
         <SkillMgr>/stamina_mobile_base</SkillMgr>
-        <hasA rdf:resource="&stmn;stamina_robot"/>
-        <hasStartLocation rdf:resource="&stmn;unknown_location"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#stamina_robot -->
 
-    <owl:NamedIndividual rdf:about="&stmn;stamina_robot">
-        <rdf:type rdf:resource="&stmn;Robot"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#stamina_robot">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#fanuc_m20ia20m"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kitting_box_fixed_2"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_front_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_left_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_right_camera"/>
+        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#stamina_mobile_base"/>
         <LinkedToFrameId>base_link_robot</LinkedToFrameId>
         <SkillMgr>/stamina_robot</SkillMgr>
-        <hasA rdf:resource="&stmn;fanuc_m20ia20m"/>
-        <hasA rdf:resource="&stmn;kitting_box_fixed_2"/>
-        <hasStartLocation rdf:resource="&stmn;stamina_mobile_base"/>
-        <hasA rdf:resource="&stmn;top_front_camera"/>
-        <hasA rdf:resource="&stmn;top_left_camera"/>
-        <hasA rdf:resource="&stmn;top_right_camera"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#starter -->
 
-    <owl:NamedIndividual rdf:about="&stmn;starter">
-        <rdf:type rdf:resource="&stmn;Starter"/>
-        <SizeZ rdf:datatype="&xsd;double">0.15</SizeZ>
-        <SizeX rdf:datatype="&xsd;double">0.15</SizeX>
-        <SizeY rdf:datatype="&xsd;double">0.22</SizeY>
-        <Weight rdf:datatype="&xsd;double">3.0</Weight>
-        <DiscreteReasoner rdf:datatype="&xsd;string">AauSpatialReasoner</DiscreteReasoner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#starter">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Starter"/>
+        <DiscreteReasoner rdf:datatype="http://www.w3.org/2001/XMLSchema#string">AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.15</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.22</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.15</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">3.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#thermal_shield -->
 
-    <owl:NamedIndividual rdf:about="&stmn;thermal_shield">
-        <rdf:type rdf:resource="&stmn;ThermalShield"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.15</SizeX>
-        <SizeY rdf:datatype="&xsd;decimal">0.28</SizeY>
-        <SizeZ rdf:datatype="&xsd;decimal">0.40</SizeZ>
-        <Weight rdf:datatype="&xsd;double">1.0</Weight>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#thermal_shield">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ThermalShield"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.28</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.40</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_front_camera -->
 
-    <owl:NamedIndividual rdf:about="&stmn;top_front_camera">
-        <rdf:type rdf:resource="&stmn;Camera"/>
-        <DriverAddress>/kittingbox_camera/depth_registered/points</DriverAddress>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_front_camera">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
+        <dependsOn rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#xtion_camera_driver"/>
         <DepthImageRaw>/kittingbox_camera/depth_registered/image_raw</DepthImageRaw>
-        <dependsOn rdf:resource="&stmn;xtion_camera_driver"/>
+        <DriverAddress>/kittingbox_camera/depth_registered/points</DriverAddress>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_left_camera -->
 
-    <owl:NamedIndividual rdf:about="&stmn;top_left_camera">
-        <rdf:type rdf:resource="&stmn;Camera"/>
-        <DriverAddress>/workspace_camera_left/depth_registered/points</DriverAddress>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_left_camera">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
         <DepthImageRaw>/workspace_camera_left/depth_registered/image_raw</DepthImageRaw>
+        <DriverAddress>/workspace_camera_left/depth_registered/points</DriverAddress>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_right_camera -->
 
-    <owl:NamedIndividual rdf:about="&stmn;top_right_camera">
-        <rdf:type rdf:resource="&stmn;Camera"/>
-        <DriverAddress>/workspace_camera_right/depth_registered/points</DriverAddress>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#top_right_camera">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
+        <dependsOn rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#xtion_camera_driver"/>
         <DepthImageRaw>/workspace_camera_right/depth_registered/image_raw</DepthImageRaw>
-        <dependsOn rdf:resource="&stmn;xtion_camera_driver"/>
+        <DriverAddress>/workspace_camera_right/depth_registered/points</DriverAddress>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#tube -->
 
-    <owl:NamedIndividual rdf:about="&stmn;tube">
-        <rdf:type rdf:resource="&stmn;Tube"/>
-        <SizeX rdf:datatype="&xsd;decimal">0.15</SizeX>
-        <SizeY rdf:datatype="&xsd;decimal">0.27</SizeY>
-        <SizeZ rdf:datatype="&xsd;decimal">0.58</SizeZ>
-        <Weight rdf:datatype="&xsd;double">1.0</Weight>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#tube">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Tube"/>
         <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
+        <SizeX rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</SizeX>
+        <SizeY rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.27</SizeY>
+        <SizeZ rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.58</SizeZ>
+        <Weight rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</Weight>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#unknown_location -->
 
-    <owl:NamedIndividual rdf:about="&stmn;unknown_location">
-        <rdf:type rdf:resource="&stmn;Location"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#unknown_location">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Location"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ur10 -->
 
-    <owl:NamedIndividual rdf:about="&stmn;ur10">
-        <rdf:type rdf:resource="&stmn;Arm"/>
-        <MoveItGroup>arm</MoveItGroup>
-        <MotionPlanner>planner/plan_action</MotionPlanner>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ur10">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Arm"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera"/>
+        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#rq3"/>
         <DriverAddress>/ur10</DriverAddress>
         <MotionExe>/arm_controller/follow_joint_trajectory</MotionExe>
-        <hasA rdf:resource="&stmn;arm_camera"/>
-        <hasA rdf:resource="&stmn;rq3"/>
+        <MotionPlanner>planner/plan_action</MotionPlanner>
+        <MoveItGroup>arm</MoveItGroup>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ur10_arm_driver -->
 
-    <owl:NamedIndividual rdf:about="&stmn;ur10_arm_driver">
-        <rdf:type rdf:resource="&stmn;Driver"/>
-        <DriverParam>192.168.1.3</DriverParam>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#ur10_arm_driver">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Driver"/>
+        <dependsOn rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#aau_stamina_robot_description"/>
         <DriverAddress>/ur10</DriverAddress>
-        <DriverPackage>ur_driver</DriverPackage>
         <DriverName>driver.py</DriverName>
-        <dependsOn rdf:resource="&stmn;aau_stamina_robot_description"/>
+        <DriverPackage>ur_driver</DriverPackage>
+        <DriverParam>192.168.1.3</DriverParam>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#wsg_gripper -->
 
-    <owl:NamedIndividual rdf:about="&stmn;wsg_gripper">
-        <rdf:type rdf:resource="&stmn;Gripper"/>
-        <LinkedToFrameId>gripper_link</LinkedToFrameId>
-        <FrontAxis>x</FrontAxis>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#wsg_gripper">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Gripper"/>
         <ContainerState>Empty</ContainerState>
         <DriverAddress>/gripper_as</DriverAddress>
+        <FrontAxis>x</FrontAxis>
+        <LinkedToFrameId>gripper_link</LinkedToFrameId>
     </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#xtion_camera_driver -->
 
-    <owl:NamedIndividual rdf:about="&stmn;xtion_camera_driver">
-        <rdf:type rdf:resource="&stmn;Driver"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#xtion_camera_driver">
+        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Driver"/>
         <DepthTopic>/depth_registered/image_raw</DepthTopic>
         <DriverName>xtion_grabber</DriverName>
-        <RgbTopic>/rgb/image_raw</RgbTopic>
         <DriverPackage>xtion_grabber</DriverPackage>
+        <RgbTopic>/rgb/image_raw</RgbTopic>
     </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#SpatialReasoner">
+        <rdfs:comment>Name of the plugin used to reason about recognition (and spatial) properties. In the skill&apos;s code, the reasoner take care of 1) converting any sensor data to a proper data format and store it into object&apos;s properties 2) compare the stored properties. This functionalities are offered to the developer with abstract API, so that it is possible to switch reasoning type quickly, without major changes in the code.</rdfs:comment>
+    </rdf:Description>
 </rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
 

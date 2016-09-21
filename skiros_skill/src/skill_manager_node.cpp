@@ -87,33 +87,22 @@ void input(SkillManager * manager)
 
 int main (int argc, char **argv)
 {
-    /*
-    //List the available plugins
-        //TODO:
-         * store the available skills
-         * switch from offline to online. In online mode it check the presence of required primitives.
-         * load the local database from file. (on the contrary, THe world model is running on another node)
-         * update the world model with the presence of a new robot->withSkills. (Note: A skill manager running on a robot MUST have a unique and constant ID)
-         * Two ways of interaction with skills:
-         * 1 ONLINE: initialize a service to query for available skills
-         * 1 ONLINE: initialize pub/sub topics to interact with task layer. SUB receive: id, skill, command, parameters on PUB send: id, skill, result, parameters
-         * 2 OFFLINE: you can play with the skills.mmmm Yeah, can make sense. It allows the same use like ONLINE, but it is for offline teaching and task programming.
-         * Maybe there is also another way... ENTERPRISE
-         * The real problem is: where is the teaching? where is the parameters storing? Skill or task level? -> Maybe BOth (most probable the skill level, task level is PLANNER). Anyway,Just define a class "teacher" in the common skiros.
-         * What we need for the test sprint is the OFFLINE interaction.
-           should list: available devices, available skill and other relevant info at startup
-    */
     // Initialise the ros node
     ros::init(argc, argv, skill_mgr_node_name, ros::init_options::NoSigintHandler);
     // Override default exit handlers for roscpp
     signal(SIGINT, sigIntHandler);
     boost::shared_ptr<ros::NodeHandle> nh_ptr(new ros::NodeHandle());
     ros::NodeHandle skiros_nh(skiros_namespace);
+    std::string robot_name_prefix;
 
     if(argc>1)
     {
         double delay_start_time = atof(argv[1]);
         ros::Duration(delay_start_time).sleep();
+    }
+    if(argc>2)
+    {
+        robot_name_prefix = argv[2];
     }
 
     //Foundamental initialization necessary to avoid problems with serialization of params (see "skiros_config/param_types.h" for more details)
@@ -127,8 +116,8 @@ int main (int argc, char **argv)
     boost::shared_ptr<skiros_wm::WorldModelInterfaceS> wm_ptr(new skiros_wm::WorldModelInterfaceS(*nh_ptr));
     wm_ptr->startTfListener();
     std::string robot_name = ros::this_node::getName();
-    robot_name.erase(0,1);
-    SkillManager manager(nh_ptr, wm_ptr, robot_name);
+    robot_name.erase(0,1);//Remove slash
+    SkillManager manager(nh_ptr, wm_ptr, robot_name_prefix, robot_name);
 
     ///Create services:
     //-skill_list_query

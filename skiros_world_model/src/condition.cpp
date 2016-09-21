@@ -15,6 +15,7 @@ boost::shared_ptr<ConditionBase> loadCondition(boost::shared_ptr<skiros_wm::Worl
     boost::shared_ptr<ConditionBase> to_ret = skiros::loadPlugin<ConditionBase>("skiros_skill", "skiros::condition::ConditionBase", condition_name);
     if(to_ret==NULL) return to_ret;
     to_ret->init(wm, ph, desired_state, subject, object);
+    to_ret->setType(condition_name);
     return to_ret;
 }
 }

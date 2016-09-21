@@ -307,6 +307,7 @@ protected:
     void wmMonitorCB(const skiros_msgs::WmMonitor& msg);
     bool new_changes_;
     ros::Subscriber wm_monitor_sub_;
+    bool wm_locked_=false;
 
     //--------- Private variables  -------------
     int robot_registered_id_;

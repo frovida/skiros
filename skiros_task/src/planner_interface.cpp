@@ -282,9 +282,12 @@ void PlannerInterface::parseSkill(Element skill)
     }
 
     std::vector<Element> pre_conditions = getPreConditions(skill);
-    for(Element e : pre_conditions)
-        s.preconditions.push_back(parseUngroundPredicate(e));
-
+    for(Element e : pre_conditions){
+        if(e.properties("hasDesiredState").getValue<bool>())
+            s.preconditions.push_back(parseUngroundPredicate(e));
+        else
+            s.negative_preconditions.push_back(parseUngroundPredicate(e));
+    }
     std::vector<Element> post_conditions = getPostConditions(skill);
     for(Element e : post_conditions){
         if(e.properties("hasDesiredState").getValue<bool>())

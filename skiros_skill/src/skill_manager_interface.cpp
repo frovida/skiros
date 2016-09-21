@@ -52,20 +52,6 @@ namespace skiros_skill
 
 SkillManagerInterface::SkillManagerInterface(boost::shared_ptr<skiros_wm::WorldModelInterface> wm,
                       boost::shared_ptr<ros::NodeHandle> nh,
-                      std::string skill_manager_name) : wm_(wm), nh_(nh), skill_mgr_name_(skill_manager_name), new_changes_(true)
-{
-    robot_.type() = concept::Str[concept::Agent];
-    std::vector<Element> v = wm_->resolveElement(robot_);
-    for(Element e : v)
-    {
-        if(skill_manager_name.find(e.label())!=std::string::npos)
-            robot_ = e;
-    }
-    init();
-}
-
-SkillManagerInterface::SkillManagerInterface(boost::shared_ptr<skiros_wm::WorldModelInterface> wm,
-                      boost::shared_ptr<ros::NodeHandle> nh,
                       skiros_wm::Element robot) : wm_(wm), nh_(nh), skill_mgr_name_(robot.label())
 {
     robot_ = robot;
@@ -74,6 +60,15 @@ SkillManagerInterface::SkillManagerInterface(boost::shared_ptr<skiros_wm::WorldM
 
 void SkillManagerInterface::init()
 {
+    auto prefix = skill_mgr_name_.find_last_of('#');
+    if(prefix!=std::string::npos)
+        skill_mgr_name_ = skill_mgr_name_.substr(prefix+1, skill_mgr_name_.length());
+    else
+    {
+        prefix = skill_mgr_name_.find_last_of(':');
+        if(prefix!=std::string::npos)
+            skill_mgr_name_ = skill_mgr_name_.substr(prefix+1, skill_mgr_name_.length());
+    }
     if(robot_.id()<0)
         throw std::runtime_error("[SkillManagerInterface::init] Error during initialization: no valid robot found in world model. ");
     //Activate clients

@@ -59,8 +59,8 @@ using namespace skiros_wm;
 namespace skiros_skill
 {
 
-SkillManager::SkillManager(boost::shared_ptr<ros::NodeHandle> nh, boost::shared_ptr<skiros_wm::WorldModelInterfaceS> world_model, std::string robot_uri)
-: nh_(nh), wm_(world_model), robot_uri_(robot_uri)
+SkillManager::SkillManager(boost::shared_ptr<ros::NodeHandle> nh, boost::shared_ptr<skiros_wm::WorldModelInterfaceS> world_model, std::string prefix, std::string robot_uri)
+: nh_(nh), wm_(world_model), robot_uri_(prefix+robot_uri), robot_name_(robot_uri)
 {
         //Initialize the plugin loader
         skills_loader_ =
@@ -68,10 +68,10 @@ SkillManager::SkillManager(boost::shared_ptr<ros::NodeHandle> nh, boost::shared_
         module_loader_ =
             new pluginlib::ClassLoader<skiros::ModuleBase>("skiros_skill", "skiros::ModuleBase");
         //Initialize the interface to the resource manager
-        rm_ = new skiros_common::ResourceManagerInterface(*nh_, robot_uri_);
-        rm_monitor_ = nh_->subscribe(robot_uri_+"_rm/monitor", 5, &SkillManager::RmMonitorCB, this);
+        rm_ = new skiros_common::ResourceManagerInterface(*nh_, robot_name_);
+        rm_monitor_ = nh_->subscribe(robot_name_+"_rm/monitor", 5, &SkillManager::RmMonitorCB, this);
         wm_monitor_ = nh_->subscribe(std::string(world_model_node_name)+wm_monitor_tpc_name, 5, &SkillManager::wmMonitorCB, this);
-        state_pub_ = nh_->advertise<skiros_msgs::ModuleStatus>(robot_uri_+skill_monitor_tpc_name, 20);
+        state_pub_ = nh_->advertise<skiros_msgs::ModuleStatus>(robot_name_+skill_monitor_tpc_name, 20);
         //rm_->waitConnection();
 }
 
@@ -84,7 +84,7 @@ void SkillManager::init()
     module_monitors_.clear();
     loaded_modules_.clear();
     loaded_skills_.clear();
-    mi_.reset(new SkillManagerInterface(wm_, nh_, robot_uri_));
+    mi_.reset(new SkillManagerInterface(wm_, nh_, wm_->getRobot()));
     ros::Time start_time;
     double total_time = 0;
     // Load shared libraries names
@@ -129,7 +129,7 @@ void SkillManager::init()
         {
             loaded_modules_[module] = module_loader_->createInstance(module);
             configureModule(module);
-            boost::shared_ptr<skiros::ModuleMonitor> monitor(new skiros::ModuleMonitor(loaded_modules_.at(module), module, robot_uri_+skill_monitor_tpc_name, false));
+            boost::shared_ptr<skiros::ModuleMonitor> monitor(new skiros::ModuleMonitor(loaded_modules_.at(module), module, robot_name_+skill_monitor_tpc_name, false));
             module_monitors_.insert(ModuleMonitorsPairType(module, monitor));
             loaded_modules_[module]->init(nh_, wm_, mi_);
             if(loaded_modules_[module]->isInitialized())
@@ -163,7 +163,7 @@ void SkillManager::init()
         try
         {
             loaded_skills_[skill] = skills_loader_->createInstance(skill);
-            boost::shared_ptr<skiros::ModuleMonitor> monitor(new skiros::ModuleMonitor(loaded_skills_.at(skill), skill, robot_uri_+skill_monitor_tpc_name, true));
+            boost::shared_ptr<skiros::ModuleMonitor> monitor(new skiros::ModuleMonitor(loaded_skills_.at(skill), skill, robot_name_+skill_monitor_tpc_name, true));
             module_monitors_.insert(ModuleMonitorsPairType(skill, monitor));
             loaded_skills_[skill]->init(nh_, wm_, mi_); //TODO: think if it is good to init here
             if(loaded_skills_[skill]->isInitialized())
@@ -270,7 +270,7 @@ bool SkillManager::skillCommandService(skiros_msgs::ModuleCommandRequest &req, s
     }
     else if(req.action == req.PREEMPT)
     {
-        skill_ptr->preempt();
+        skill_ptr->preempt("Preempted from " + req.author);
         skillKill(req.name.c_str());
     }
     else if(req.action==req.PAUSE)
@@ -323,7 +323,7 @@ bool SkillManager::moduleCommandService(skiros_msgs::ModuleCommandRequest &req, 
     }
     else if(req.action == req.PREEMPT)
     {
-        module_ptr->preempt();
+        module_ptr->preempt("Preempted from " + req.author);
         moduleKill(req.name.c_str()); //TODO: remove from here when i'm ready...
     }
     else if(req.action==req.PAUSE)
@@ -349,13 +349,17 @@ void SkillManager::moduleStart(boost::shared_ptr<skiros::ModuleCore> module, std
     }
     catch(std::runtime_error e)
     {
-        FERROR("[SkillManager] Execution failed with exception: " << e.what());
-        module->preempt();
+        std::stringstream ss;
+        ss << "Execution failed: " << e.what();
+        FERROR(ss.str());
+        module->preempt(ss.str());
     }
     catch(std::invalid_argument e)
     {
-        FERROR("[SkillManager] Execution failed with exception: " << e.what());
-        module->preempt();
+        std::stringstream ss;
+        ss << "Execution failed: " << e.what();
+        FERROR(ss.str());
+        module->preempt(ss.str());
     }
 
 }
@@ -366,12 +370,12 @@ void SkillManager::preemptAll()
     //Stop all running modules
     for(RunningModulesMapType::value_type pair : running_modules_)
     {
-        loaded_modules_[pair.first]->preempt();
+        loaded_modules_[pair.first]->preempt("Preempted from user.");
     }
 
     for(RunningSkillsMapType::value_type pair : running_skills_)
     {
-        loaded_skills_[pair.first]->preempt();
+        loaded_skills_[pair.first]->preempt("Preempted from user.");
     }
     lock.unlock();
 }
@@ -456,7 +460,10 @@ bool SkillManager::registerRobot()
       wm_->addTfPrefix(robot);
       //Call the registration routine
       wm_->lock();
-      if(!wm_->registerRobot(location, robot)>0) return false;
+      if(!wm_->registerRobot(location, robot)>0) {
+          wm_->unlock();
+          return false;
+      }
       reload();
       wm_->unlock();
 

@@ -94,10 +94,11 @@ namespace skiros
         }
         void start(std::string controller) {controller_ = controller; start();}
         //! \brief stop the execution of a skill
-        void preempt()
+        void preempt(std::string reason)
         {
             this->onPreempt();
-            this->setState(skiros::state::preempted);
+            this->setState(skiros::state::preempted, false);
+            this->setProgress(reason);
         }
 
         //void pause();//TODO

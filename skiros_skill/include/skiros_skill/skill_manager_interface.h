@@ -80,9 +80,6 @@ namespace skiros_skill
     public:
         SkillManagerInterface(boost::shared_ptr<skiros_wm::WorldModelInterface> wm,
                               boost::shared_ptr<ros::NodeHandle> nh,
-                              std::string skill_manager_name);
-        SkillManagerInterface(boost::shared_ptr<skiros_wm::WorldModelInterface> wm,
-                              boost::shared_ptr<ros::NodeHandle> nh,
                               skiros_wm::Element robot);
         ~SkillManagerInterface(){}
 

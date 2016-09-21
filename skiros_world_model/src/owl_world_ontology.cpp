@@ -703,6 +703,10 @@ void Ontology::loadMainOntology(std::string filename, std::string storage_name)
     {
         default_uri_ = (char *)librdf_uri_as_string(librdf_node_get_uri(ontology));
         librdf_free_node(ontology);
+        auto last_slash = default_uri_.find_last_of('/');
+        std::string short_prefix = default_uri_.substr(last_slash+1, default_uri_.length()-1);
+        this->addPrefix(std::pair<std::string, std::string>(default_uri_, short_prefix));
+        FINFO("[loadSubOntology]: I add: " << default_uri_);
     }
     librdf_free_parser(parser);
     librdf_free_uri(uri);
@@ -734,12 +738,23 @@ void Ontology::loadSubOntology(std::string filename)
     if(!uri) throw std::runtime_error("[owl::importOntology]: Failed to create URI");
     librdf_stream * stream = librdf_parser_parse_as_stream(parser, uri, NULL);
     if(stream==NULL) throw std::runtime_error("[owl::importOntology]: Failed to create stream");
-    for(int i=1;i<librdf_parser_get_namespaces_seen_count(parser); i++)
+    /*for(int i=1;i<librdf_parser_get_namespaces_seen_count(parser); i++)
     {
       std::string temp((const char*)librdf_uri_as_string(librdf_parser_get_namespaces_seen_uri(parser, i)));
       temp.erase(--temp.end(), temp.end());
       addPrefix(std::pair<std::string, std::string>(temp,librdf_parser_get_namespaces_seen_prefix(parser, i)));
       FINFO("[loadSubOntology]: I add: " << librdf_parser_get_namespaces_seen_prefix(parser, i) << " - " << temp );
+    }*/
+    librdf_iterator*  it = librdf_model_get_sources(model_, LIBRDF_MS_type(world_), librdf_new_node_from_uri_string(world_, (const unsigned char*)std_uri::OWL_ONTOLOGY.c_str()));
+    while(!librdf_iterator_end(it))
+    {
+        librdf_node *target=(librdf_node*)librdf_iterator_get_object(it);
+        std::string uri  = (char *)librdf_uri_as_string(librdf_node_get_uri(target));
+        auto last_slash = uri.find_last_of('/');
+        std::string short_prefix = uri.substr(last_slash+1, uri.length()-1);
+        this->addPrefix(std::pair<std::string, std::string>(uri, short_prefix));
+        FINFO("[loadSubOntology]: I add: " << uri );
+        librdf_iterator_next(it);
     }
     librdf_model_add_statements(model_, stream);
     librdf_free_stream(stream);
@@ -838,9 +853,12 @@ std::string Ontology::getUri(std::string resource_name)
 
 void Ontology::addPrefix(std::pair<std::string, std::string> prefix)
 {
-    prefix_map_.insert(prefix); //TODO: check that the prefix is not already present
-    //For the world model I store the opposite
-    prefix_map_inverse_.insert(std::pair<std::string, std::string>(prefix.second, prefix.first));
+    if(prefix_map_.find(prefix.first)==prefix_map_.end())
+    {
+        prefix_map_.insert(prefix);
+        //For the world model I store the opposite
+        prefix_map_inverse_.insert(std::pair<std::string, std::string>(prefix.second, prefix.first));
+    }
 }
 
 bool Ontology::hasPrefix(std::string prefix)

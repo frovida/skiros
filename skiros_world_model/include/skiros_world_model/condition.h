@@ -134,6 +134,7 @@ public:
 
     inline std::string getDescription(){return description_;}
 
+    inline void setType(std::string type){type_ = type;}
 protected:
     ConditionBase(){}
     void updateSubject(skiros_wm::Element e)
@@ -142,7 +143,6 @@ protected:
         wm_->updateElement(e);
     }
     inline void setAllowAbstractTypes(bool value=true){abstract_types_ = value;}
-    inline void setType(std::string type){type_ = type;}
     inline void setDescription(std::string description){description_ = description;}
     //!< The condition type as defined in the ontology
     std::string type_;
@@ -202,6 +202,7 @@ class ConditionProperty : public ConditionBase
             updateDescription();
             skiros_wm::Element subject = getSubject();
             if(subject.id()<0) return false;
+            subject = wm_->getElement(subject.id());
             if(getDesiredState())
             {
                 //True
