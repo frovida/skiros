@@ -7,7 +7,7 @@
   <!-- NOTE: aau_stamina_robot for the ur10 robot in aau, stamina_robot for the fanuc robot in PSA -->
   <arg name="robot_prefix" default=""/>
   <arg name="robot_name" default="aau_stamina_robot"/>
-  <arg unless="$(arg debug)" name="prefix" value="" />
+  <arg unless="$(arg debug)" name="prefix" value="xterm -e" />
   <arg if="$(arg debug)" name="prefix" value="xterm -e gdb -ex run --args" />
 	<param name="skiros/save_log" type="bool" value="$(arg save_log)" /> <!-- If true all nodes output is stored in skiros/log -->
 

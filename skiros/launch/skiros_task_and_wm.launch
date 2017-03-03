@@ -5,7 +5,7 @@
   <arg name="fake_wm" default="false"/>
   <arg name="scene_name" default=""/>
   
-  <arg unless="$(arg debug)" name="prefix" value="" />
+  <arg unless="$(arg debug)" name="prefix" value="xterm -e" />
   <arg if="$(arg debug)" name="prefix" value="xterm -e gdb -ex run --args" />
 	
   <param name="skiros/save_log" type="bool" value="$(arg save_log)" /> <!-- If true all nodes output is stored in skiros/log -->
