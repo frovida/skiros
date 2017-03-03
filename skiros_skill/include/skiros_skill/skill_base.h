@@ -96,10 +96,6 @@ public:
 
     void printStatus(bool publish=true);
 protected:
-    //! \brief Print a stream on the named ROS info
-    //TODO: stringstream doesn't work in all cases, better istream, but how to do?
-    inline void sinfo(std::stringstream msg) { ROS_INFO_STREAM_NAMED(this->skillType(), msg);}
-
     inline boost::shared_ptr<skiros::condition::ConditionBase> newCondition(std::string condition_name, bool desired_state, std::string subject_key, std::string object_key="")
     {
         return skiros::condition::loadCondition(getWorldHandle(), getParamHandle(), condition_name, desired_state, subject_key, object_key);
