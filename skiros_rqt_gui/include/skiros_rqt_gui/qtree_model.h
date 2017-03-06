@@ -113,8 +113,9 @@ public:
 
     void clear()
     {
+        beginResetModel();
         id_map_.clear();
-        reset();
+        endResetModel();
     }
 
     void setRoot(const skiros_wm::Element &data)
