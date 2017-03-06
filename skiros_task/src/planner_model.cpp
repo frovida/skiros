@@ -42,6 +42,7 @@ void PlannerModel::reset(){
     initial_state.clear();
     function_values.clear();
     goal.clear();
+    part_instances.clear();
 }
 
 /*
@@ -66,17 +67,6 @@ bool PlannerModel::addType(std::string s){
 }
 
 void PlannerModel::setTypeHeirarchy(){
-    //First find relevant subtypes
-    // for(PDDL_Type current_type : types){
-    //     std::set<std::string> subs = getWorldHandle()->getSubClasses(current_type.type_name);
-    //     ROS_INFO_STREAM("Subtypes of " << current_type.type_name);
-    //     for(std::string s: subs){
-    //         ROS_INFO_STREAM("\t" << s);
-    //     }
-    // }
-    //addType("SmallBox");
-    //addType("LargeBox");
-
     //Set the supertypes
     for(PDDL_Type t : types){
         setSuperType(t, t.type_name);
@@ -121,28 +111,6 @@ Element PlannerModel::getRack(Element e, int depth){
     return getRack(p, d);
 }
 
-// bool PlannerModel::containsNoUsefulParts(Element e){
-//     if(!(e.type() == "LargeBox" || e.type() == "SmallBox"))
-//         return false;
-    
-//     std::stringstream goalss;
-//     for(GroundPredicate g : goal){
-//         goalss <<  g.to_pddl();
-//     }
-//     ROS_INFO_STREAM(goalss.str());
-
-//     bool inGoal = false;
-//     std::vector<std::string> objects = e.properties(data::Str[data::partReference]).getValues<std::string>();
-//     for(std::string s : objects){
-//         ROS_INFO_STREAM("\t" << s);
-//         std::size_t found = goalss.str().find(s);
-//         if(found != std::string::npos){
-//             return false;
-//         }
-//     }
-//     ROS_INFO_STREAM("Ignoring "  << e.toUrl());
-//     return true;
-// }
 
 void PlannerModel::findWorldObjects(){
 
@@ -197,13 +165,13 @@ void PlannerModel::findWorldObjects(){
             }
             else if(types.at(i).type_name == "Manipulatable"){
                 types.at(i).objects_of_type.push_back(e.toUrl());
-                std::string abs_type = e.type();
-                boost::algorithm::to_lower(abs_type);
-                part_instances.push_back(std::make_pair(abs_type, e.toUrl()));
+                //std::string abs_type = e.type();
+                //boost::algorithm::to_lower(abs_type);
+                part_instances.push_back(std::make_pair(e.label(), e.toUrl()));
                 GroundPredicate gp;
                 gp.predicate_name = "isOfType";
                 gp.predicate_obj_names.push_back(e.toUrl());
-                gp.predicate_obj_names.push_back(abs_type);
+                gp.predicate_obj_names.push_back(e.label());
                 initial_state.push_back(gp); 
             }
             else{
@@ -222,17 +190,25 @@ void PlannerModel::findWorldObjects(){
     ph->addParamWithDefaultValue("Subject", Element(""));
     ph->addParamWithDefaultValue("Object", Element(""));
 
+
     for(PDDL_Predicate p : predicates){
-        //ROS_INFO_STREAM("Querying " << p.predicate_name);
+        ROS_INFO_STREAM("Querying " << p.predicate_name);
         if(p.in_skiros && p.predicate_name != "FitsIn"){ //FitsIn is coded as partReference of a Cell...
             std:string subject_type = p.predicate_args.at(0);
             std::string object_type = "";
             if(p.predicate_args.size() == 2)
                 object_type = p.predicate_args.at(1);
 
-            //ROS_INFO_STREAM("Checking World Model for predicate: " << p.predicate_name);
             boost::shared_ptr<skiros::condition::ConditionBase> c = skiros::condition::loadCondition(getWorldHandle(), ph, p.predicate_name, true, "Subject", "Object");
-            
+            //Would use getPropertyType() to get the search string for world model query in order to find the propositions more efficiently
+            //But SkiROS world model is not implemented consistently
+            //RobotAtLocation has PropertyType() robotAt (which would work)
+            //ObjectAtLocation has PropertyType() contain (which is wrong as parts are only stored as partReference in the world model)
+            //FitsIn has no PropertyType() and is stored in the world model in a third way.
+
+            // std::cout << c->getPropertyTargetValue() << std::endl;
+            // std::cout << c->getPropertyType() << std::endl;
+
             //Just tries every possible object to see if it's there
             //get all objects(string) of type subject_type
             std::vector<std::string> subject_objects = getAllObjects(subject_type);
@@ -259,6 +235,33 @@ void PlannerModel::findWorldObjects(){
                             gp.predicate_obj_names.push_back(subject_object);
                             gp.predicate_obj_names.push_back(object_object);
                             initial_state.push_back(gp);
+                            //std::cout << "Just added " << p.predicate_name << "(" << subject_object << " " << object_object << ") - " << subject_type   << std::endl;
+
+                            //Fixes for when an instantiated part is in a kit in the world model but the abstract version  of it is not in the kit
+                            //Adds P(abstract_part, object)
+                            if(subject_type == "Manipulatable"){
+                                for(std::pair<std::string, std::string> p_i : part_instances){
+                                    if(subject_object == p_i.second){
+                                        //std::cout << "Now adding " << p.predicate_name << "(" << p_i.first << " " << object_object <<  ")" << std::endl;
+                                        GroundPredicate gp2;
+                                        gp2.predicate_name = p.predicate_name;
+                                        gp2.predicate_obj_names.push_back(p_i.first);
+                                        gp2.predicate_obj_names.push_back(object_object);
+                                        initial_state.push_back(gp2);
+                                    }
+                                }
+                            }
+                            if(object_type == "Manipulatable"){
+                                for(std::pair<std::string, std::string> p_i : part_instances){
+                                    if(object_object == p_i.second){
+                                        GroundPredicate gp3;
+                                        gp3.predicate_name = p.predicate_name;
+                                        gp3.predicate_obj_names.push_back(subject_object);
+                                        gp3.predicate_obj_names.push_back(p_i.first);
+                                        initial_state.push_back(gp3);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -270,6 +273,7 @@ void PlannerModel::findWorldObjects(){
     std::vector<Element> cells = getWorldHandle()->resolveElement(Element(concept::Str[concept::Cell]));
     std::vector<std::string> world_objects = getAllObjects("Manipulatable");
 
+    ROS_INFO_STREAM("Querying " << "FitsIn");
     boost::shared_ptr<skiros::condition::ConditionBase> fitsin = skiros::condition::loadCondition(getWorldHandle(), ph, "FitsIn", true, "Subject", "Object");
     for(unsigned i = 0; i < cells.size(); ++i)
     {
@@ -435,6 +439,48 @@ GroundPredicate PlannerModel::parseGroundPredicate(Element e){
     return gp;    
 }
 
+bool PlannerModel::evaluatePredicate(GroundPredicate p)
+{
+    //Find the ground predicates that are true in current state
+    boost::shared_ptr<skiros_common::ParamHandler> ph(new skiros_common::ParamHandler());
+    ph->addParamWithDefaultValue("Subject", Element(""));
+    ph->addParamWithDefaultValue("Object", Element(""));
+    boost::shared_ptr<skiros::condition::ConditionBase> c = skiros::condition::loadCondition(getWorldHandle(), ph, p.predicate_name, true, "Subject", "Object");
+    std::vector<Element> subject_objects;
+    std::vector<Element> obj_objects;
+
+    std:string subject_type = p.predicate_obj_names.at(0);
+    if(getWorldHandle()->isElementUri(subject_type))
+        subject_objects.push_back(getWorldHandle()->getElementFromUri(subject_type));
+    else
+        subject_objects = getWorldHandle()->resolveElement(getWorldHandle()->getDefaultElement(subject_type));
+    if(p.predicate_obj_names.size() == 2)
+    {
+        std::string object_type = p.predicate_obj_names.at(1);
+        if(getWorldHandle()->isElementUri(object_type))
+            obj_objects.push_back(getWorldHandle()->getElementFromUri(object_type));
+        else
+            obj_objects = getWorldHandle()->resolveElement(getWorldHandle()->getDefaultElement(object_type));
+    }
+    for(auto subject_object : subject_objects){
+        //FINFO("Subject: " << subject_object.printState("", false));
+        ph->specify("Subject", subject_object);
+        if(obj_objects.size())
+        {
+            for(auto obj_object : obj_objects){
+                //FINFO("Object: " << obj_object.printState("", false));
+                ph->specify("Object", obj_object);
+                if(c->evaluate())
+                    return true;
+            }
+        }
+        else
+            if(c->evaluate())
+                return true;
+    }
+    return false;
+}
+
 void PlannerModel::addObjectByType(std::string type_name, std::string object_name){
     for(unsigned i = 0; i < types.size(); ++i){
         if(types.at(i).type_name == type_name){
@@ -466,6 +512,22 @@ void PlannerModel::setGoal(std::vector<skiros_wm::Element> conditions, std::vect
     for(auto s : pddl_goals)
         goal.push_back(GroundPredicate(s));
 }
+
+
+void PlannerModel::removeMetGoals()
+{
+    auto it = goal.begin();
+    for ( ; it != goal.end(); ) {
+        if (evaluatePredicate(*it))
+        {
+            FINFO("[PlannerModel::removeMetGoals] Met goal: " << it->to_pddl());
+            it = goal.erase(it);
+        }
+        else
+            ++it;
+    }
+}
+
 
 void PlannerModel::addHiddenObjects(HiddenPropertyElement hpe){
     std::vector<Element> locs = getWorldHandle()->resolveElement(hpe.element);

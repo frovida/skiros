@@ -3,7 +3,7 @@
 namespace skiros
 {
 
-bool SAVE_LOG=true;
+bool SAVE_LOG=false;
 boost::mutex LOG_MUX;
 
 void ModuleMonitor::printStatus(ProgressAndState out)
@@ -26,14 +26,18 @@ void ModuleMonitor::printStatus(ProgressAndState out)
     //        << "]: "  << "[" << prog.id << "]" <<  prog.description);
     msg.header.stamp = ros::Time::now();
     msg.module.type = module_->moduleType();
+    msg.controller = module_->getController();
     msg.module.name = module_name_;
     msg.status = state::StateStr[state];
     if(state == state::started)
     {
         start_time = ros::Time::now();
+        msg.progress_seconds = 0.0;
     }
     if(state == state::preempted || state == state::error || state == state::terminated)
     {
+        msg.progress_seconds = (ros::Time::now()-start_time).toSec();
+        msg.module.parameters_in = skiros_common::utility::serializeParamMap(module_->getParamHandlerCopy().getParamMap());
         if(!is_skill_)
         {
             skiros::ModuleBase * temp = static_cast<skiros::ModuleBase *>(module_.get());

@@ -83,7 +83,7 @@ static const char RETURN[] = "Return";
                 }
                 getResultParamHandler().specify(RETURN, true);
                 setState(state::terminated, false);
-                setProgress("Success");
+                setProgress("Success.");
             }
             //--------- Other methods ------------
             //! \brief Initializes resources, then call the onInit() function

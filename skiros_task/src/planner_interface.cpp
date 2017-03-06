@@ -103,7 +103,7 @@ void PlannerInterface::initDomain()
                     skills.at(i).del_effects.push_back(up_new_pre);
 
                     //Specific for drive skill with for multiple connected robots
-                    //if(STAMINA){
+                    if(STAMINA){
                         std::size_t found = s.skill_name.find("drive");
                         if(found != std::string::npos && nrRobots >  1 ){
                             std::string newr = "r";
@@ -130,7 +130,7 @@ void PlannerInterface::initDomain()
                             skills.at(i).del_effects.push_back(nup_del);
                             skills.at(i).add_effects.push_back(nup_add);
                         }
-                    //}
+                    }
                 }
                 else if(has_del_ready && !has_pre_ready){
                     //needs precondition to match del
@@ -239,6 +239,17 @@ void PlannerInterface::setGoal(std::vector<skiros_wm::Element> conditions, std::
     planner_model.setGoal(conditions, pddl_goals);
 }
 
+
+void PlannerInterface::removeMetGoals()
+{
+    planner_model.removeMetGoals();
+}
+
+bool PlannerInterface::hasGoals()
+{
+    return planner_model.hasGoals();
+}
+
 void PlannerInterface::outputPDDL(){
     printDomainFile();
     printProblemFile();
@@ -288,6 +299,7 @@ void PlannerInterface::parseSkill(Element skill)
         else
             s.negative_preconditions.push_back(parseUngroundPredicate(e));
     }
+
     std::vector<Element> post_conditions = getPostConditions(skill);
     for(Element e : post_conditions){
         if(e.properties("hasDesiredState").getValue<bool>())

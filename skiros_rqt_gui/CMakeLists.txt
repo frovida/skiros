@@ -10,9 +10,11 @@ skiros_skill
 interactive_markers
 )
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+#find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Gui  REQUIRED)
 
-include(${QT_USE_FILE})
 
 set(skiros_rqt_gui_SRCS
   src/skiros_gui.cpp
@@ -42,12 +44,13 @@ catkin_package(
 )
 catkin_python_setup()
 
-qt4_wrap_cpp(skiros_rqt_gui_MOCS ${skiros_rqt_gui_HDRS})
-qt4_wrap_ui(skiros_rqt_gui_UIS_H ${skiros_rqt_gui_UIS})
+qt5_wrap_cpp(skiros_rqt_gui_MOCS ${skiros_rqt_gui_HDRS})
+qt5_wrap_ui(skiros_rqt_gui_UIS_H ${skiros_rqt_gui_UIS})
 
-include_directories(${skiros_rqt_gui_INCLUDE_DIRECTORIES} ${catkin_INCLUDE_DIRS})
+include_directories(${skiros_rqt_gui_INCLUDE_DIRECTORIES} ${catkin_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
 add_library(${PROJECT_NAME} ${skiros_rqt_gui_SRCS} ${skiros_rqt_gui_MOCS} ${skiros_rqt_gui_UIS_H})
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} Qt5::Widgets Qt5::Core Qt5::Gui)
+
 
 find_package(class_loader)
 class_loader_hide_library_symbols(${PROJECT_NAME})

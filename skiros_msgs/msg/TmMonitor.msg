@@ -13,3 +13,4 @@ string robot
 ModuleDescription skill
 int16 progress_code
 string progress_description
+float32 progress_seconds

@@ -55,8 +55,8 @@ namespace skiros_task
      */
 	struct SkillHolder
 	{
-	  std::string manager;
-	  std::string name;
+      std::string manager;
+      std::string name;
 	  skiros_common::ParamMap params;
 	};
 
@@ -119,10 +119,10 @@ namespace skiros_task
         bool taskQuery(skiros_msgs::TmQueryTaskRequest &req, skiros_msgs::TmQueryTaskResponse &res);
         //! \brief
         bool taskModify(skiros_msgs::TmModifyTaskRequest &req, skiros_msgs::TmModifyTaskResponse &res);
+        //! \brief publish on the monitor topic
+        void advertiseActivity(std::string author, std::string activity, int code, std::string message, ros::Duration duration=ros::Duration(0));
 
         //----- Save\Load methods ----------------
-        bool loadSkillSequence(std::string filename);
-        bool saveSkillSequence(std::string filename);
         std::string getSavePath();
 
         //----- UI methods ----------------

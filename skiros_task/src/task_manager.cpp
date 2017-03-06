@@ -217,152 +217,6 @@ bool TaskManager::removeSkillInSequence(std::string author, int index)
     return true;
 }
 
-bool TaskManager::loadSkillSequence(std::string filename)
-{
-  //Open document --------------
-  std::string path = getSavePath();
-  path = path + filename;
-  TiXmlDocument doc(path);
-  FINFO("Opening file '" << path << "'...");
-  if (!doc.LoadFile())
-  {
-      FERROR("File not found.");
-      return false;
-  }
-  TiXmlHandle hDoc(&doc);
-  TiXmlElement* pElem;
-  TiXmlHandle root(0);
-
-  //Get the root element --------------
-  pElem=hDoc.FirstChildElement().Element();
-  // should always have a valid root but handle gracefully if it does
-  if (!pElem)
-  {
-      FERROR("Format not valid.");
-      return false;
-  }
-
-  // save this for later
-  root=TiXmlHandle(pElem);
-
-  //----- Clear the current skill sequence --------
-  task_.clear();
-  //----- Get the world elements --------------
-  TiXmlElement* properties;
-  for( pElem=root.FirstChild( "skill" ).Element(); pElem; pElem=pElem->NextSiblingElement("skill"))
-  {
-      //FINFO(pElem->Value());
-      SkillHolder skill;
-      pElem->QueryStringAttribute("manager", &skill.manager);
-      pElem->QueryStringAttribute("name", &skill.name);
-      properties = pElem->FirstChild()->ToElement();
-      //FINFO(" Eccomi li " << properties->Value());
-      TiXmlElement* prop = properties->FirstChildElement();
-      if(prop!=NULL)
-      {
-        for( prop; prop; prop=prop->NextSiblingElement())
-        {
-            //FINFO("E qui...  " << prop->Value());
-            int temp_state, temp_specType, temp_length;
-            std::string temp_key, temp_name, temp_ash;
-            unsigned long int temp_ui;
-            temp_key = prop->Value();
-            prop->QueryStringAttribute("name",&temp_name);
-            prop->QueryIntAttribute("state",&temp_state);
-            prop->QueryIntAttribute("spec_type",&temp_specType);
-            prop->QueryIntAttribute("size",&temp_length);
-            prop->QueryStringAttribute("ash",&temp_ash);
-            temp_ui = boost::lexical_cast<unsigned long int>(temp_ash);
-            skiros_common::Param p(temp_key, temp_name, skiros_common::any::getTypeFromHash((uint64_t)temp_ui), (skiros_common::ParamSpecType) temp_specType, temp_length);
-            if((skiros_common::ParameterState) temp_state == skiros_common::specified)
-            {
-                skiros_common::utility::SerialData sd;
-                prop->QueryUnsignedAttribute("payload_length",&sd.length);
-                TiXmlText* text = prop->FirstChild()->ToText();
-                std::stringstream ss(text->Value());
-                //FINFO(ss.str());
-                int temp_ui;
-                //sd.data.resize(smap.length);
-                for(int i = 0; i<sd.length; i++)
-                {
-                    //FINFO(temp_ui);
-                    ss >> temp_ui;
-                    sd.data.push_back((uint8_t)temp_ui);
-                }
-                //FINFO(sd.length << " and data " << sd.data.size());
-                p.setAllValues(skiros_common::utility::deserializeAnyVector(sd));
-            }
-            skill.params.insert(std::pair<std::string, skiros_common::Param>(temp_key, p));
-        }
-      }
-      task_.push_back(skill);
-  }
-
-  advertiseTaskModification(controller_id_);
-  return true;
-}
-
-bool TaskManager::saveSkillSequence(std::string filename)
-{
-  //---- Document generation + header ----
-  TiXmlDocument doc;
-  TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
-  TiXmlElement * root = new TiXmlElement( "task" );
-  doc.LinkEndChild( decl );
-  doc.LinkEndChild( root );
-  TiXmlComment * comment = new TiXmlComment();
-  comment->SetValue(" This file was generated from 'skiros_task/task_manager.h' " );
-  root->LinkEndChild( comment );
-
-  //----- Add skills ------------
-
-  TiXmlText * text;
-  std::stringstream ss, sa;
-  for(std::list<SkillHolder>::iterator it = task_.begin(); it!=task_.end(); ++it)
-  {
-      TiXmlElement * skill = new TiXmlElement("skill");
-      skill->SetAttribute("manager", it->manager);
-      skill->SetAttribute("name", it->name);
-      TiXmlElement * params = new TiXmlElement("parameters");
-      skill->LinkEndChild( params );
-      //Extract params
-      for(skiros_common::ParamMap::iterator itt=it->params.begin();itt!=it->params.end();itt++)
-      {
-          TiXmlElement * param = new TiXmlElement(itt->second.key());
-          param->SetAttribute("name", itt->second.name());
-          param->SetAttribute("state", (int)itt->second.state());
-          param->SetAttribute("spec_type", (int)itt->second.specType());
-          param->SetAttribute("size",itt->second.size());
-          uint64_t ttt = skiros_common::any::getHashFromType(itt->second.type());
-          sa.str("");
-          sa << ttt;
-          param->SetAttribute("ash",sa.str());
-          //FINFO(ttt << " " << str.str());
-          if(itt->second.state() == skiros_common::specified)
-          {
-              skiros_common::utility::SerialData sd = skiros_common::utility::serializeAnyVector(itt->second.getValues());
-              param->SetAttribute("payload_length", sd.length);
-              ss.str("");
-              for(int i=0;i<sd.length;i++) ss << (unsigned short int)sd.data[i] << " ";
-              text = new TiXmlText(ss.str());
-              param->LinkEndChild(text);
-          }
-          params->LinkEndChild( param );
-      }
-      root->LinkEndChild( skill );
-  }
-
-  //------- SAVE ----------------
-  std::string path = getSavePath();
-  //Check if the name is valid, if not put the standard name
-  std::size_t t = filename.find(".xml");
-  if(t == std::string::npos || t<=0) filename = "my_task.xml";
-  path = path + filename;
-  ROS_INFO("%s", path.c_str());
-  doc.SaveFile( path.c_str() );
-  return true;
-}
-
 std::string TaskManager::getSavePath()
 {
   if(save_path_.empty()) save_path_ = skiros_common::utility::getSkirosSaveDirectory() + "tasks/";
@@ -548,7 +402,7 @@ bool TaskManager::exeSkillSequence()
     {
         current_exe_skill_ = skill;
         start_time = ros::Time::now();
-        publishTaskStatus(controller_id_, skill, "start");
+        publishTaskStatus(controller_id_, skill, "started");
         ExecutionResult result = this->exeSkill(skill);
         publishTaskStatus(controller_id_, skill, result.status, result.progress_code, result.progress_description);
 
@@ -595,6 +449,18 @@ void TaskManager::publishTaskStatus(std::string author, SkillHolder skill, std::
     msg.skill.parameters_in = skiros_common::utility::serializeParamMap(skill.params);
     msg.progress_code = progress_code;
     msg.progress_description = progress_description;
+    tm_monitor_pub_.publish(msg);
+}
+
+void TaskManager::advertiseActivity(std::string author, std::string activity, int code, std::string message, ros::Duration duration)
+{
+    skiros_msgs::TmMonitor msg;
+    msg.header.stamp = ros::Time::now();
+    msg.author = author;
+    msg.action = activity;
+    msg.progress_code = code;
+    msg.progress_description = message;
+    msg.progress_seconds = duration.toSec();
     tm_monitor_pub_.publish(msg);
 }
 

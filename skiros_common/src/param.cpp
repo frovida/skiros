@@ -73,54 +73,6 @@ namespace skiros_common
 
 #endif //__GNUG__
 
-/*bool Param::setValue(skiros_common::any value, int position)
-{
-	FDEBUG("Param::setValue (" << this->getKey() << ") with type" << value.type().name());
-	if(state_ != blank )
-	{
-		if(value_type_ == value.type() && position < values_.size())
-		{
-			values_.at(position) = value;
-			is_defined_.at(position) = true;
-			this->checkSpecified();
-			FDEBUG("setValue done.");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else
-	{
-		return false;
-	}
-}*/
-/*
-template<class T> bool Param::setAllValues(std::vector<T> values)
-{
-	if(value_type_ != typeid(T))
-	{
-		FERROR("Trying to set a value which doesn't correspond to the parameter type! Aborted.");
-		return false;
-	}
-	if(values.size() != values_.size())
-	{
-		std::ostringstream ss;
-		ss << "Input vector length doesn't coincide with the parameter: " << values_.size();
-		FERROR(ss.str());
-		return false;
-	}
-	T val;
-	for (int i = 0;i<values_.size();i++)
-	{
-		val = values.at(i);
-		values_.at(i) = val;
-	}
-	for (int i=0; i<is_defined_.size(); i++) is_defined_.at(i) = true;
-	state_ = specified;
-	return true;
-}*/
 //-------------------------------------------------------------
 
 std::string Param::getValuesSingleStr() const
@@ -153,8 +105,25 @@ std::string Param::printState() const
           if(v.size()-1==i) ss << " ";
           else ss << ", ";
   }
-  ss << "]" << " " << demangleType(type()) << ", " << ParamSpecTypeStr[specType()]; // << " State: " << ParameterStateStr[state_];
-  //ROS_INFO_STREAM(ss.str());
+  ss << "]";// << " " << demangleType(type()) << ", " << ParamSpecTypeStr[specType()]; // << " State: " << ParameterStateStr[state_];
+  return ss.str();
+}
+
+//-------------------------------------------------------------
+
+std::string Param::printValue() const
+{
+  std::stringstream ss;
+  std::vector<std::string> v;
+  this->getValuesStr(v);
+  ss << " [ ";
+  for(int i=0; i<v.size();i++)
+  {
+          ss << v[i];
+          if(v.size()-1==i) ss << " ";
+          else ss << ", ";
+  }
+  ss << "]";
   return ss.str();
 }
 

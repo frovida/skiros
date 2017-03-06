@@ -77,7 +77,7 @@ bool Module::exe(DoneCallback doneCb, FeedbackCallback feedbackCb)
 
 bool Module::stop()
 {
-    //if(execution_id_<0)return false; //Not needed until we assume only 1 running instance per module
+    if(execution_id_<0)return false;
     if(mi_->stopModule(execution_id_, name_, controller_name_))
     {
         execution_id_ = -1;

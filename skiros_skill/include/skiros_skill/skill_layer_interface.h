@@ -48,6 +48,7 @@ namespace skiros_skill
 
     typedef std::map<std::string, SkillManagerInterfacePtr> SkillMgrsMap;
     typedef std::pair<std::string, SkillManagerInterfacePtr> SkillMgrsPair;
+    typedef boost::function<void (const skiros_msgs::WmMonitor& msg) > WmChangeCallback;
     class SkillLayerInterface
     {
     public:
@@ -57,9 +58,11 @@ namespace skiros_skill
         SkillMgrsMap & getSkillMgrsMap(){return skill_mgrs_list_;}
         SkillMgrsMap::iterator find(std::string skill_manager){return skill_mgrs_list_.find(skill_manager);}
 
+        void registerChangeCallback(WmChangeCallback cb){change_cb_=cb;}
         bool hasChanged();
         void shutdown();
     private:
+        WmChangeCallback change_cb_;
         bool new_changes_;
         std::set<std::string> agent_types_;
         SkillMgrsMap skill_mgrs_list_;

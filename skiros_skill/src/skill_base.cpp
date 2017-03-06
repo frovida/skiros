@@ -76,9 +76,8 @@ namespace skiros_skill
                 ret = preSense();
               if(ret<0)
               {
-                  this->setState(error, false);
                   this->setResultCode(ret);
-                  setProgress(ret, "Skill failed on preSense.");
+                  this->setState(error);
                   return;
               }
 			  if(this->checkPreConditions())
@@ -88,38 +87,37 @@ namespace skiros_skill
                   ret = this->execute();
                   if(ret<0)
                   {
-                      this->setState(error, false);
+                      this->checkPostConditions();
                       this->setResultCode(ret);
-                      setProgress(ret, "Skill failed on execution.");
+                      this->setState(error);
                       return;
                   }
                   ret = this->postSense();
                   if(ret<0)
                   {
-                      this->setState(error, false);
+                      this->checkPostConditions();
                       this->setResultCode(ret);
-                      setProgress(ret, "Skill failed on postSense.");
+                      this->setState(error);
                       return;
                   }
+                  auto final_progress = this->getProgress();
                   if(!this->checkPostConditions())
                   {
-                      this->setState(error, false);
-                      setResultCode(-1);
-                      setProgress(-1, "Postcondition failure.");
+                      this->setResultCode(-1);
+                      this->setState(error);
                   }
                   else
                   {
                       setState(terminated, false);
-                      setProgress("Success.");
+                      setProgress(final_progress);
                   }
                   this->setResultCode(ret);
                   return;
 			  }
 			  else
               {
-                  this->setState(error, false);
-                  setResultCode(-1);
-                  setProgress(-1, "Preconditions not met.");
+                  this->setResultCode(-1);
+                  this->setState(error);
                   return;
 			  }
 		}
