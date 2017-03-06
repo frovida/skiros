@@ -279,6 +279,7 @@ namespace skiros_common
 
         std::string             key() const	      { return key_; }
         std::string             name() const      { return name_; }
+        template<class T> bool  hasValueType(T type)    { return *value_type_.target==typeid(type); }
         const std::type_info&	type() const      { return *value_type_.target; }
         bool                    isType(ParamSpecType type)    { return spec_type_==type; }
         std::string             typeName() const;
@@ -290,6 +291,8 @@ namespace skiros_common
 
         //! \brief Print param data textually
         std::string printState() const;
+        //! \brief Print param data value textually
+        std::string printValue() const;
         //! \brief Fix the Parameter value type and the vector length. The state goes into "initialized"
 		void init(const std::type_info & value_type, ParamSpecType type, int array_length);
         //! \brief Reset the Param type to NULL and state to "blank"
