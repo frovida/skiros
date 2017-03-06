@@ -59,6 +59,9 @@ struct GroundPredicate{
         std::stringstream ss(pddl_predicate);
         std::string s;
         getline(ss, s, '(');
+        getline(ss, s, ' ');
+        s.erase(std::remove(s.begin(), s.end(), ','), s.end());
+        s.erase(std::remove(s.begin(), s.end(), ')'), s.end());
         predicate_name = s;
         while(getline(ss, s, ' ')){
             s.erase(std::remove(s.begin(), s.end(), ','), s.end());
@@ -103,7 +106,7 @@ class PlannerModel{
 
     std::vector<std::pair<std::string, std::string> > part_instances;
 
-    bool containsNoUsefulParts(Element e);
+    // bool containsNoUsefulParts(Element e);
 	void addHiddenObjects(HiddenPropertyElement hpe);
 	void addObjectByType(std::string type_name, std::string object_name);
     Element getRack(Element e, int depth);
@@ -124,7 +127,8 @@ public:
 	void setSuperType(PDDL_Type type_to_set, std::string current_type);
 	void findWorldObjects();
 	void setGoal(std::vector<skiros_wm::Element> conditions, std::vector<std::string> pddl_goals);
-
+    void removeMetGoals();
+    bool hasGoals(){return goal.size();}
 
 	//Accessor
     bool addType(std::string t);
@@ -138,6 +142,7 @@ public:
 
     //Parsing
     GroundPredicate parseGroundPredicate(Element e);
+    bool evaluatePredicate(GroundPredicate p);
 
     //PDDL methods
     std::string getTypesPDDL();

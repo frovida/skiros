@@ -195,6 +195,8 @@ public:
     //Main functions
     void initDomain();
     void setGoal(std::vector<skiros_wm::Element> conditions, std::vector<std::string> pddl_goals);
+    void removeMetGoals();
+    bool hasGoals();
     void initProblem();
     void outputPDDL();
     std::vector<Element> callPlanner();

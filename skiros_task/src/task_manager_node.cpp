@@ -78,7 +78,7 @@ void input(TaskManager * tm)
         std::cout << "Actual skill sequence: " << std::endl;
         if(tm->printSkillSequence()!="") std::cout << tm->printSkillSequence();
         else std::cout << "Empty" << std::endl;
-        std::cout << std::endl << "Task menu: 'p'-visualize available skills, 'a'-add skill, 'r'-remove skill, 'e'-execute the skill list, 'i' iterate execution, 'm'-execute a module, 's'-save list, 'l'-load list" << std::endl;
+        std::cout << std::endl << "Task menu: 'p'-visualize available skills, 'a'-add skill, 'r'-remove skill, 'e'-execute the skill list, 'i' iterate execution, 'm'-execute a module" << std::endl;
         std::cin >> c;
         switch(c)
         {
@@ -93,54 +93,6 @@ void input(TaskManager * tm)
             break;
           case 'e'://execute skill list
             tm->exeSkillSequence();
-            break;
-          case 's'://save
-            std::cout << "Please, enter the file name (standard name: 'my_world_state.xml'): " << std::endl;
-            std::getline (std::cin,name);
-            std::cout << "Saving file " << name << "..." << std::endl;
-            if(tm->saveSkillSequence(name))std::cout << "File saved successfully." << std::endl;
-            break;
-          case 'l'://load a skill sequence from file
-            struct dirent *dirpent;
-            DIR * dirp;
-            dirp = opendir(tm->getSavePath().c_str());
-            std::cout << tm->getSavePath() << ": " << std::endl;
-
-            if(dirp)
-            {
-                std::vector<std::string> v;int i = 0;
-                //List the .xml files found in the directory
-                while((dirpent=readdir(dirp)) != NULL)
-                {
-                  std::string temp(dirpent->d_name);
-                  if(temp.find(".xml") != std::string::npos)
-                  {
-                  std::cout << i++ << ": " << dirpent->d_name << std::endl;
-                  v.push_back(temp);
-                  }
-                }
-                closedir(dirp);
-                //Wait for a selection
-                while(true)
-                {
-                  if(v.size()>0)
-                  {
-                std::cout << "Select the file to load. (number)" << std::endl;
-                std::cin >> i;
-                if(i>=0 && i < v.size())
-                {
-                    if(tm->loadSkillSequence(v[i]))std::cout << "File loaded successfully." << std::endl;
-                    break;
-                }
-                  }
-                  else
-                  {
-                  std::cout << "No files to load." << std::endl;
-                  break;
-                  }
-                }
-            }
-            else  std::cout << "Problem occured while opening the directory." << std::endl;
             break;
          case 'c'://close
             loop = false;
