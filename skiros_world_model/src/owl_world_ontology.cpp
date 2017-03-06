@@ -452,6 +452,15 @@ std::string Ontology::results2string(librdf_query_results * results, bool cut_pr
               else if(librdf_node_is_resource(values[i])) str = (char *)librdf_uri_as_string(librdf_node_get_uri(values[i]));
               if(cut_prefix)
                 str = str.substr(str.find("#")+1);
+              else
+              {
+                  std::string prefix = str.substr(0, str.find("#"));
+                  if(hasPrefix(prefix))
+                  {
+                      std::string short_prefix = getShortPrefix(prefix);
+                      str.replace(str.find(prefix), prefix.length()+1, short_prefix+":");
+                  }
+              }
               ss << str << " ";
          }
        }
@@ -706,7 +715,7 @@ void Ontology::loadMainOntology(std::string filename, std::string storage_name)
         auto last_slash = default_uri_.find_last_of('/');
         std::string short_prefix = default_uri_.substr(last_slash+1, default_uri_.length()-1);
         this->addPrefix(std::pair<std::string, std::string>(default_uri_, short_prefix));
-        FINFO("[loadSubOntology]: I add: " << default_uri_);
+        FINFO("[loadMainOntology]: I add: " << default_uri_);
     }
     librdf_free_parser(parser);
     librdf_free_uri(uri);

@@ -96,9 +96,12 @@ namespace skiros
         //! \brief stop the execution of a skill
         void preempt(std::string reason)
         {
-            this->onPreempt();
-            this->setState(skiros::state::preempted, false);
-            this->setProgress(reason);
+            if(this->state_!=skiros::state::preempted)
+            {
+                this->onPreempt();
+                this->setState(skiros::state::preempted, false);
+                this->setProgress(reason);
+            }
         }
 
         //void pause();//TODO

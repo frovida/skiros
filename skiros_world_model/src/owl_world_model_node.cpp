@@ -72,10 +72,9 @@ skiros_wm::owl::WorldModel model(ontology);
 ros::Publisher monitor;
 
 //Model/ontology access variables
-typedef std::map<std::string, boost::shared_ptr<DiscreteReasoner> > ModulesMapType;
-ModulesMapType loaded_reasoners;
 bool ontology_modification_flag = false;
 boost::mutex extern_wm_mutex;
+std::string locker_id;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -187,11 +186,16 @@ bool lockUnlock(skiros_msgs::SetBoolRequest  &req,
 {
     if(req.set)
     {
-        extern_wm_mutex.lock();
-        FINFO("[lockUnlock] Locked by: " << req.author);
+        if(locker_id== "" || locker_id!=req.author)
+        {
+            extern_wm_mutex.lock();
+            FINFO("[lockUnlock] Locked by: " << req.author);
+            locker_id=req.author;
+        }
     }
     else
     {
+        locker_id = "";
         extern_wm_mutex.unlock();
         FINFO("[lockUnlock] Unlocked by: " << req.author);
     }
@@ -206,8 +210,9 @@ bool queryOntology(skiros_msgs::WoQueryRequest  &req,
          skiros_msgs::WoQueryResponse &res)
 {
     auto lock = model.startChange();
+    ros::Time start_time = ros::Time::now();
     res.answer =  ontology.queryAsString(req.query_string.c_str(), req.cut_prefix);
-    FINFO("[Relation query] - Answer: \n" << res.answer);
+    FINFO("[Relation query] Time: " << (ros::Time::now()-start_time).toSec() << " Answer: \n" << res.answer);
     return true;
 }
 
@@ -279,7 +284,7 @@ bool queryModel(skiros_msgs::WmQueryRequest  &req,
     {
       res.matches.push_back(relation2msg(rel));
     }
-    FDEBUG("[Relation query] - " << req.relation.subject_id <<  req.relation.predicate << req.relation.object_id << " returned " <<  res.matches.size() << " match(es) ");
+    //FINFO("[Relation query] - " << req.relation.subject_id <<  req.relation.predicate << req.relation.object_id << " returned " <<  res.matches.size() << " match(es) ");
     return true;
 }
 
@@ -380,7 +385,7 @@ bool elementGet(skiros_msgs::WmElementGetRequest  &req,
   }
   else
   {
-      FERROR("Action '"<< req.action << "'' is not a valid input.");
+      FERROR("Action '"<< req.action << "' is not a valid input.");
       return false;
   }
   FDEBUG("[Element Query] - " << req.action << " returned " << res.element_list.size() << " elements. ");
@@ -438,7 +443,7 @@ bool elementModify(skiros_msgs::WmElementModifyRequest  &req,
   //FINFO(model.getSceneTree(verbose));
   msg.element = element2msg(e);
   monitor.publish(msg);
-  FINFO("[Element modify srv] - " << msg.action.c_str() << " element " << msg.element.label.c_str() << " type " <<  msg.element.type.c_str() << " by " << msg.author);
+  FINFO("[Element modify srv] - " << msg.action.c_str() << " element " << e.printState("", false) << " by " << msg.author);
   return true;
 }
 
@@ -447,12 +452,12 @@ bool elementModify(skiros_msgs::WmElementModifyRequest  &req,
 bool sceneLoadSave(skiros_msgs::WmSceneLoadAndSaveRequest  &req,
             skiros_msgs::WmSceneLoadAndSaveResponse &res)
 {
-    auto lock = model.startChange();
     std::string path;
     ros::NodeHandle skiros_nh(skiros_namespace);
     skiros_nh.param<std::string>(skiros_config::scene_workspace, path, skiros_common::utility::getSkirosSaveDirectory()+"scenes/");
     if(req.action == req.LOAD)
     {
+        auto lock = model.startChange();
         res.ok = false;
         if(model.loadScene(path+req.filename))
         {
@@ -466,6 +471,7 @@ bool sceneLoadSave(skiros_msgs::WmSceneLoadAndSaveRequest  &req,
     }
     else
     {
+        auto lock = model.startChange(true);
         res.ok = model.saveScene(path+req.filename);
     }
     return true;
@@ -539,7 +545,7 @@ int main (int argc, char **argv)
     //Foundamental initialization necessary to avoid problems with serialization of params (see "skiros_config/param_types.h" for more details)
     skiros_config::ParamTypes param_types = skiros_config::ParamTypes::getInstance();
     // Use multiple threads to handle callbacks
-    ros::AsyncSpinner spinner(2);
+    ros::AsyncSpinner spinner(3);
     spinner.start();
 
     ///SAFETY CHECKS
@@ -601,15 +607,25 @@ int main (int argc, char **argv)
             {
                 if(main_ontology.find(file)==std::string::npos)
                 {
-                    model.loadSubOntology(owl_ws+file);
-                    if(file.find("learned_concepts")!=std::string::npos) //Only the learned_concept.owl file is imported in learned_ont
-                        learned_ont.loadSubOntology(owl_ws+file);
-                    FINFO("Sub ontology: " << owl_ws+file << ", loaded successfully.");
+                    if(file.find("learned_concepts")==std::string::npos) //Only the learned_concept.owl file is imported in learned_ont
+                    {
+                        model.loadSubOntology(owl_ws+file);
+                        FINFO("Sub ontology: " << owl_ws+file << ", loaded successfully.");
+                    }
                 }
             }
             catch(std::runtime_error e)
             {FERROR(e.what());}
         }
+        try
+        {
+            std::string file="learned_concepts.owl";
+            model.loadSubOntology(owl_ws+file);
+            learned_ont.loadSubOntology(owl_ws+file);
+            FINFO("Sub ontology: " << owl_ws+file << ", loaded successfully.");
+        }
+        catch(std::runtime_error e)
+        {FERROR(e.what());}
     }
     if(!ontology.isInitialized()) return -1;
 

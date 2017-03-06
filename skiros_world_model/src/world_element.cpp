@@ -32,7 +32,10 @@ skiros_common::Param & Element::properties(std::string key)
 std::string Element::printState(std::string indend, bool verbose) const
 {
     std::stringstream ss;
-    ss << this->type() << " - " << this->label() << " Id: " << this->id();
+    if (this->id()>=0)
+        ss << this->label() << " (" << this->type() << "-" << this->id() << ")";
+    else
+        ss << this->label() << " (abstract)";
     if(verbose)
     {
         ss  << " \n";
@@ -364,17 +367,19 @@ int WorldGraph::addElement(skiros_wm::Element & e, int parent_id, std::string pr
 
 void WorldGraph::removeElement(int id)
 {
-    nodes_.erase(id);
-    if(global_element_.find(id)!=global_element_.end()) global_element_.erase(id);
-    id_counter_ = 1;
-
-    RelationType parent_rel = *passive_rel_.at(id);
-    removeRelation(parent_rel);
     std::pair<WorldArcPtrMultimap::iterator, WorldArcPtrMultimap::iterator> ret = active_rel_.equal_range(id);
-    for (WorldArcPtrMultimap::iterator it=ret.first; it!=ret.second; ++it)
+    while (ret.first!=ret.second)
     {
-        removeRelation(*it->second);
+        removeElement(ret.first->second->object_id());
+        ret = active_rel_.equal_range(id);
     }
+    nodes_.erase(id);
+    if(global_element_.find(id)!=global_element_.end())
+        global_element_.erase(id);
+    auto parent_rel = passive_rel_.find(id);
+    if(parent_rel==passive_rel_.end())
+        return;
+    removeRelation(*parent_rel->second);
 }
 
 void WorldGraph::clear()
@@ -438,7 +443,14 @@ void WorldGraph::addElement(skiros_wm::Element & e, bool is_global)
     if(!is_global || e.id()==-1)
         e.id() = getId();
     else if(nodes_.find(e.id())!=nodes_.end())
-        throw std::invalid_argument("[WorldGraph::addElement] An element with the same id already exist in the graph.");
+    {
+        std::stringstream ss;
+        ss << "[WorldGraph::addElement] An element with the same id already exist in the graph: " << e.id();
+        throw std::invalid_argument(ss.str().c_str());
+    }
+
+    if(id_counter_ < e.id())
+        id_counter_ = e.id();
     nodes_.insert(WorldElementPair(e.id(), e));
     if(is_global)
         global_element_.insert(e.id());
@@ -447,7 +459,11 @@ void WorldGraph::addElement(skiros_wm::Element & e, bool is_global)
 void WorldGraph::addRelation(RelationType rel, bool passive)
 {
     if(rel.subject_id()==-1 || rel.object_id()==-1)
-        throw std::invalid_argument("[addRelation] Error while inserting relation (parent or object id are -1)");
+    {
+        std::stringstream ss;
+        ss << "[addRelation] Error while inserting relation: " << rel.subject_id() << "-" << rel.predicate() << "-" << rel.object_id();
+        throw std::invalid_argument(ss.str().c_str());
+    }
     boost::shared_ptr<RelationType> rel_ptr(new RelationType(rel.subject_id(), rel.predicate(), rel.object_id()));
     active_rel_.insert(WorldArcPtrPair(rel.subject_id(), rel_ptr));
     if(passive)
