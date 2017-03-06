@@ -280,6 +280,7 @@ namespace skiros_common
         std::string             key() const	      { return key_; }
         std::string             name() const      { return name_; }
         const std::type_info&	type() const      { return *value_type_.target; }
+        bool                    isType(ParamSpecType type)    { return spec_type_==type; }
         std::string             typeName() const;
         ParameterState 			state() const     { return state_; }
         std::string             stateStr() const  { return std::string(ParameterStateStr[state_]); }
