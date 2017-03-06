@@ -105,8 +105,7 @@ std::string Param::printState() const
           if(v.size()-1==i) ss << " ";
           else ss << ", ";
   }
-  ss << "]" << " " << demangleType(type()) << ", " << ParamSpecTypeStr[specType()]; // << " State: " << ParameterStateStr[state_];
-  //ROS_INFO_STREAM(ss.str());
+  ss << "]";// << " " << demangleType(type()) << ", " << ParamSpecTypeStr[specType()]; // << " State: " << ParameterStateStr[state_];
   return ss.str();
 }
 
