@@ -60,7 +60,7 @@ namespace skiros_skill
 {
 
 SkillManager::SkillManager(boost::shared_ptr<ros::NodeHandle> nh, boost::shared_ptr<skiros_wm::WorldModelInterfaceS> world_model, std::string prefix, std::string robot_uri)
-: nh_(nh), wm_(world_model), robot_uri_(prefix+robot_uri), robot_name_(robot_uri)
+: nh_(nh), wm_(world_model), robot_name_(robot_uri), robot_uri_(prefix+robot_uri)
 {
         //Initialize the plugin loader
         skills_loader_ =
@@ -460,7 +460,7 @@ bool SkillManager::registerRobot()
       wm_->addTfPrefix(robot);
       //Call the registration routine
       wm_->lock();
-      if(!wm_->registerRobot(location, robot)>0) {
+      if(!(wm_->registerRobot(location, robot)>0)) {
           wm_->unlock();
           return false;
       }
@@ -481,6 +481,7 @@ bool SkillManager::registerRobot()
   }
   catch(std::runtime_error err)
   {
+      FWARN("[SkillManager::registerRobot] " << err.what());
       return false;
   }
 }
@@ -514,6 +515,7 @@ void SkillManager::tfPubTimerCB(const ros::TimerEvent& e)
                 catch(...){}
                 if(publish)
                 {
+                    robot = wm_->getElement(robot.id());
                     reasoner->storeData(robot, transform.getOrigin(), "Position");
                     reasoner->storeData(robot, transform.getRotation(), "Orientation");
                     wm_->updateElement(robot);
@@ -548,6 +550,7 @@ void SkillManager::tfPubTimerCB(const ros::TimerEvent& e)
                     catch(...){}
                     if(publish)
                     {
+                        e = wm_->getElement(e.id());
                         reasoner->storeData(e, transform.getOrigin(), "Position");
                         reasoner->storeData(e, transform.getRotation(), "Orientation");
                         wm_->updateElement(e);

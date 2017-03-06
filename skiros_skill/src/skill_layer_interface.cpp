@@ -67,9 +67,9 @@ SkillLayerInterface::SkillLayerInterface()
           if(skill_mgrs_list_.find(name) == skill_mgrs_list_.end())
           {
               SkillManagerInterfacePtr new_robot;
+              FINFO("[SkillLayerInterface] Skill manager detected: " << name);
               new_robot.reset(new SkillManagerInterface(wm_ptr_, nh_ptr_, v[i]));
               skill_mgrs_list_.insert(SkillMgrsPair(name, new_robot));
-              FINFO("[SkillLayerInterface] Skill manager detected: " << name);
               new_changes_ = true;
           }
       }
@@ -87,9 +87,10 @@ void SkillLayerInterface::wmMonitorCB(const skiros_msgs::WmMonitor& msg)
      if(skill_mgrs_list_.find(skill_mgr) == skill_mgrs_list_.end())
      {
         SkillManagerInterfacePtr new_robot;
-        new_robot.reset(new SkillManagerInterface(wm_ptr_, nh_ptr_, skill_mgr));
-        skill_mgrs_list_[skill_mgr] = new_robot;
         FINFO("[SkillLayerInterface::wmMonitorCB] New skill manager detected: " << skill_mgr);
+        new_robot.reset(new SkillManagerInterface(wm_ptr_, nh_ptr_, wm_ptr_->getElement(msg.element.id)));
+        skill_mgrs_list_[skill_mgr] = new_robot;
+        //change_cb_(msg);
         new_changes_ = true;
      }
   }
@@ -99,6 +100,7 @@ void SkillLayerInterface::wmMonitorCB(const skiros_msgs::WmMonitor& msg)
     std::string skill_mgr = agent.properties(data::Str[data::SkillMgr]).getValue<std::string>();
     skill_mgrs_list_.erase(skill_mgrs_list_.find(skill_mgr));
     FINFO("[SkillLayerInterface::wmMonitorCB] Skill manager " << skill_mgr << " removed from control list");
+    //change_cb_(msg);
     new_changes_ = true;
   }
 }
