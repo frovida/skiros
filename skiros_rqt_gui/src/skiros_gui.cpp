@@ -646,11 +646,11 @@ void SkirosGui::updateTask()
         skill_model_.clear();
         for(int i=0;i<msg.response.task_robots.size();i++)
         {
-
             skill_model_.insertRow(QSkillHolder(msg.response.task_robots[i].c_str(),
                                                 msg.response.task_skills[i].type.c_str(),
                                                 msg.response.task_skills[i].name.c_str(),
-                                                skiros_common::utility::deserializeParamMap(msg.response.task_skills[i].parameters_in)));
+                                                skiros_common::utility::deserializeParamMap(msg.response.task_skills[i].parameters_in)),
+                                                skill_model_.rowCount(QModelIndex()));
         }
         ui_.skills_table_view->resizeRowsToContents();
         ui_.skills_table_view->resizeColumnsToContents();

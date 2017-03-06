@@ -16,5 +16,5 @@
   
   <node launch-prefix="$(arg prefix)" name="skiros_wm" pkg="skiros_world_model" type="world_model_node" respawn="true" output="screen" />
   <node launch-prefix="$(arg prefix)" name="skiros_task_manager" pkg="skiros_task" type="task_manager_node" respawn="true" output="screen" />
-  <node name="skiros_gui" pkg="rqt_gui" type="rqt_gui" respawn="true" args="-s skiros" output="screen" />
+  <node name="skiros_gui" pkg="rqt_gui" type="rqt_gui" args="-s skiros" output="screen" />
 </launch>
