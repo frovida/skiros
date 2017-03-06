@@ -150,7 +150,6 @@ int main (int argc, char **argv)
     ///Infinite ROS queue spin
     while(ros::ok() && KEEP_RUNNING)
     {
-        ros::spinOnce();
         ros::Duration(0.5).sleep();
     }
 

@@ -682,8 +682,7 @@ int main (int argc, char **argv)
     skiros_nh.param(skiros_config::save_log, save_log, false);
     skiros_common::InitLogger("skiros_world_model", save_log, save_log, save_log);
 
-    ///Infinite ROS queue spin
-    ros::spin();
+    ros::waitForShutdown();
 
     ///Unload
     //std::cout << "Lets close" << std::endl;

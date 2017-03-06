@@ -180,8 +180,8 @@ int main (int argc, char **argv){
     //Create services:
     ros::ServiceServer task_query = nh.advertiseService(ros::this_node::getName()+task_query_srv_name, &TaskManager::taskQuery, &tm);
     ros::ServiceServer task_modify = nh.advertiseService(ros::this_node::getName()+task_modify_srv_name, &TaskManager::taskModify, &tm);
-    //Infinite ROS queue spin
-    ros::spin();
+    
+    ros::waitForShutdown();
 
     //------------------- CLOSE ------------------------
     tm.shutdown();

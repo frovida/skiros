@@ -360,7 +360,7 @@ std::string PlannerModel::getTypesPDDL(){
     ss << "(:types\n\t";
     //top level (object)
     for(unsigned i = 1; i <= max_depth; ++i){
-        ss < "\t";
+        ss << "\t";
         for(PDDL_Type t : types){
             if(t.depth == i){
                 ss << t.type_name << " ";
