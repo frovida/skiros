@@ -72,6 +72,8 @@ skiros_wm::owl::WorldModel model(ontology);
 ros::Publisher monitor;
 
 //Model/ontology access variables
+typedef std::map<std::string, boost::shared_ptr<DiscreteReasoner> > ModulesMapType;
+ModulesMapType loaded_reasoners;
 bool ontology_modification_flag = false;
 boost::mutex extern_wm_mutex;
 std::string locker_id;
@@ -471,7 +473,7 @@ bool sceneLoadSave(skiros_msgs::WmSceneLoadAndSaveRequest  &req,
     }
     else
     {
-        auto lock = model.startChange(true);
+        auto lock = model.startChange();
         res.ok = model.saveScene(path+req.filename);
     }
     return true;
