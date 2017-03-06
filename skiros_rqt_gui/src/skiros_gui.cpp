@@ -41,6 +41,10 @@
 #include <QPainter>
 #include <QLineEdit>
 #include <QTimer>
+#include <QDir>
+#include <fstream>
+#include <streambuf>
+
 
 #include "skiros_world_model/world_model_interface.h"
 #include <skiros_world_model/utility.h>
@@ -85,10 +89,12 @@ void SkirosGui::initPlugin(qt_gui_cpp::PluginContext& context)
   ui_.setupUi(widget_);
   wm_ptr_.reset(new skiros_wm::WorldModelInterface(*nh_ptr_, true));
   if(!wm_ptr_->isConnected()) FWARN("[SkirosGui::initPlugin] World model seems down, waiting...");
-  if(!wm_ptr_->waitConnection(ros::Duration(3.0)))
+  if(!wm_ptr_->waitConnection(ros::Duration(3.0)) && ros::ok())
   {
-      throw std::runtime_error("[SkirosGui::initPlugin] No world model connection available.");
+      FWARN("[SkirosGui::initPlugin] World model seems down, waiting...");
   }
+  if(!ros::ok())
+      return;
   FINFO("[SkirosGui::initPlugin] Connected to world model");
 
   ros::Duration(0.5).sleep();//Wait half second to avoid a weird bug where I don't detect the presence of robots
@@ -102,7 +108,7 @@ void SkirosGui::initPlugin(qt_gui_cpp::PluginContext& context)
 
   ///Task manager interfaces
   task_exe_pub_ = nh_ptr_->advertise<skiros_msgs::TmTaskExe>(std::string(task_mgr_node_name) + task_exe_tpc_name, 10);
-  task_monitor_sub_ = nh_ptr_->subscribe(std::string(task_mgr_node_name) + task_monitor_tpc_name, 1, &SkirosGui::tmFeedbackReceived,  this);
+  task_monitor_sub_ = nh_ptr_->subscribe(std::string(task_mgr_node_name) + task_monitor_tpc_name, 5, &SkirosGui::tmFeedbackReceived,  this);
   task_modify_ = nh_ptr_->serviceClient<skiros_msgs::TmModifyTask>(std::string(task_mgr_node_name) + task_modify_srv_name);
   task_query_ = nh_ptr_->serviceClient<skiros_msgs::TmQueryTask>(std::string(task_mgr_node_name) + task_query_srv_name);
 
@@ -112,6 +118,7 @@ void SkirosGui::initPlugin(qt_gui_cpp::PluginContext& context)
   timer->start(200);
   ui_.robot_combo_box->setCurrentIndex(ui_.robot_combo_box->findText(""));
   connect(ui_.robot_combo_box, SIGNAL(currentIndexChanged(int)), this, SLOT(robotIndexChanged(int)));
+  connect(ui_.modality_checkBox, SIGNAL(toggled(bool)), this, SLOT(modalityButtonClicked()));
   connect(ui_.exe_task_button, SIGNAL(pressed()), this, SLOT(exeTaskButtonClicked()));
   connect(ui_.stop_task_button, SIGNAL(pressed()), this, SLOT(stopTaskButtonClicked()));
   connect(this, SIGNAL(robotFeedbackReceived(const skiros_msgs::ModuleStatus &)), this, SLOT(robotMonitorCb(const skiros_msgs::ModuleStatus &)));
@@ -146,7 +153,6 @@ void SkirosGui::initPlugin(qt_gui_cpp::PluginContext& context)
   wm_model_ptr_ = new TreeModel(wm_ptr_->getElement(0));
   ui_.world_model_tree_view->setModel(wm_model_ptr_);
   ui_.world_model_tree_view->setModel(wm_model_ptr_);
-  ui_.tableWidget_wm_object->insertRow(0);
   connect(ui_.world_model_tree_view->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(onWmTreeSelectionChanged(const QModelIndex &, const QModelIndex &)));
   connect(ui_.remove_object_button, SIGNAL(pressed()), this, SLOT(removeWmElementButtonClicked()));
   connect(ui_.add_object_button, SIGNAL(pressed()), this, SLOT(addWmElementButtonClicked()));
@@ -155,24 +161,23 @@ void SkirosGui::initPlugin(qt_gui_cpp::PluginContext& context)
   connect(ui_.loadScene_button, SIGNAL(pressed()), this, SLOT(loadSceneButtonClicked()));
   scene_load_save_ = nh_ptr_->serviceClient<skiros_msgs::WmSceneLoadAndSave>(std::string(world_model_node_name) + wm_scene_load_save_srv_name);
   interactive_m_server_.reset( new interactive_markers::InteractiveMarkerServer("skiros_obj_edit") );
-  ///Goal tab
-  //ui_.goal_tab->removeTab();
+  ///Logging tab
+  connect(ui_.startstoplog_button, SIGNAL(pressed()), this, SLOT(startLogButtonClicked()));
+  connect(ui_.logFile_lineEdit, SIGNAL(returnPressed()), this, SLOT(logFileChanged()));
 }
 
 void SkirosGui::shutdownPlugin()
 {
+    saveLog();
 }
 
 void SkirosGui::saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const
 {
     instance_settings.setValue("sceneName", ui_.sceneFile_lineEdit->text());
-
-    //QString topic = ui_.topics_combo_box->currentText();
-    //qDebug("SkirosGui::saveSettings() topic '%s'", topic.toStdString().c_str());
-    /*instance_settings.setValue("topic", topic);
-  instance_settings.setValue("zoom1", ui_.zoom_1_push_button->isChecked());
-  instance_settings.setValue("dynamic_range", ui_.dynamic_range_check_box->isChecked());
-  instance_settings.setValue("max_range", ui_.max_range_double_spin_box->value());*/
+    instance_settings.setValue("advancedOptions", ui_.modality_checkBox->isChecked());
+    instance_settings.setValue("size", widget_->size());
+    instance_settings.setValue("logFile", ui_.logFile_lineEdit->text());
+    instance_settings.setValue("saveLog", logging_);
 }
 
 void SkirosGui::restoreSettings(const qt_gui_cpp::Settings& plugin_settings, const qt_gui_cpp::Settings& instance_settings)
@@ -185,26 +190,21 @@ void SkirosGui::restoreSettings(const qt_gui_cpp::Settings& plugin_settings, con
         ui_.sceneFile_lineEdit->setText(sceneNameParam.c_str());
     else if(!sceneName.isEmpty())
         ui_.sceneFile_lineEdit->setText(sceneName);
-    /*bool zoom1_checked = instance_settings.value("zoom1", false).toBool();
-  ui_.zoom_1_push_button->setChecked(zoom1_checked);
-
-  bool dynamic_range_checked = instance_settings.value("dynamic_range", false).toBool();
-  ui_.dynamic_range_check_box->setChecked(dynamic_range_checked);
-
-  double max_range = instance_settings.value("max_range", ui_.max_range_double_spin_box->value()).toDouble();
-  ui_.max_range_double_spin_box->setValue(max_range);
-
-  QString topic = instance_settings.value("topic", "").toString();
-  // don't overwrite topic name passed as command line argument
-  if (!arg_topic_name.isEmpty())
-  {
-    arg_topic_name = "";
-  }
-  else
-  {
-    //qDebug("SkirosGui::restoreSettings() topic '%s'", topic.toStdString().c_str());
-    selectTopic(topic);
-  }*/
+    QSize size = instance_settings.value("sceneName", "").toSize();
+    widget_->resize(size);
+    auto check = instance_settings.value("advancedOptions", "").toBool();
+    ui_.modality_checkBox->setChecked(check);
+    QString logFile = instance_settings.value("logFile", "").toString();
+    if(logFile!="")
+        ui_.logFile_lineEdit->setText(logFile);
+    else
+    {
+        QString directory = QDir::homePath() + "/skiros/log.txt";
+        ui_.logFile_lineEdit->setText(directory);
+    }
+    logFileChanged();
+    if(instance_settings.value("saveLog", "").toBool())
+        this->startLogButtonClicked();
 }
 
 //Goal tab
@@ -228,6 +228,7 @@ void SkirosGui::conditionIndexChanged(int index)
     ui_.condition_obj_combo_box->clear();
     Element condition = qvariant_cast<Element>(ui_.condition_combo_box->itemData(index));
     string sub_type = condition.properties("hasSubjectType").getValue<string>();
+    ui_.condition_description->setText(condition.properties("description").getValue<std::string>().c_str());
     string obj_type = condition.properties("hasObjectType").getValue<string>();
     {
         if(condition.properties("allowsAbstractTypes").getValue<bool>())
@@ -311,7 +312,9 @@ void SkirosGui::addConditionButtonClicked()
     skiros_wm::Element wm_condition = ui_.condition_combo_box->itemData(ui_.condition_combo_box->currentIndex()).value<Element>();
     skiros_wm::Element sub = ui_.condition_sub_combo_box->itemData(ui_.condition_sub_combo_box->currentIndex()).value<Element>();
     skiros_wm::Element obj = ui_.condition_obj_combo_box->itemData(ui_.condition_obj_combo_box->currentIndex()).value<Element>();
-    wm_condition.properties("hasDesiredState").setValue(ui_.condition_state_checkbox->isChecked());
+    if(!wm_condition.hasProperty("hasDesiredState"))
+        return;
+    wm_condition.properties("hasDesiredState").setValue(true);
     if(sub.id()>=0) wm_condition.properties("hasSubject").setValue(sub.toUrl());
     else wm_condition.properties("hasSubject").setValue(sub.label());
     if(obj.type()!="Undefined")
@@ -321,8 +324,8 @@ void SkirosGui::addConditionButtonClicked()
     }
     else wm_condition.properties("hasObject").setValue("");
     goal_model_.insertRow(QConditionHolder(wm_condition), goal_model_.rowCount(QModelIndex()));
+    //ui_.goal_table_view->resizeColumnsToContents();
     ui_.goal_table_view->resizeRowsToContents();
-    ui_.goal_table_view->resizeColumnsToContents();
     ui_.goal_table_view->scrollToBottom();
 }
 
@@ -411,7 +414,11 @@ void SkirosGui::modifyWmElementButtonClicked()
     if(sel_m->hasSelection()) //check if has selection
     {
         skiros_wm::Element sel_elem = wm_model_ptr_->getElement(sel_m->currentIndex());
-
+        if(sel_elem.id()==0)
+        {
+            printFadingMessage("Can't modify root node.");
+            return;
+        }
         CustomDialog d("Edit element", widget_);
         d.initSkirosInterfaces(wm_ptr_, interactive_m_server_);
         d.addSkirosElementEdit(sel_elem, getFirstFrameId(*wm_ptr_, wm_ptr_->getParentElement(sel_elem)));
@@ -433,6 +440,8 @@ void SkirosGui::removeWmElementButtonClicked()
     if(sel_m->hasSelection()) //check if has selection
     {
         skiros_wm::Element sel_elem = wm_model_ptr_->getElement(sel_m->currentIndex());
+        if(sel_elem.id()==0)
+            return;
         if(wm_ptr_->removeElement(sel_elem.id()))
             wm_model_ptr_->removeElement(sel_m->currentIndex());
     }
@@ -451,14 +460,36 @@ void SkirosGui::updateWmTree(skiros_wm::WorldGraph graph, int root)
 void SkirosGui::onWmTreeSelectionChanged(const QModelIndex & current, const QModelIndex & previous)
 {
     skiros_wm::Element sel_elem = wm_model_ptr_->getElement(current);
-    //FINFO(sel_elem.printState());
-    ui_.tableWidget_wm_object->setItem(0, 0, new QTableWidgetItem(sel_elem.printState().c_str()));
+    //Clear
+    while(ui_.tableWidget_wm_object->rowCount()>0)
+        ui_.tableWidget_wm_object->removeRow(0);
+    //ui_.tableWidget_wm_object->setHorizontalHeaderItem(0, new QTableWidgetItem(sel_elem.toUrl().c_str()));
+    int i=0;
+    for(auto p : sel_elem.properties())
+    {
+        ui_.tableWidget_wm_object->insertRow(i);
+        ui_.tableWidget_wm_object->setItem(i++, 0, new QTableWidgetItem(p.second.printState().c_str()));
+    }
     ui_.tableWidget_wm_object->resizeRowsToContents();
-    //ui_.tableWidget_wm_object->resizeColumnsToContents();
+    while(ui_.tableWidget_wm_relations->rowCount()>0)
+        ui_.tableWidget_wm_relations->removeRow(0);
+    ui_.tableWidget_wm_relations->setHorizontalHeaderItem(0, new QTableWidgetItem("Relations"));
+    auto rels = wm_ptr_->queryRelation(sel_elem.id(), "conditionProperty", -1);
+    i=0;
+    for(skiros_wm::RelationType rel : rels)
+    {
+        ui_.tableWidget_wm_relations->insertRow(i);
+        ui_.tableWidget_wm_relations->setItem(i++, 0, new QTableWidgetItem((rel.predicate()+" "+wm_ptr_->getElement(rel.object_id()).printState("", false)).c_str()));
+    }
+    ui_.tableWidget_wm_relations->resizeRowsToContents();
+    /*std::stringstream ss(wm_ptr_->getContextRelations(sel_elem.toUrl()));
+    for (std::array<char, 50> a; ss.getline(&a[0], 50, '\n'); ) {
+        ui_.tableWidget_wm_relations->insertRow(i);
+        ui_.tableWidget_wm_relations->setItem(i++, 0, new QTableWidgetItem(&a[0]));
+    }*/
 }
 
 //Module tab
-
 void SkirosGui::exeModuleButtonClicked()
 {
     if (curr_robot_=="" || curr_module_== "")return;
@@ -504,7 +535,8 @@ void SkirosGui::moduleIndexChanged(int index)
     int i=0;
     for(auto p : params)
     {
-      addParameter(ui_.gridLayout_modules, i++, p.second);
+        if(advanced_modality_ || p.second.specType()==skiros_common::online || p.second.specType()==skiros_common::optional)
+            addParameter(ui_.gridLayout_modules, i++, p.second);
     }
 }
 
@@ -528,6 +560,7 @@ void SkirosGui::addSkillButtonClicked()
     msg.request.author = skill_exe_author;
     msg.request.action = msg.request.ADD;
     msg.request.robot = curr_robot_;
+    msg.request.skill.type = wm_ptr_->getType(curr_skill_);
     msg.request.skill.name = curr_skill_;
     msg.request.index = index;
     msg.request.skill.parameters_in = skiros_common::utility::serializeParamMap(params);
@@ -545,10 +578,11 @@ void SkirosGui::addSkillButtonClicked()
 
     if(index==-1)index = skill_model_.rowCount(QModelIndex());
     //Add row
-    skill_model_.insertRow(QSkillHolder(curr_robot_, curr_skill_, params), index);
+    skill_model_.insertRow(QSkillHolder(curr_robot_, msg.request.skill.type, curr_skill_, params), index);
     //ui_.skills_table_view->showRow(skill_model_.rowCount(sel_m->currentIndex()));
-    ui_.skills_table_view->resizeRowsToContents();
     ui_.skills_table_view->resizeColumnsToContents();
+    ui_.skills_table_view->resizeRowsToContents();
+    ui_.skills_table_view->horizontalHeader()->setStretchLastSection(true);
     ui_.skills_table_view->scrollToBottom();
 }
 
@@ -584,22 +618,22 @@ void SkirosGui::removeSkillButtonClicked()
 void SkirosGui::skillIndexChanged(int index)
 {
     if (curr_robot_=="")return;
-    curr_skill_= ui_.skill_combo_box->itemText(index).toStdString();
-    if (curr_skill_=="")return;
-    if(skill_interface_ptr->find(curr_robot_)==skill_interface_ptr->getSkillMgrsMap().end())
-      FERROR("[SkirosGui::moduleIndexChanged] Couldn't find the robot " << curr_robot_ << " in list.");
-    skiros_skill::SkillManagerInterfacePtr mgr = skill_interface_ptr->getSkillMgrsMap().find(curr_robot_)->second;
-    skiros_common::ParamMap params = mgr->getParams(curr_skill_);
+        curr_skill_= ui_.skill_combo_box->itemText(index).toStdString();
     QLayoutItem *child;
     while ((child = ui_.gridLayout_skills->takeAt(0)) != 0)
     {
       child->widget()->hide();
       delete child;
     }
+    if (curr_skill_=="")return;
+    if(skill_interface_ptr->find(curr_robot_)==skill_interface_ptr->getSkillMgrsMap().end())
+      FERROR("[SkirosGui::moduleIndexChanged] Couldn't find the robot " << curr_robot_ << " in list.");
+    skiros_skill::SkillManagerInterfacePtr mgr = skill_interface_ptr->getSkillMgrsMap().find(curr_robot_)->second;
+    skiros_common::ParamMap params = mgr->getParams(curr_skill_);
     int i=0;
     for(auto p : params)
     {
-      if(p.second.specType()!=skiros_common::planning)
+      if(p.second.specType()!=skiros_common::planning && (advanced_modality_ || p.second.specType()==skiros_common::online  || p.second.specType()==skiros_common::optional))
           addParameter(ui_.gridLayout_skills, i++, p.second);
     }
 }
@@ -614,6 +648,7 @@ void SkirosGui::updateTask()
         {
 
             skill_model_.insertRow(QSkillHolder(msg.response.task_robots[i].c_str(),
+                                                msg.response.task_skills[i].type.c_str(),
                                                 msg.response.task_skills[i].name.c_str(),
                                                 skiros_common::utility::deserializeParamMap(msg.response.task_skills[i].parameters_in)));
         }
@@ -621,6 +656,61 @@ void SkirosGui::updateTask()
         ui_.skills_table_view->resizeColumnsToContents();
         ui_.skills_table_view->scrollToBottom();
     }
+}
+
+
+//Logging tab
+
+void SkirosGui::startLogButtonClicked()
+{
+    logging_ = !logging_;
+    if(logging_)
+    {
+        ui_.startstoplog_button->setText("Stop recording");
+        ui_.logFile_lineEdit->setDisabled(1);
+    }
+    else
+    {
+        saveLog();
+        ui_.startstoplog_button->setText("Start recording");
+        ui_.logFile_lineEdit->setDisabled(0);
+    }
+}
+
+void SkirosGui::logFileChanged()
+{
+    std::string file = ui_.logFile_lineEdit->text().toStdString();
+    if (file.find(".txt")==std::string::npos || file.find("/")==std::string::npos)
+    {
+        FERROR("[SkirosGui::logFileChanged] File name not valid (missing any '/' and '.txt' at the end): " << file);
+        return;
+    }
+    std::string path = file.substr(0, file.find_last_of('/'));
+    QDir dir(path.c_str());
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+    std::ifstream t(file.c_str());
+    if(t.is_open())
+    {
+        std::string str((std::istreambuf_iterator<char>(t)),
+                         std::istreambuf_iterator<char>());
+        ui_.log_textEdit->setText(str.c_str());
+        t.close();
+    }
+    else FERROR("[SkirosGui::logFileChanged] Unable to open file " << file);
+}
+
+void SkirosGui::saveLog()
+{
+    auto path = ui_.logFile_lineEdit->text().toStdString();
+    ofstream myfile(path);
+    if (myfile.is_open())
+    {
+      myfile << ui_.log_textEdit->toPlainText().toStdString();
+      myfile.close();
+    }
+    else FERROR("[SkirosGui::saveLog] Unable to open file " << path);
 }
 
 // General functions
@@ -631,9 +721,12 @@ void SkirosGui::refreshTimerCb()
     if(skill_interface_ptr->hasChanged())
     {
         ui_.robot_combo_box->clear();
+        robot_monitor_sub_.clear();
         for(auto pair1 : skill_interface_ptr->getSkillMgrsMap())
         {
-            ui_.robot_combo_box->addItem(pair1.first.c_str());
+            auto robot = pair1.first;
+            ui_.robot_combo_box->addItem(robot.c_str());
+            robot_monitor_sub_.push_back(nh_ptr_->subscribe(robot+skiros_config::skill_monitor_tpc_name,10, &SkirosGui::robotFeedbackReceived, this));
         }
     }
     ///Refresh skill\modules combo boxes
@@ -659,10 +752,11 @@ void SkirosGui::refreshTimerCb()
     {
         boost::mutex::scoped_lock lock(wm_tree_mux_);
         skiros_wm::WorldGraph graph;
-        wm_ptr_->getBranch(graph, 0, relation::Str[relation::sceneProperty]);
+        wm_ptr_->getBranch(graph, 0, relation::Str[relation::spatiallyRelated]);
         wm_model_ptr_->clear();
         wm_model_ptr_->setRoot(graph.getElement(0));
-        updateWmTree(graph, 0);
+        auto id = wm_model_ptr_->addElement(graph.getElement(0), -1, "");
+        updateWmTree(graph, id);
         ui_.world_model_tree_view->expandAll();
     }
 }
@@ -670,12 +764,33 @@ void SkirosGui::refreshTimerCb()
 void SkirosGui::getParams(QGridLayout* layout, skiros_common::ParamMap & param_map)
 {
     int i=0;
-    for(auto pair : param_map)
+    for(auto & pair : param_map)
     {
-        if(pair.second.specType()==skiros_common::planning)continue;
-        QLabel * key = qobject_cast<QLabel*>(layout->itemAtPosition(i, 0)->widget());
-        skiros_common::ParamMap::iterator it = param_map.find(key->text().toStdString());
-        if(it==param_map.end())continue;
+        if(pair.second.isType(skiros_common::planning) || (!advanced_modality_ && !pair.second.isType(skiros_common::online) && !pair.second.isType(skiros_common::optional)))
+        {
+            auto & p = pair.second;
+            if(p.hasValueType(skiros_wm::Element()))
+            {
+                std::vector<skiros_wm::Element> v;
+                if(p.state() == skiros_common::specified)
+                {
+                    skiros_wm::Element temp = p.getValue<skiros_wm::Element>();
+                    v = wm_ptr_->resolveElement(temp);
+                }
+                else
+                {
+                    v = wm_ptr_->resolveElement(skiros_wm::Element(concept::Str[concept::Unknown]));
+                }
+                if(v.size()>0)
+                    p.setValue(v[0]);
+            }
+            continue;
+        }
+        QLabel * label = qobject_cast<QLabel*>(layout->itemAtPosition(i, 0)->widget());
+        std::string key = label->text().toStdString();
+        skiros_common::ParamMap::iterator it = param_map.find(key.substr(0, key.find_first_of(' ')));
+        if(it==param_map.end())
+            continue;
         if(it->second.type()==typeid(bool))
         {
             QCheckBox * widget = qobject_cast<QCheckBox*>(layout->itemAtPosition(i, 1)->widget());
@@ -696,44 +811,43 @@ void SkirosGui::getParams(QGridLayout* layout, skiros_common::ParamMap & param_m
                 it->second.setValue(e);
             }
         }
-        FDEBUG(it->second.printState());
         i++;
     }
 }
 
 void SkirosGui::addParameter(QGridLayout* layout, int row, skiros_common::Param p)
 {
-    FDEBUG("aggiungo " << p.printState());
+    //FDEBUG("Add " << p.printState());
     layout->setColumnStretch(2, 10);
     layout->setRowMinimumHeight(row, 2);
+    QString description(p.name().c_str());
+    auto temp = p.key();
+    if(p.specType()==skiros_common::optional)
+        temp += " (OPTIONAL)";
+    QLabel* key = new QLabel(temp.c_str());
+    key->setToolTip(description);
     if(p.type()==typeid(bool))
     {
-        QLabel* key = new QLabel(p.key().c_str());
-        QLabel* name = new QLabel(p.name().c_str());
         QCheckBox* check_box = new QCheckBox;//Elements
+        check_box->setToolTip(description);
         if(p.isSpecified())check_box->setChecked(p.getValue<bool>());
         layout->addWidget(key, row, 0);
         layout->addWidget(check_box, row, 1);
-        layout->addWidget(name, row, 2);
     }
     else if (p.type()==typeid(std::string) || p.type()==typeid(int) || p.type()==typeid(double) || p.type()==typeid(float))
     {
-        QLabel* key = new QLabel(p.key().c_str());
-        QLabel* name = new QLabel(p.name().c_str());
         QLineEdit* line_edit = new QLineEdit;
+        line_edit->setToolTip(description);
         if(p.isSpecified())line_edit->setText(p.getValueStr().c_str());
         layout->addWidget(key, row, 0);
         layout->addWidget(line_edit, row, 1);
-        layout->addWidget(name,row, 2);
     }
     else if(p.type()==typeid(skiros_wm::Element))
     {
-        QLabel* key = new QLabel(p.key().c_str());
-        QLabel* name = new QLabel(p.name().c_str());
         QComboBox* combo_box = new QComboBox;//Elements
+        combo_box->setToolTip(description);
         layout->addWidget(key, row, 0);
         layout->addWidget(combo_box, row, 1);
-        layout->addWidget(name,row, 2);
 
         //Create a function for this
         std::vector<skiros_wm::Element> v;
@@ -754,6 +868,13 @@ void SkirosGui::addParameter(QGridLayout* layout, int row, skiros_common::Param 
     }
 }
 
+void SkirosGui::modalityButtonClicked()
+{
+    advanced_modality_ = ui_.modality_checkBox->isChecked();
+    skillIndexChanged(ui_.skill_combo_box->currentIndex());
+    moduleIndexChanged(ui_.module_combo_box->currentIndex());
+}
+
 void SkirosGui::exeTaskButtonClicked()
 {
     skiros_msgs::TmTaskExe msg;
@@ -772,7 +893,6 @@ void SkirosGui::stopTaskButtonClicked()
 void SkirosGui::setCurrentRobot(std::string name)
 {
     curr_robot_ = name;
-    curr_robot_monitor_sub_ = nh_ptr_->subscribe(curr_robot_+skiros_config::skill_monitor_tpc_name,10, &SkirosGui::robotFeedbackReceived, this);
     ///Refresh skill\modules combo boxes
     if(curr_robot_!="")
     {
@@ -806,13 +926,70 @@ void SkirosGui::robotMonitorCb(const skiros_msgs::ModuleStatus & msg)
     ui_.tableWidget_output->resizeRowsToContents();
     ui_.tableWidget_output->scrollToBottom();
     ui_.tableWidget_output->showRow(current_row);
+    if(logging_ && (msg.status=="preempted" || msg.status=="error" ||msg.status=="terminated"))
+    {
+        std::stringstream ss;
+        time_t current_time = time(NULL);
+        struct tm * now = localtime( & current_time);
+        std::stringstream time_date_stamp;
+        time_date_stamp << (now->tm_year+1900) << '-'
+                << (now->tm_mon +1) << '-'
+                << (now->tm_mday) << '_'
+                << now->tm_hour << ':'
+                << now->tm_min << ':'
+                << now->tm_sec;
+
+        ss << time_date_stamp.str() << " " << msg.controller << " "
+           << msg.module.name  << " "
+           << msg.progress_code << " "
+           << "'" << msg.progress_description << "'"
+           << " " << msg.progress_seconds << " ";
+        /*
+        for(auto pair : onlineParams)
+        {
+            skiros_common::Param p = pair.second;
+            if(p.type()==typeid(skiros_wm::Element))
+            {
+                ss << "'" << p.key() << ":" << p.getValue<skiros_wm::Element>().type() << "' ";
+            }
+        }*/
+        ui_.log_textEdit->append(ss.str().c_str());
+    }
 }
 
 void SkirosGui::taskMonitorCb(const skiros_msgs::TmMonitor & msg)
 {
-    if(msg.action=="modified" && msg.author!=skill_exe_author)
+    if(msg.action=="started" || msg.action=="terminated" || msg.action=="error" )
+    {
+        //Ignore (redundant)
+    }
+    else if(msg.action=="modified" && msg.author!=skill_exe_author)
     {
         updateTask();
+    }
+    else if(logging_)
+    {
+        std::stringstream ss;
+        time_t current_time = time(NULL);
+        struct tm * now = localtime( & current_time);
+        std::stringstream time_date_stamp;
+        time_date_stamp << (now->tm_year+1900) << '-'
+                << (now->tm_mon +1) << '-'
+                << (now->tm_mday) << '_'
+                << now->tm_hour << ':'
+                << now->tm_min << ':'
+                << now->tm_sec;
+
+        ss << time_date_stamp.str() << " " << msg.author << " "
+           << msg.action << " "
+           << msg.progress_code << " "
+           << "'" << msg.progress_description << "'";
+        if(msg.progress_seconds>0)
+            ss << " " << msg.progress_seconds << " ";
+        else
+            ss << " - ";
+        ui_.log_textEdit->append(ss.str().c_str());
+
     }
 }
 

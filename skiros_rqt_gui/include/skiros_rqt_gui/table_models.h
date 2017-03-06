@@ -46,11 +46,12 @@ namespace skiros_gui
  * \brief Skill wrapper for the QSkillModel
  */
 class QSkillHolder {
-    QString name_, robot_;
+    QString type_, name_, robot_;
     skiros_common::ParamMap params_;
 public:
-    QSkillHolder(const std::string & robot, const std::string & name, skiros_common::ParamMap params) :
-        name_(name.c_str()), robot_(robot.c_str()), params_(params) {}
+    QSkillHolder(const std::string & robot, const std::string & type, const std::string & name, skiros_common::ParamMap params) :
+        type_(type.c_str()), name_(name.c_str()), robot_(robot.c_str()), params_(params) {}
+    QString type() const { return type_; }
     QString name() const { return name_; }
     QString robot() const { return robot_; }
     skiros_common::ParamMap params() const { return params_; }
@@ -64,23 +65,24 @@ class QSkillModel : public QAbstractTableModel {
 public:
     QSkillModel(QObject * parent = 0) : QAbstractTableModel(parent) {}
     int rowCount(const QModelIndex &) const { return data_.count(); }
-    int columnCount(const QModelIndex &) const { return 3; }
+    int columnCount(const QModelIndex &) const { return 2; }
     QVariant data(const QModelIndex &index, int role) const
     {
-        if (role != Qt::DisplayRole && role != Qt::EditRole) return QVariant();
         const QSkillHolder & skill = data_[index.row()];
-        switch (index.column()) {
-        case 0: return skill.robot();
-        case 1: return skill.name();
-        case 2:
+        if (role == Qt::ToolTipRole)
         {
             std::stringstream ss;
+            ss << skill.name().toStdString() <<":" << std::endl;
             for(auto pair : skill.params())
             {
                 ss << pair.second.printState() << std::endl;
             }
             return ss.str().c_str();
         }
+        if (role != Qt::DisplayRole && role != Qt::EditRole) return QVariant();
+        switch (index.column()) {
+        case 0: return skill.name();
+        case 1: return skill.robot();
         default:
             return QVariant();
         }
@@ -89,9 +91,8 @@ public:
         if (orientation != Qt::Horizontal) return QVariant();
         if (role != Qt::DisplayRole) return QVariant();
         switch (section) {
-        case 0: return "Robot";
-        case 1: return "Skill name";
-        case 2: return "Params";
+        case 0: return "Skill name";
+        case 1: return "Robot";
         default: return QVariant();
         }
     }
@@ -151,20 +152,31 @@ class QGoalModel : public QAbstractTableModel {
 public:
     QGoalModel(QObject * parent = 0) : QAbstractTableModel(parent) {}
     int rowCount(const QModelIndex &) const { return data_.count(); }
-    int columnCount(const QModelIndex &) const { return 2; }
+    int columnCount(const QModelIndex &) const { return 1; }
     QVariant data(const QModelIndex &index, int role) const
     {
-        if (role != Qt::DisplayRole && role != Qt::EditRole) return QVariant();
         const QConditionHolder & cond = data_[index.row()];
-        switch (index.column()) {
-        case 0: return cond.type();
-        case 1:
+        if (role == Qt::ToolTipRole)
         {
             std::stringstream ss;
+            ss << cond.type().toStdString() <<":" << std::endl;
             for(auto pair : cond.params())
             {
                 ss << pair.second.printState() << std::endl;
             }
+            return ss.str().c_str();
+        }
+        if (role != Qt::DisplayRole && role != Qt::EditRole) return QVariant();
+        switch (index.column()) {
+        case 0:
+        {
+            std::stringstream ss;
+            if(!cond.params().find("hasDesiredState")->second.getValue<bool>())
+                ss << "not";
+            ss << cond.type().toStdString() <<" ";
+            ss << cond.params().find("hasSubject")->second.printValue() << " ";
+            if(cond.params().find("hasObject")->second.printValue()!=" [ ]")
+                ss << cond.params().find("hasObject")->second.printValue();
             return ss.str().c_str();
         }
         default:
@@ -176,7 +188,6 @@ public:
         if (role != Qt::DisplayRole) return QVariant();
         switch (section) {
         case 0: return "Condition";
-        case 1: return "Params";
         default: return QVariant();
         }
     }

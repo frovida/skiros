@@ -121,7 +121,7 @@ public:
     void setRoot(const skiros_wm::Element &data)
     {
         rootItem = new TreeItem(data, NULL);
-        id_map_.insert(IdPair(rootItem->getId(), createIndex(0, 0, rootItem)));
+        id_map_.insert(IdPair(-1, createIndex(0, 0, rootItem)));
     }
 
 
@@ -145,8 +145,8 @@ public:
 
         if (parentItem == rootItem)return;
         id_map_.erase(childItem->getId());
-        parentItem->removeChild(childItem);
         removeRow(index.row(), parent(index));
+        parentItem->removeChild(childItem);
     }
 
     int addElement(const skiros_wm::Element &data, int parent_id, std::string relation)

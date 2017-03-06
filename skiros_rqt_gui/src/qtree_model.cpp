@@ -153,7 +153,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
     std::string to_ret;
     if(item->parentRelation()!="")
-        to_ret = item->parentRelation() + "->";
+        to_ret = item->parentRelation() + " ";
     to_ret += item->data().printState("", false);
     return to_ret.c_str();
 }

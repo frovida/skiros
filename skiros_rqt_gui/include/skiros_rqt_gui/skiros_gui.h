@@ -98,6 +98,7 @@ protected slots:
   void robotIndexChanged(int index);
   void getParams(QGridLayout* layout, skiros_common::ParamMap & param_map);
   void addParameter(QGridLayout *layout, int row, skiros_common::Param p);
+  void modalityButtonClicked();
   void exeTaskButtonClicked();
   void stopTaskButtonClicked();
 
@@ -127,8 +128,14 @@ protected slots:
   void stopModuleButtonClicked();
   void moduleIndexChanged(int index);
 
+  //Logging tab
+  void startLogButtonClicked();
+  void logFileChanged();
+
 protected:
+  void saveLog();
   //Skill layer interface
+  void printFadingMessage(std::string msg);
   void moduleDoneCb(const skiros_msgs::ModuleStatus & result);
   int module_exe_id_;
   //World model interface
@@ -156,12 +163,14 @@ protected:
   std::string curr_skill_;
   std::string curr_module_;
   std::string curr_robot_;
-  ros::Subscriber curr_robot_monitor_sub_;
+  std::vector<ros::Subscriber> robot_monitor_sub_;
   QSkillModel skill_model_;
   void setCurrentRobot(std::string name);
   boost::shared_ptr<skiros_skill::SkillLayerInterface> skill_interface_ptr;
 
   //Basic variables
+  bool advanced_modality_ = false;
+  bool logging_ = false;
   Ui::SkirosGuiWidget ui_;
   QWidget* widget_;
   boost::shared_ptr<ros::NodeHandle> nh_ptr_;
