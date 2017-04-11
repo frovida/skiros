@@ -70,5 +70,5 @@ In particular, some users could be interested in using the world model as a stan
 
 ### Doxygen documentation
 
-The SkiROS doxygen documentation is available at [this](http://homes.m-tech.aau.dk/mrp/skiros/) link.
+The SkiROS doxygen documentation is available at [this](http://homes.m-tech.aau.dk/francesco/skiros_doc/) link.
 
