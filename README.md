@@ -1,17 +1,16 @@
 ###  Skill based framework for ROS (SkiROS) from the RVMI lab, Aalborg University Copenhagen, Denmark
 
-[www.rvmi.aau.dk(RVMI webpage)](http://homes.m-tech.aau.dk/mrp/skiros/)
+[www.rvmi.aau.dk(RVMI webpage)](http://homes.m-tech.aau.dk/francesco/skiros_doc/)
 
 Last update: 25/05/2016  
 
-**Compatibility**: Has been tested with Ubuntu 14.04 and ROS Indigo.
+**Compatibility**: Software has been tested on both Ubuntu 14.04/ROS Indigo and on Ubuntu 16.04/ROS kynetic.
 
-**SkiROS** is a collection of ROS packages to develop, test and deploy behaviours for autonomous robots. Using SkiROS, the developer can split complex *tasks* into *skills*, that get composed automatically at run-time to solve goal oriented missions. The *skills* can themselves be divided into an arbitrary amount of submodules, called *primitives*. Moreover, the framework helps to manage the robot knowledge with the support of a shared semantic world model. 
-Using *discrete reasoners*, it is possible to embed in the code reasoning routines with an high level of abstraction. 
+**SkiROS** is a collection of ROS packages to develop, test and deploy behaviours for autonomous robots. The software is designed for industrial mobile manipulators, but the approach can be applied in other contexts where the environment can be partially structured. Using SkiROS, the developer can split complex *tasks* into *skills*, that get composed automatically at run-time to solve goal oriented missions. The *skills* can themselves be divided into an arbitrary amount of submodules, called *primitives*. Moreover, the framework helps to manage the robot knowledge with the support of a shared semantic world model. 
 
 The development process consist of two steps: specify the domain knowledge in a OWL ontology and develop the plug-ins. 
 
-The ontology, coded in one or more .owl file, defines which data, concepts, relations and individuals are possible to store to and retrieve from the world model. The knowledge base can be extended from the developer at will. It is possible to modify the default OWL loading path (skiros/owl), by specifying the parameter ”skiros/owl workspace”. All the OWL files found in the specified path are loaded from the system at boot. To create and edit ontologies, we suggest to use the GUI [**Protege_5.0**](http://protege.stanford.edu/download/protege/5.0/snapshots/).
+The ontology, coded in one or more .owl file, defines which data, concepts, relations and individuals are possible to store to and retrieve from the world model. The knowledge base can be extended from the developer with multiple OWL ontologies. It is possible to modify the default OWL loading path (skiros/owl), by specifying the parameter ”skiros/owl workspace”. All the OWL files found in the specified path are loaded from the system at boot. To create and edit ontologies, we suggest to use the GUI [**Protege_5.0**](http://protege.stanford.edu/download/protege/5.0/snapshots/). Using *discrete reasoners*, it is possible to organize convertion routines from sensor data to world model data and then compute on request semantic relations. 
 
 It is possible to generate an header file from the ontology, using the command:
 
@@ -71,4 +70,3 @@ In particular, some users could be interested in using the world model as a stan
 ### Doxygen documentation
 
 The SkiROS doxygen documentation is available at [this](http://homes.m-tech.aau.dk/francesco/skiros_doc/) link.
-
