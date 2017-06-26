@@ -125,7 +125,6 @@ bool ElementFactory::load(std::string type)
             {
                 //Save pair (relation, value)
                 std::string temp = (char*)librdf_uri_as_string(librdf_node_get_uri(result.at(1)));
-                temp = temp.substr(temp.find("#")+1);
                 literals_map_.insert(LiteralsPair((char*)librdf_uri_as_string(librdf_node_get_uri(result.at(0))),
                                                   std::pair<std::string, std::string>
                                                   (temp, "resource")));

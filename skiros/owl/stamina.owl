@@ -2137,14 +2137,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera_lh -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera_lh">
-        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Camera"/>
-        <DriverAddress>/primesense/depth_registered/points</DriverAddress>
-    </owl:NamedIndividual>
-    
-
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#cell_a -->
 
@@ -2407,20 +2399,6 @@
     </owl:NamedIndividual>
     
 
-
-    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kuka -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kuka">
-        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Arm"/>
-        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#arm_camera_lh"/>
-        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#wsg_gripper"/>
-        <MotionExe>/joint_trajectory_action</MotionExe>
-        <MotionPlanner>planner/plan_action</MotionPlanner>
-        <MoveItGroup>lwr_arm</MoveItGroup>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#large_box">
@@ -2481,48 +2459,7 @@
         <nrParts rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</nrParts>
         <partReference>tube</partReference>
     </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_mobile_base -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_mobile_base">
-        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#MobileBase"/>
-        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_robot"/>
-        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#unknown_location"/>
-        <LinkedToFrameId>base_link</LinkedToFrameId>
-        <SkillMgr>/lh_mobile_base</SkillMgr>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_robot -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_robot">
-        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Robot"/>
-        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#kuka"/>
-        <hasA rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_surface"/>
-        <hasStartLocation rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_mobile_base"/>
-        <LinkedToFrameId>calib_lwr_arm_base_link</LinkedToFrameId>
-        <SkillMgr>/lh_robot</SkillMgr>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_surface -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#lh_surface">
-        <rdf:type rdf:resource="http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#Surface"/>
-        <DiscreteReasoner>AauSpatialReasoner</DiscreteReasoner>
-        <OrientationW rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</OrientationW>
-        <OrientationX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationX>
-        <OrientationY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationY>
-        <OrientationZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</OrientationZ>
-        <PositionX rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.15</PositionX>
-        <PositionY rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.35</PositionY>
-        <PositionZ rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.07</PositionZ>
-    </owl:NamedIndividual>
-    
+        
 
 
     <!-- http://www.semanticweb.org/francesco/ontologies/2014/9/stamina#medium_box -->
