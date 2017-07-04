@@ -121,7 +121,8 @@ int main (int argc, char **argv)
     boost::thread get_input(input, &rm);
 
     //Loops ROS queue spin
-    while(ros::ok() && KEEP_RUNNING)ros::spinOnce();
+    while(ros::ok() && KEEP_RUNNING)
+        ros::Duration(0.1).sleep();
 
     FINFO("Closing");
     //----------------------- Close --------------------------------
