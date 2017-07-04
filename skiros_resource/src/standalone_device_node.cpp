@@ -85,15 +85,13 @@ int main (int argc, char **argv){
 		ROS_ERROR("The plugin failed to load for some reason. Error: %s", ex.what());
     }
 
-    ros::AsyncSpinner spinner(1); // Use 1 thread to handle callbacks
-    spinner.start();
     //Starts the action server
     if(device_type == "GripperDevice")
     {
         GripperActionServer gas(ros::this_node::getName(), gripper_proxy, node_h);
-        while(!gas.start()) sleep(1);
+        while(!gas.start())
+            sleep(1);
         ros::spin();
     }
-    spinner.stop();
 	return 0;
 } // main
