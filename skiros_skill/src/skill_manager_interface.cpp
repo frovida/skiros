@@ -96,7 +96,7 @@ void SkillManagerInterface::moduleMonitorCB(const skiros_msgs::ModuleStatus& msg
             monitored_modules_.at(msg.module.name).result.status = msg.status;
             monitored_modules_.at(msg.module.name).result.progress_code = msg.progress_code;
             monitored_modules_.at(msg.module.name).result.progress_description = msg.progress_description;
-            monitored_modules_.at(msg.module.name).result.output = skiros_common::utility::deserializeParamMap(msg.module.parameters_out);
+            monitored_modules_.at(msg.module.name).result.output = skiros_common::utility::deserializeParamMap(msg.module.parameters_in);
             if(monitored_modules_.at(msg.module.name).doneCb!=NULL)
                 monitored_modules_.at(msg.module.name).doneCb(msg);
             monitor_cond_.notify_all();

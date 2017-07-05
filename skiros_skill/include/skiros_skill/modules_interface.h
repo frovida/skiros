@@ -116,6 +116,12 @@ namespace skiros
          */
         T getReturnValue(std::string key)
         {
+            if(return_values_.find(key)==return_values_.end())
+            {
+                for(auto p : return_values_)
+                    ROS_INFO_STREAM(p.second.printState());
+                throw std::invalid_argument(key + " parameter is not in the map. ");
+            }
             return return_values_.at(key).getValue<T>();
         }
 

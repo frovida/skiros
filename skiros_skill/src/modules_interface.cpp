@@ -90,7 +90,7 @@ bool Module::waitResult()
 {
     ExecutionResult exe_r = mi_->waitResult(name_);
     return_values_ = exe_r.output;
-    if(return_values_["Return"].getValue<bool>()) return true;
+    if(exe_r.progress_code>=0) return true;
     else return false;
 }
 
