@@ -548,7 +548,7 @@ void PlannerModel::addHiddenObjects(HiddenPropertyElement hpe){
                     initial_state.push_back(gp);
                 }
             }
-            std::vector<std::string> partNo = e.properties(data::Str[data::nrParts]).getValues<std::string>();
+            std::vector<std::string> partNo = e.properties(data::Str[data::nrParts]).getValuesStr();
             for(std::string s : partNo){
                 PDDL_function_value f;
                 f.name = "parts";
