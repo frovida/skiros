@@ -108,7 +108,7 @@ public:
         return storeData(e, boost::any(any), skiros_config::owl::data::Str[set_code]);
     }
     /*!
-    * \brief Convert user data to reasoner data and store it into given element
+    * \brief Return data from the element in the format indicated in get_code
     * \param e the element from which the data must be extracted
     * \param get_code a code defining which data want to get. For the available codes refer to the documentation of the specific reasoner
     * \return
