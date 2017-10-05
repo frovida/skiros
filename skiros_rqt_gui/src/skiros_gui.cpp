@@ -233,9 +233,9 @@ void SkirosGui::conditionIndexChanged(int index)
     {
         if(condition.properties("allowsAbstractTypes").getValue<bool>())
         {
-            std::stringstream ss(wm_ptr_->queryOntology("SELECT DISTINCT ?x WHERE { { ?x rdf:type stmn:" + sub_type + ". } UNION " +
-                                                        "{?z rdfs:subClassOf stmn:"+ sub_type +". ?x rdf:type ?z . } UNION " +
-                                                        "{?z rdfs:subClassOf stmn:"+ sub_type +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}"));
+            std::stringstream ss(wm_ptr_->queryOntology("SELECT DISTINCT ?x WHERE { { ?x rdf:type " + wm_ptr_->addPrefix(sub_type) + ". } UNION " +
+                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?x rdf:type ?z . } UNION " +
+                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}"));
             std::string temp;
             ss >> temp;
             while(!ss.eof())
@@ -265,9 +265,9 @@ void SkirosGui::conditionIndexChanged(int index)
     {
         if(condition.properties("allowsAbstractTypes").getValue<bool>())
         {
-            std::stringstream ss(wm_ptr_->queryOntology("SELECT DISTINCT ?x WHERE { { ?x rdf:type stmn:" + obj_type + ". } UNION " +
-                                                        "{?z rdfs:subClassOf stmn:"+ obj_type +". ?x rdf:type ?z . } UNION " +
-                                                        "{?z rdfs:subClassOf stmn:"+ obj_type +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}"));
+            std::stringstream ss(wm_ptr_->queryOntology("SELECT DISTINCT ?x WHERE { { ?x rdf:type " + wm_ptr_->addPrefix(sub_type) + ". } UNION " +
+                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?x rdf:type ?z . } UNION " +
+                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}"));
             std::string temp;
             ss >> temp;
             while(!ss.eof())
