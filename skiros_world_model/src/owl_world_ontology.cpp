@@ -762,7 +762,7 @@ void Ontology::loadSubOntology(std::string filename)
         auto last_slash = uri.find_last_of('/');
         std::string short_prefix = uri.substr(last_slash+1, uri.length()-1);
         this->addPrefix(std::pair<std::string, std::string>(uri, short_prefix));
-        FINFO("[loadSubOntology]: I add: " << uri );
+        FINFO("[loadSubOntology]: Adding known prefix: " << short_prefix << " - " << uri );
         librdf_iterator_next(it);
     }
     librdf_model_add_statements(model_, stream);

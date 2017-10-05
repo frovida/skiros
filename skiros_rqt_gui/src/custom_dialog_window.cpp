@@ -269,7 +269,7 @@ int CustomDialog::addSkirosTypeComboBox(QString tooltip)
   {
       std::stringstream ss;
       for(auto obj_type : query_list)
-          ss << wm_ptr_->queryOntology("SELECT ?x WHERE { ?x rdfs:subClassOf stmn:" + obj_type + ". } ");
+          ss << wm_ptr_->queryOntology("SELECT ?x WHERE { ?x rdfs:subClassOf " + wm_ptr_->addPrefix(obj_type) + ". } ", false);
       query_list.clear();
       std::string temp;
       ss >> temp;
@@ -300,7 +300,7 @@ void CustomDialog::skirosTypeCbIndexChanged(int index)
     std::string type = type_combo_box_->itemText(index).toStdString();
     if(type!="")
     {
-        std::stringstream ss(wm_ptr_->queryOntology("SELECT ?x WHERE { ?x rdf:type stmn:" + type + ". } "));
+        std::stringstream ss(wm_ptr_->queryOntology("SELECT ?x WHERE { ?x rdf:type " + wm_ptr_->addPrefix(type) + ". } ", false));
         std::string temp;
         ss >> temp;
         individual_combo_box_->clear();
