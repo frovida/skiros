@@ -235,7 +235,7 @@ void SkirosGui::conditionIndexChanged(int index)
         {
             std::stringstream ss(wm_ptr_->queryOntology("SELECT DISTINCT ?x WHERE { { ?x rdf:type " + wm_ptr_->addPrefix(sub_type) + ". } UNION " +
                                                         "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?x rdf:type ?z . } UNION " +
-                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}"));
+                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}", false));
             std::string temp;
             ss >> temp;
             while(!ss.eof())
@@ -267,7 +267,7 @@ void SkirosGui::conditionIndexChanged(int index)
         {
             std::stringstream ss(wm_ptr_->queryOntology("SELECT DISTINCT ?x WHERE { { ?x rdf:type " + wm_ptr_->addPrefix(sub_type) + ". } UNION " +
                                                         "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?x rdf:type ?z . } UNION " +
-                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}"));
+                                                        "{?z rdfs:subClassOf "+ wm_ptr_->addPrefix(sub_type) +". ?v rdfs:subClassOf ?z. ?x rdf:type ?v. } " + "}", false));
             std::string temp;
             ss >> temp;
             while(!ss.eof())
