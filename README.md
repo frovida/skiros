@@ -70,3 +70,8 @@ In particular, some users could be interested in using the world model as a stan
 ### Doxygen documentation
 
 The SkiROS doxygen documentation is available at [this](http://homes.m-tech.aau.dk/francesco/skiros_doc/) link.
+
+### Citation
+
+If you want to reference this package, please use the following:   
+Francesco Rovida, Matthew Crosby, Dirk Holz, Athanasios S. Polydoros, Bjarne Großmann, RonaldP.A.Petrick, Volker Krüger, "SkiROS - A skill-based robot control platform on top of ROS," Chapter on Springer Book on Robot Operating System (Volume 2), 2017 [Online](http://www.springer.com/gp/book/9783319549262)  
