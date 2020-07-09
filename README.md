@@ -1,4 +1,6 @@
-###  Skill based framework for ROS (SkiROS) from the RVMI lab, Aalborg University Copenhagen, Denmark
+#  Skill based framework for ROS (SkiROS) from the RVMI lab, Aalborg University Copenhagen, Denmark
+
+### This package is obsolete and not maintained any more. Please, use the new version: [skiros2](https://github.com/RVMI/skiros2).
 
 [www.rvmi.aau.dk(RVMI webpage)](http://homes.m-tech.aau.dk/francesco/skiros_doc/)
 
